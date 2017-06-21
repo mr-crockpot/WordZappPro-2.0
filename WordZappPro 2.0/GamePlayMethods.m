@@ -13,7 +13,9 @@
 
 @implementation GamePlayMethods
 
--(GamePlayMethods *)initWithView:(UIView *) view {
+-(GamePlayMethods *)initWithView:(UIView *) view selectorForWin: (SEL)winMethod delegate:(id)delegate{
+    self.winMethod = winMethod;
+    self.delegate = delegate;
     self.view = view;
     self.screenWidth = view.frame.size.width;
     self.screenHeight = view.frame.size.height;
@@ -250,6 +252,7 @@
     if ([self checkWords]) {
         [self stopButtons];
         NSLog(@"Done");
+        [_delegate performSelector:_winMethod];
 // TODO: tell other player they lose here
     }
     
@@ -393,7 +396,6 @@
      _timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerCountDown) userInfo:nil repeats:YES];
     
     return _labelTimer;
-    
     
 }
 

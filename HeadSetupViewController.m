@@ -136,7 +136,7 @@
     NSData *receivedData = [[notification userInfo] objectForKey:@"data"];
     NSString *receivedText = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
     _letters = receivedText;
-    NSLog(@"got text");
+   
     dispatch_async(dispatch_get_main_queue(), ^{
         [self performSegueWithIdentifier:@"segueHeadSetUpToHeadPlay" sender:self];
     });
@@ -147,6 +147,7 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"segueHeadSetUpToHeadPlay"]) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidReceiveDataNotification" object:nil];
         HeadPlayViewController *view = [segue destinationViewController];
         view.strIncomingLetters = _letters;
         
@@ -183,7 +184,6 @@
      if (error) {
      NSLog(@"%@", [error localizedDescription]);
      }
-     
      
      [self performSegueWithIdentifier:@"segueHeadSetUpToHeadPlay" sender:self];
     

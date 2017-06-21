@@ -7,10 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MultipeerConnectivity/MultipeerConnectivity.h>
+
 #import "GamePlayMethods.h"
+#import "AppDelegate.h"
 
 
-@interface HeadPlayViewController : UIViewController
+@interface HeadPlayViewController : UIViewController 
+
+
 
 @property NSString *strIncomingLetters;
 
@@ -24,6 +29,7 @@
 //WORDS
 @property (strong, nonatomic) NSMutableArray *wordBoxes;
 
-
+//COMMUNICATION
+@property (nonatomic, strong) AppDelegate *appDelegate;
 
 @end

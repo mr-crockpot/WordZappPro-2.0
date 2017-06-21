@@ -13,7 +13,7 @@
 @interface GamePlayMethods : NSObject
 
 @property UIView *view;
--(GamePlayMethods *)initWithView:(UIView *) view;
+-(GamePlayMethods *)initWithView:(UIView *) view selectorForWin: (SEL)winMethod delegate:(id)delegate;
 
 @property CGFloat screenWidth;
 @property CGFloat screenHeight;
@@ -29,6 +29,10 @@
 -(NSArray *)setUpLights;
 //SET UP LETTERS
 -(NSMutableArray *)setUpLetterButtons;
+
+@property SEL winMethod;
+@property id delegate;
+
 
 @property NSMutableArray *letterButtons;
 

@@ -18,7 +18,7 @@
 
 - (void)viewDidLoad {
     
-    _calledMethod = [[GamePlayMethods alloc] initWithView:self.view];
+    _calledMethod = [[GamePlayMethods alloc] initWithView:self.view selectorForWin:@selector(win) delegate:self];
     [self setUpLights];
     [self setUpLetters];
     [self setUpWordBoxes];
@@ -30,6 +30,10 @@
     NSLog(@"The incoming letters are %@",_strIncomingLetters);
     
     // Do any additional setup after loading the view.
+}
+
+-(void) win {
+
 }
 
 - (void)didReceiveMemoryWarning {

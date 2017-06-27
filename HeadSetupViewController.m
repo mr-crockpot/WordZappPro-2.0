@@ -24,6 +24,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    _isOrganizer = NO;
+    
     _segmentLevel.selectedSegmentIndex = 1;
     
     _appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
@@ -31,19 +33,24 @@
     
     _arrConnectedDevices = [[NSMutableArray alloc] init];
     
+  
+    [_appDelegate.mcManager setupPeerAndSessionWithDisplayName:[UIDevice currentDevice].name];
+    [_appDelegate.mcManager setupMCBrowser];
+    [_appDelegate.mcManager advertiseSelf:YES];
+   
+    
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    NSLog(@"I'm back");
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(peerDidChangeStateWithNotification:) name:@"MCDidChangeStateNotification" object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didReceiveDataWithNotification:)
                                                  name:@"MCDidReceiveDataNotification"
                                                object:nil];
-    
-    [_appDelegate.mcManager setupPeerAndSessionWithDisplayName:[UIDevice currentDevice].name];
-    [_appDelegate.mcManager setupMCBrowser];
-    [_appDelegate.mcManager advertiseSelf:YES];
-    
-}
 
+}
 
 
 - (void)didReceiveMemoryWarning {
@@ -78,6 +85,14 @@
     [[_appDelegate mcManager]setupMCBrowser];
     [[[_appDelegate mcManager]browser]setDelegate:self];
     [self presentViewController:[[_appDelegate mcManager]browser] animated:YES completion:nil];
+   
+    _isOrganizer = YES;
+   
+    dispatch_async(dispatch_get_main_queue(), ^{
+        _lblStatus.text = @"Organizer";
+    });
+
+    
     
     
 }
@@ -104,10 +119,18 @@
     }
     if (state == MCSessionStateConnected) {
         [_arrConnectedDevices addObject:peerDisplayName];
-        NSLog(@"Connected and dismiss");
+        
         [_appDelegate.mcManager.browser dismissViewControllerAnimated:YES completion:nil];
         [_appDelegate.mcManager advertiseSelf:false];
-        
+        NSLog(@"I am the follower");
+        if (!_isOrganizer) {
+            
+        dispatch_async(dispatch_get_main_queue(), ^{
+            _lblStatus.text = @"Challenger";
+            _segmentLevel.enabled = false;
+            _btnPlay.enabled = false;
+        });
+        }
         
         
     }
@@ -150,6 +173,7 @@
         [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidReceiveDataNotification" object:nil];
         HeadPlayViewController *view = [segue destinationViewController];
         view.strIncomingLetters = _letters;
+        
         
         
         

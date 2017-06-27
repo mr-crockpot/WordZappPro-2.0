@@ -17,6 +17,8 @@
 @implementation HeadPlayViewController
 
 - (void)viewDidLoad {
+    
+    self.navigationItem.hidesBackButton = YES;
     _appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -93,13 +95,14 @@
     labelGameOver.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:labelGameOver];
     
+    self.navigationItem.hidesBackButton = NO;
+    
     
     
 }
 
 -(void)sendLostMessage{
-    
-    NSString *message = @"YouLoseAA";
+        NSString *message = @"You Lose";
     
     NSData *dataToSend = [message dataUsingEncoding:NSUTF8StringEncoding];
     NSArray *allPeers = _appDelegate.mcManager.session.connectedPeers;
@@ -113,7 +116,7 @@
     if (error) {
         NSLog(@"%@", [error localizedDescription]);
     }
-    
+    self.navigationItem.hidesBackButton = NO;
     NSLog(@"This sent message is %@",message);
     
 }
@@ -124,8 +127,9 @@
     NSData *receivedData = [[notification userInfo] objectForKey:@"data"];
     NSString *receivedText = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
     NSLog(@"got this message %@",receivedText);
-    
+   
     dispatch_async(dispatch_get_main_queue(), ^{
+        
         [self showLabel];
     });
     

@@ -23,6 +23,7 @@
 
 @property NSString *theWords;
 @property NSString *letters;
+@property (strong, nonatomic) IBOutlet UIButton *btnPlay;
 
 - (IBAction)btnPlayPressed:(id)sender;
 - (IBAction)segmentLevelChanged:(id)sender;
@@ -30,5 +31,9 @@
 @property (strong, nonatomic) IBOutlet UISegmentedControl *segmentLevel;
 
 @property (strong, nonatomic) NSString *level;
+@property (strong, nonatomic) IBOutlet UILabel *lblStatus;
+
+@property BOOL isOrganizer;
+
 
 @end

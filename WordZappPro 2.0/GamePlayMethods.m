@@ -251,8 +251,9 @@
     
     if ([self checkWords]) {
         [self stopButtons];
-        NSLog(@"Done");
+        
         [_delegate performSelector:_winMethod];
+        
 // TODO: tell other player they lose here
     }
     

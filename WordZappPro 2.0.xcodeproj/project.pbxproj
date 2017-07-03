@@ -15,6 +15,9 @@
 		E3418E2B1EF221CB00EF2487 /* letterButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E3418E2A1EF221CB00EF2487 /* letterButton.m */; };
 		E3418E2E1EF221EF00EF2487 /* wordBox.m in Sources */ = {isa = PBXBuildFile; fileRef = E3418E2D1EF221EF00EF2487 /* wordBox.m */; };
 		E3418E301EF4E32F00EF2487 /* tile.png in Resources */ = {isa = PBXBuildFile; fileRef = E3418E2F1EF4E32F00EF2487 /* tile.png */; };
+		E34432A81F02DCFB004F84FD /* HeadChoiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E34432A71F02DCFB004F84FD /* HeadChoiceViewController.m */; };
+		E34432AB1F02DD14004F84FD /* HostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E34432AA1F02DD14004F84FD /* HostViewController.m */; };
+		E34432AE1F02DD25004F84FD /* JoinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E34432AD1F02DD25004F84FD /* JoinViewController.m */; };
 		E3C344F91EF1D9C700690D4C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C344F81EF1D9C700690D4C /* main.m */; };
 		E3C344FC1EF1D9C700690D4C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C344FB1EF1D9C700690D4C /* AppDelegate.m */; };
 		E3C345021EF1D9C700690D4C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E3C345001EF1D9C700690D4C /* Main.storyboard */; };
@@ -59,6 +62,12 @@
 		E3418E2C1EF221EF00EF2487 /* wordBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wordBox.h; sourceTree = "<group>"; };
 		E3418E2D1EF221EF00EF2487 /* wordBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = wordBox.m; sourceTree = "<group>"; };
 		E3418E2F1EF4E32F00EF2487 /* tile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tile.png; sourceTree = "<group>"; };
+		E34432A61F02DCFB004F84FD /* HeadChoiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeadChoiceViewController.h; sourceTree = "<group>"; };
+		E34432A71F02DCFB004F84FD /* HeadChoiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeadChoiceViewController.m; sourceTree = "<group>"; };
+		E34432A91F02DD14004F84FD /* HostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HostViewController.h; sourceTree = "<group>"; };
+		E34432AA1F02DD14004F84FD /* HostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HostViewController.m; sourceTree = "<group>"; };
+		E34432AC1F02DD25004F84FD /* JoinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JoinViewController.h; sourceTree = "<group>"; };
+		E34432AD1F02DD25004F84FD /* JoinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JoinViewController.m; sourceTree = "<group>"; };
 		E3C344F41EF1D9C700690D4C /* WordZappPro 2.0.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WordZappPro 2.0.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3C344F81EF1D9C700690D4C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E3C344FA1EF1D9C700690D4C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -112,6 +121,79 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E34432AF1F09C28E004F84FD /* General */ = {
+			isa = PBXGroup;
+			children = (
+				E3C3452B1EF2002300690D4C /* StartViewController.m */,
+				E3C3452A1EF2002300690D4C /* StartViewController.h */,
+				E34432A71F02DCFB004F84FD /* HeadChoiceViewController.m */,
+				E34432A61F02DCFB004F84FD /* HeadChoiceViewController.h */,
+			);
+			name = General;
+			sourceTree = "<group>";
+		};
+		E34432B11F09C31A004F84FD /* Host */ = {
+			isa = PBXGroup;
+			children = (
+				E34432A91F02DD14004F84FD /* HostViewController.h */,
+				E34432AA1F02DD14004F84FD /* HostViewController.m */,
+			);
+			name = Host;
+			sourceTree = "<group>";
+		};
+		E34432B21F09C341004F84FD /* Join  */ = {
+			isa = PBXGroup;
+			children = (
+				E34432AD1F02DD25004F84FD /* JoinViewController.m */,
+				E34432AC1F02DD25004F84FD /* JoinViewController.h */,
+			);
+			name = "Join ";
+			sourceTree = "<group>";
+		};
+		E34432B31F09C368004F84FD /* Solo */ = {
+			isa = PBXGroup;
+			children = (
+				E3C3452D1EF200B800690D4C /* SoloSetupViewController.h */,
+				E3C3452E1EF200B800690D4C /* SoloSetupViewController.m */,
+				E3C345331EF200DF00690D4C /* SoloPlayViewController.h */,
+				E3C345341EF200DF00690D4C /* SoloPlayViewController.m */,
+			);
+			name = Solo;
+			sourceTree = "<group>";
+		};
+		E34432B41F09C384004F84FD /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				E3418E2A1EF221CB00EF2487 /* letterButton.m */,
+				E3418E2C1EF221EF00EF2487 /* wordBox.h */,
+				E3418E2D1EF221EF00EF2487 /* wordBox.m */,
+				E3418E291EF221CB00EF2487 /* letterButton.h */,
+			);
+			name = Objects;
+			sourceTree = "<group>";
+		};
+		E34432B51F09C3B0004F84FD /* Head */ = {
+			isa = PBXGroup;
+			children = (
+				E3C345361EF200EF00690D4C /* HeadPlayViewController.h */,
+				E3C345371EF200EF00690D4C /* HeadPlayViewController.m */,
+				E3C345301EF200CE00690D4C /* HeadSetupViewController.h */,
+				E3C345311EF200CE00690D4C /* HeadSetupViewController.m */,
+			);
+			name = Head;
+			sourceTree = "<group>";
+		};
+		E34432B61F09C3EE004F84FD /* Methods */ = {
+			isa = PBXGroup;
+			children = (
+				E3418E1E1EF2106700EF2487 /* GamePlayMethods.h */,
+				E3418E1F1EF2106700EF2487 /* GamePlayMethods.m */,
+				E3C345391EF201CB00690D4C /* MCManager.h */,
+				E3C3453A1EF201CB00690D4C /* MCManager.m */,
+			);
+			name = Methods;
+			sourceTree = "<group>";
+		};
 		E3C344EB1EF1D9C700690D4C = {
 			isa = PBXGroup;
 			children = (
@@ -136,24 +218,13 @@
 			isa = PBXGroup;
 			children = (
 				E3C345001EF1D9C700690D4C /* Main.storyboard */,
-				E3418E1E1EF2106700EF2487 /* GamePlayMethods.h */,
-				E3418E1F1EF2106700EF2487 /* GamePlayMethods.m */,
-				E3418E291EF221CB00EF2487 /* letterButton.h */,
-				E3418E2A1EF221CB00EF2487 /* letterButton.m */,
-				E3418E2C1EF221EF00EF2487 /* wordBox.h */,
-				E3418E2D1EF221EF00EF2487 /* wordBox.m */,
-				E3C3452A1EF2002300690D4C /* StartViewController.h */,
-				E3C3452B1EF2002300690D4C /* StartViewController.m */,
-				E3C3452D1EF200B800690D4C /* SoloSetupViewController.h */,
-				E3C3452E1EF200B800690D4C /* SoloSetupViewController.m */,
-				E3C345301EF200CE00690D4C /* HeadSetupViewController.h */,
-				E3C345311EF200CE00690D4C /* HeadSetupViewController.m */,
-				E3C345331EF200DF00690D4C /* SoloPlayViewController.h */,
-				E3C345341EF200DF00690D4C /* SoloPlayViewController.m */,
-				E3C345361EF200EF00690D4C /* HeadPlayViewController.h */,
-				E3C345371EF200EF00690D4C /* HeadPlayViewController.m */,
-				E3C345391EF201CB00690D4C /* MCManager.h */,
-				E3C3453A1EF201CB00690D4C /* MCManager.m */,
+				E34432AF1F09C28E004F84FD /* General */,
+				E34432B11F09C31A004F84FD /* Host */,
+				E34432B21F09C341004F84FD /* Join  */,
+				E34432B61F09C3EE004F84FD /* Methods */,
+				E34432B41F09C384004F84FD /* Objects */,
+				E34432B31F09C368004F84FD /* Solo */,
+				E34432B51F09C3B0004F84FD /* Head */,
 				E3C344FA1EF1D9C700690D4C /* AppDelegate.h */,
 				E3C344FB1EF1D9C700690D4C /* AppDelegate.m */,
 				E3C345031EF1D9C700690D4C /* Assets.xcassets */,
@@ -336,13 +407,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E34432AE1F02DD25004F84FD /* JoinViewController.m in Sources */,
 				E3418E2E1EF221EF00EF2487 /* wordBox.m in Sources */,
 				E3C345321EF200CE00690D4C /* HeadSetupViewController.m in Sources */,
 				E3C3453B1EF201CB00690D4C /* MCManager.m in Sources */,
 				E3418E201EF2106700EF2487 /* GamePlayMethods.m in Sources */,
 				E3418E2B1EF221CB00EF2487 /* letterButton.m in Sources */,
+				E34432A81F02DCFB004F84FD /* HeadChoiceViewController.m in Sources */,
 				E3C3452C1EF2002300690D4C /* StartViewController.m in Sources */,
 				E3C3452F1EF200B800690D4C /* SoloSetupViewController.m in Sources */,
+				E34432AB1F02DD14004F84FD /* HostViewController.m in Sources */,
 				E3C345381EF200EF00690D4C /* HeadPlayViewController.m in Sources */,
 				E3C344FC1EF1D9C700690D4C /* AppDelegate.m in Sources */,
 				E3C344F91EF1D9C700690D4C /* main.m in Sources */,

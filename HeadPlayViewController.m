@@ -35,7 +35,7 @@
     _labelLetters.text = _strIncomingLetters;
     
     [self setUpLights];
-  //EXAMPLE FOR LATER  [self changeLightsColor:0 newColor:[UIColor orangeColor]];
+  
     [self setUpLetters];
     [self setUpWordBoxes];
     

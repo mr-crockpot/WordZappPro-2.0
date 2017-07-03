@@ -60,7 +60,7 @@
 
 -(void)setupMCBrowser{
     _browser = [[MCBrowserViewController alloc] initWithServiceType:@"WordZapp" session:_session];
-   // _browser.maximumNumberOfPeers = 8;
+   _browser.maximumNumberOfPeers = 8;
     
 }
 

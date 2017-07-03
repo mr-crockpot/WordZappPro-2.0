@@ -15,7 +15,7 @@
 
 @interface HeadPlayViewController : UIViewController 
 
-
+@property GamePlayMethods *gamePlayMethods;
 
 @property NSString *strIncomingLetters;
 

@@ -10,6 +10,7 @@
 
 
 
+
 @interface SoloPlayViewController ()
 
 @end
@@ -18,7 +19,15 @@
 
 - (void)viewDidLoad {
     
+    self.navigationItem.hidesBackButton = YES;
+    
+    
+    _screenWidth  = [UIScreen mainScreen].bounds.size.width;
+    _screenHeight = [UIScreen mainScreen].bounds.size.height;
+
+    
     _calledMethod = [[GamePlayMethods alloc] initWithView:self.view selectorForWin:@selector(win) delegate:self];
+    _calledMethod.arrayOfLettersInOrder = _lettersInOrder;
     [self setUpLights];
     [self setUpLetters];
     [self setUpWordBoxes];
@@ -26,15 +35,21 @@
     
 
     [super viewDidLoad];
-    
-    NSLog(@"The incoming letters are %@",_strIncomingLetters);
-    
+     
     // Do any additional setup after loading the view.
 }
 
 -(void) win {
+    
+    [_calledMethod stopTimer];
+    
+    [_calledMethod winSolo];
+    
+    self.navigationItem.hidesBackButton = NO;
+    
+  }
 
-}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -66,4 +81,6 @@
     _labelTimer = [_calledMethod setUpTimerLabel];
     
 }
+
+
 @end

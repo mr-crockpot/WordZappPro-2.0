@@ -26,7 +26,7 @@
 
 
 
-+(NSMutableArray *)arrayOfLetters: (NSString *)fromList {
+-(NSMutableArray *)arrayOfLettersInOrder: (NSString *)fromList {
     
     NSArray *activeWordList = [[NSArray alloc] init];
     NSString *nameActiveWordList = fromList;
@@ -34,8 +34,7 @@
     NSMutableArray *arrayWordTwo = [[NSMutableArray alloc] init];
     NSMutableArray *arrayWordThree = [[NSMutableArray alloc] init];
     NSMutableArray *arrayWordFour = [[NSMutableArray alloc] init];
-    NSMutableArray *arrayRandomLetters = [[NSMutableArray alloc] init];
-    NSMutableArray *arrayLettersInOrder = [[NSMutableArray alloc] init];
+    _arrayOfLettersInOrder = [[NSMutableArray alloc] init];
     
     NSString *path = [[NSBundle mainBundle] pathForResource:nameActiveWordList ofType:@"txt"];
     NSString *content = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
@@ -79,39 +78,38 @@
     
     NSLog(@"the words are %@ %@ %@",word2,word3,word4);
     
-    //randomize the letters
-    
-    arrayRandomLetters = [[NSMutableArray alloc] init];
     
     
     for (int w = 1; w<3; w++) {
         NSString *eachLetter = [NSString stringWithFormat:@"%c", [word2 characterAtIndex:w-1]];
-        [arrayRandomLetters addObject:eachLetter];
+        [_arrayOfLettersInOrder addObject:eachLetter];
         
     }
     
     for (int w = 1; w<4; w++) {
         NSString *eachLetter = [NSString stringWithFormat:@"%c", [word3 characterAtIndex:w-1]];
-        [arrayRandomLetters addObject:eachLetter];
+        [_arrayOfLettersInOrder addObject:eachLetter];
         
         
     }
     
     for (int w = 1; w<5; w++) {
         NSString *eachLetter = [NSString stringWithFormat:@"%c", [word4 characterAtIndex:w-1]];
-        [arrayRandomLetters addObject:eachLetter];
+        [_arrayOfLettersInOrder addObject:eachLetter];
         
     }
+    NSLog(@"array set to: %@", _arrayOfLettersInOrder);
+
+    return _arrayOfLettersInOrder;
+}
+
+
+-(NSMutableArray *)arrayOfRandomLetters: (NSMutableArray*)arrayOfLettersInOrder{
     
-    arrayLettersInOrder = [[NSMutableArray alloc] initWithArray:arrayRandomLetters];
-    
-    
-    //randomize the letterArray
-    
+    _arrayOfRandomLetters = [[NSMutableArray alloc] initWithArray:arrayOfLettersInOrder];
     
     NSUInteger countLetters;
-    countLetters = arrayRandomLetters.count;
-    
+    countLetters = arrayOfLettersInOrder.count;
     
     int z;
     
@@ -121,10 +119,12 @@
         countRemaining = countLetters - z;
         
         int exchangeIndex = z + arc4random_uniform(countRemaining);
-        [arrayRandomLetters exchangeObjectAtIndex:z withObjectAtIndex:exchangeIndex];
-}
+        [_arrayOfRandomLetters exchangeObjectAtIndex:z withObjectAtIndex:exchangeIndex];
+    }
+    return _arrayOfRandomLetters;
     
-    return arrayRandomLetters;
+    
+    
 }
 
 #pragma mark SET UP SCREEN
@@ -364,10 +364,9 @@
 
 -(UILabel *)setUpTimerLabel {
     
-    _startTimerValue = 60;
-    CGFloat paddingTop = 0;
+    _startTimerValue = 6;
     
-    _labelTimer = [[UILabel alloc] initWithFrame:CGRectMake(0, _screenHeight*.05 + paddingTop, _screenWidth/3, _screenHeight/15)];
+    _labelTimer = [[UILabel alloc] initWithFrame:CGRectMake(_screenWidth/2-_screenWidth/6, _screenHeight-_screenHeight/15, _screenWidth/3, _screenHeight/15)];
     _labelTimer.backgroundColor = [UIColor clearColor];
     _labelTimer.textColor = [UIColor blackColor];
     _labelTimer.text = [NSString stringWithFormat:@"%i",_startTimerValue];
@@ -400,7 +399,8 @@
     
 }
 
--(void)timerCountDown {
+-(void)timerCountDown{
+    
     _startTimerValue = _startTimerValue - 1;
     _labelTimer.text = [NSString stringWithFormat:@"%i",_startTimerValue];
     
@@ -411,8 +411,159 @@
     NSTimeInterval interval = _startTimerValue;
     NSString *formattedString = [componentFormatter stringFromTimeInterval:interval];
     
-    _labelTimer.text = formattedString;}
-// TODO: Add timer functionality
+    _labelTimer.text = formattedString;
+    
+    
+    
+    if (_startTimerValue <11) {
+        _labelTimer.backgroundColor = [UIColor redColor];
+        _labelTimer.textColor = [UIColor yellowColor];
+        _labelTimer.clipsToBounds = YES;
+    }
+    else {_labelTimer.backgroundColor = [UIColor whiteColor];
+        _labelTimer.textColor = [UIColor blackColor];
+    }
+    
+    if (_startTimerValue == 0) {
+        UILabel *labelGameOver = [[UILabel alloc] init];
+        labelGameOver.frame = CGRectMake(20, _screenHeight * .15, _screenWidth - 40, _screenHeight*.37);
+        labelGameOver.layer.borderColor = [[UIColor redColor] CGColor];
+        labelGameOver.layer.borderWidth = 2;
+        labelGameOver.backgroundColor = [UIColor yellowColor];
+        labelGameOver.textColor = [UIColor redColor];
+        labelGameOver.layer.cornerRadius = 15;
+        labelGameOver.clipsToBounds = YES;
+        labelGameOver.text = @"Game Over";
+        labelGameOver.font = [UIFont fontWithName:@"Courier" size:_screenHeight*.4*.2];
+        labelGameOver.textAlignment = NSTextAlignmentCenter;
+        [self stopButtons];
+        
+     //   [self saveHighscore];
+        
+        [self.view addSubview:labelGameOver];
+  //      _points = 0;
+        _startTimerValue = 6;
+        [_timer invalidate];
+        
+        
+        NSLog(@"Timer countdown say letters in order %@",_arrayOfLettersInOrder);
+        [UIView animateWithDuration:4 animations:^{
+            labelGameOver.alpha = 0;
+        } completion:^(BOOL finished) {
+            [self revealWord: _arrayOfLettersInOrder];
+            
+        }];
+        
+        
+        
+        
+        
+        
+        
+    }
+    
+    
+    
+}
+
+
+
+-(void)stopTimer {
+    [_timer invalidate];
+}
+
+-(void)winSolo{
+    NSArray *arraySplashWords = [[NSArray alloc] initWithObjects:@"Hooray",@"Terrific",@"Wow",@"Nifty",@"Amazing",@"Yahoo!",@"Great",@"Brilliant",@"Inspiring",@"Yay", nil];
+    NSArray *arraySplashColors = [[NSArray alloc] initWithObjects:[UIColor redColor],[UIColor blueColor],[UIColor purpleColor],[UIColor orangeColor],[UIColor magentaColor], nil];
+    
+    NSArray *arrayX = [[NSArray alloc]initWithObjects:@5 ,@-5, @5, @-5, @0.2, @10, nil];
+    NSArray *arrayY = [[NSArray alloc]initWithObjects:@-5,@5 , @5, @-5, @0.2, @10, nil];
+    
+    
+    int randomNumberWord = arc4random_uniform(arraySplashWords.count);
+    int randomNumberColor = arc4random_uniform(arraySplashColors.count);
+    //int randomNumberScale = arc4random_uniform(arrayScales.count);
+    
+    NSString *splashWord = [arraySplashWords objectAtIndex:randomNumberWord];
+    UIColor *splashColor = [arraySplashColors objectAtIndex:randomNumberColor];
+    //randomScale = [[arrayScales objectAtIndex:randomNumberScale] floatValue];
+    
+    
+    
+    UILabel *winLabel = [[UILabel alloc] init];
+    winLabel.frame = CGRectMake(0, _screenHeight*.65, _screenWidth,_screenHeight*.3);
+    winLabel.text = splashWord;
+    winLabel.textColor = splashColor;
+    
+    winLabel.font = [UIFont fontWithName:@"Helvetica" size:_screenWidth * 0.05];
+    winLabel.backgroundColor = [UIColor clearColor];
+    winLabel.layer.cornerRadius = _screenHeight*.05;
+    //winLabel.layer.borderColor = [[UIColor redColor] CGColor];
+    //winLabel.layer.borderWidth = 2;
+    winLabel.clipsToBounds = YES;
+    winLabel.alpha = 1;
+    winLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:winLabel];
+    [self.view bringSubviewToFront:winLabel];
+    
+    
+    
+    
+    
+    int rand_index = ((arc4random() % arrayX.count));
+    //int rand_index = 0;
+    [UIView animateWithDuration:3 delay:0 options:UIViewAnimationOptionTransitionNone animations:^{
+        winLabel.alpha = 1;
+        //winLabel.frame = CGRectMake(-_screenWidth, _screenHeight*.7, _screenWidth*.5, _screenHeight*.1);
+        // CGAffineTransform affineTransform = CGAffineTransformMakeRotation(degreesToRadians(-270));
+        
+        if (fabs([arrayX[rand_index]floatValue])<1)
+        {
+            winLabel.font = [UIFont fontWithName:@"Helvetica" size:_screenWidth * 0.2];
+        }
+        CGAffineTransform affineScale = CGAffineTransformMakeScale([arrayX[rand_index] floatValue], [arrayY[rand_index] floatValue]);
+        
+        // winLabel.transform = affineTransform;
+        winLabel.transform = affineScale;
+        
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:2 delay:0 options:UIViewAnimationOptionTransitionNone animations:^{
+            CGAffineTransform affineScale = CGAffineTransformMakeScale(fabs([arrayX[rand_index] floatValue]), fabs([arrayY[rand_index] floatValue]));
+            winLabel.transform = affineScale;
+        } completion:^(BOOL finished) {
+            //  _buttonAgain.enabled = YES;
+            //  _buttonAgain.alpha = 1;
+            winLabel.alpha = 0;
+        }];
+    }];
+    
+    
+}
+
+-(void)revealWord: (NSArray *) letters{
+   
+    for (letterButton *button in _letterButtons) {
+        [button removeFromSuperview];
+    }
+    
+    for (int i = 0; i<letters.count; i++) {
+        wordBox *label = ((wordBox *)_arrayWordBoxes[i]);
+        label.textAlignment = NSTextAlignmentCenter;
+        label.font = [UIFont fontWithName:@"Helvetica" size:0.8*(_screenWidth/8)];
+        label.textColor = [UIColor blackColor];
+        label.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"tile.png"]];
+        
+        
+        _light2.backgroundColor= [UIColor greenColor];
+        _light3.backgroundColor = [UIColor greenColor];
+        _light4.backgroundColor = [UIColor greenColor];
+        
+        label.text = letters[i];
+    }
+  //  _buttonAgain.enabled = YES;
+  //  _buttonAgain.alpha = 1;
+    
+}
 
 
 @end

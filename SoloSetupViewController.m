@@ -19,6 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _gamePlayMethods = [[GamePlayMethods alloc] init];
     // Do any additional setup after loading the view.
 }
 
@@ -27,15 +28,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 - (IBAction)btnEasyPressed:(id)sender {
     
@@ -57,25 +50,38 @@
 }
 
 -(void)getLetters{
-    NSMutableArray *arrayOfLetters = [[NSMutableArray alloc]initWithArray:[GamePlayMethods arrayOfLetters:_level]];
     
-    for (int x=0; x<9; x++) {
-        if (x!=0){
-            _letters = [NSString stringWithFormat:@"%@%@",_letters,arrayOfLetters[x]];
-        } else {
-            _letters = [NSString stringWithFormat:@"%@",arrayOfLetters[x]];
-        }
-        
-    }
+    _arrayOfLettersInOrder = [[NSMutableArray alloc]initWithArray:[_gamePlayMethods arrayOfLettersInOrder:_level]];
+    NSLog(@"Solo Setup Order is %@",_gamePlayMethods.arrayOfLettersInOrder);
+    [self randomizeLetters];
     
-    NSLog(@"The letters are %@",arrayOfLetters);
     
     [self performSegueWithIdentifier:@"segueSoloSetupToSoloPlay" sender:self];
 }
+
+-(void)randomizeLetters{
+    _arrayOfRandomLetters = [[NSMutableArray alloc] initWithArray:[_gamePlayMethods arrayOfRandomLetters:_arrayOfLettersInOrder]];
+    
+    for (int x=0; x<9; x++) {
+        if (x!=0){
+            _letters = [NSString stringWithFormat:@"%@%@",_letters,_arrayOfRandomLetters[x]];
+        } else {
+            _letters = [NSString stringWithFormat:@"%@",_arrayOfRandomLetters[x]];
+        }
+        
+    }
+    NSLog(@"Solo Setup Random is %@",_arrayOfRandomLetters);
+    
+    
+    
+}
+
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"segueSoloSetupToSoloPlay"]) {
         SoloPlayViewController *view = [segue destinationViewController];
         view.strIncomingLetters = _letters;
+        view.lettersInOrder = _arrayOfLettersInOrder;
+        
     }
 }
 

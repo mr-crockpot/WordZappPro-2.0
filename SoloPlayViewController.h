@@ -12,6 +12,8 @@
 
 @interface SoloPlayViewController : UIViewController
 @property (strong,nonatomic) NSString *strIncomingLetters;
+@property (strong,nonatomic) NSMutableArray *lettersInOrder;
+
 
 @property GamePlayMethods *calledMethod;
 
@@ -25,5 +27,7 @@
 //TIMER
 @property (strong, nonatomic) UILabel *labelTimer;
 
+@property CGFloat screenWidth;
+@property CGFloat screenHeight;
 
 @end

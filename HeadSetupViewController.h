@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <MultipeerConnectivity/MultipeerConnectivity.h>
 #import "AppDelegate.h"
+#import "GamePlayMethods.h"
+
 
 
 @interface HeadSetupViewController : UIViewController <MCBrowserViewControllerDelegate, UITableViewDelegate, UITableViewDataSource>
@@ -35,5 +37,6 @@
 
 @property BOOL isOrganizer;
 
+@property GamePlayMethods *gamePlayMethods;
 
 @end

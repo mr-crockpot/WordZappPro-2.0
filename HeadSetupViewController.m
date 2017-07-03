@@ -122,7 +122,7 @@
         
         [_appDelegate.mcManager.browser dismissViewControllerAnimated:YES completion:nil];
         [_appDelegate.mcManager advertiseSelf:false];
-        NSLog(@"I am the follower");
+       
         if (!_isOrganizer) {
             
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -138,8 +138,7 @@
         if ([_arrConnectedDevices count] > 0) {
             NSInteger indexOfPeer = [_arrConnectedDevices indexOfObject:peerDisplayName];
             [_arrConnectedDevices removeObjectAtIndex:indexOfPeer];
-            NSLog(@"Not connected");
-            
+                      
         }
     }
     
@@ -184,7 +183,7 @@
 - (IBAction)btnPlayPressed:(id)sender {
     
     
-     NSMutableArray *arrayOfLetters = [[NSMutableArray alloc]initWithArray:[GamePlayMethods arrayOfLetters:_level]];
+     NSMutableArray *arrayOfLetters = [[NSMutableArray alloc]initWithArray:[_gamePlayMethods arrayOfLettersInOrder:_level]];
      
      for (int x=0; x<9; x++) {
      if (x!=0){
@@ -196,7 +195,6 @@
      }
      
      NSData *dataToSend = [_letters dataUsingEncoding:NSUTF8StringEncoding];
-     
      NSArray *allPeers = _appDelegate.mcManager.session.connectedPeers;
      NSError *error;
      

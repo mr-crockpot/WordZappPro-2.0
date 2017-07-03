@@ -36,7 +36,13 @@
 
 @property NSMutableArray *letterButtons;
 
-+(NSMutableArray *)arrayOfLetters: (NSString *)fromList;
+-(NSMutableArray *)arrayOfLettersInOrder: (NSString *)fromList;
+-(NSMutableArray *)arrayOfRandomLetters: (NSMutableArray*)arrayOfLettersInOrder;
+
+
+@property NSMutableArray *arrayOfLettersInOrder;
+@property NSMutableArray *arrayOfRandomLetters;
+
 
 //SET UP WORD BOXES
 @property (strong, nonatomic) NSMutableArray *arrayWordBoxes;
@@ -45,13 +51,19 @@
 @property NSArray *masterWordList;
 
 //SET UP TIMER LABEL
+
+-(void)stopTimer;
 -(UILabel *)setUpTimerLabel;
 
 @property NSTimer *timer;
 @property int startTimerValue;
 @property (strong,nonatomic) UILabel *labelTimer;
 
+//WIN
+-(void)winSolo;
 
+//REVEAL
+-(void)revealWord: (NSArray *) letters;
 
 
 

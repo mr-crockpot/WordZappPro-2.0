@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GamePlayMethods.h"
 
 @interface SoloSetupViewController : UIViewController
 
@@ -18,5 +19,11 @@
 @property NSString *theWords;
 @property NSString *letters;
 @property NSString *level;
+
+@property NSMutableArray *arrayOfRandomLetters;
+@property NSMutableArray *arrayOfLettersInOrder;
+
+@property GamePlayMethods *gamePlayMethods;
+
 
 @end

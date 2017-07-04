@@ -18,7 +18,17 @@
 
 - (void)viewDidLoad {
     
-     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(peerDidChangeStateWithNotification:) name:@"MCDidChangeStateNotification" object:nil];
+     [[NSNotificationCenter defaultCenter] addObserver:self
+                                              selector:@selector(peerDidChangeStateWithNotification:) name:@"MCDidChangeStateNotification"
+                                                object:nil];
+    
+   
+
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveDataWithNotification:)
+                                                 name:@"MCDidReceiveDataNotification"
+                                               object:nil];
     
     _appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     [[_appDelegate mcManager] setupPeerAndSessionWithDisplayName:[UIDevice currentDevice].name];
@@ -37,13 +47,8 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated{
+
     
-    
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveDataWithNotification:)
-                                                 name:@"MCDidReceiveDataNotification"
-                                               object:nil];
     
     if (_connected) {
         _lblStatus.text = @"Connected";
@@ -103,20 +108,20 @@
     NSString *receivedText = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
     if ([receivedText isEqualToString:@"Level"]) {
         NSLog(@"I just got the level");
-        dispatch_async(dispatch_get_main_queue(), ^{
+       dispatch_async(dispatch_get_main_queue(), ^{
         _lblLevel.text = @"Got the level";
         });
     }
     else {
     _letters = receivedText;
     
-    
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
         [self performSegueWithIdentifier:@"segueJoinToHeadPlay" sender:self];
+            
+            NSLog(@"Is this message twice?");
     });
     }
-    
+  
 }
 
 -(void)browseForDevices{
@@ -129,9 +134,9 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"segueJoinToHeadPlay"]) {
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidReceiveDataNotification" object:nil];
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidChangeStateNotification" object:nil];
-        NSLog(@"SEGUE FROM JOIN");
+     //   [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidReceiveDataNotification" object:nil];
+      //  [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidChangeStateNotification" object:nil];
+       
         HeadPlayViewController *view = [segue destinationViewController];
         view.strIncomingLetters = _letters;
         

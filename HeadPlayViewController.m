@@ -21,12 +21,12 @@
     self.navigationItem.hidesBackButton = YES;
     _appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self
+ /*   [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didReceiveDataWithNotification:)
                                                  name:@"MCDidReceiveDataNotification"
                                                object:nil];
-    
-    
+   */
+   
     _calledMethod = [[GamePlayMethods alloc] initWithView:self.view selectorForWin:@selector(sendLostMessage) delegate:self];
     [super viewDidLoad];
     
@@ -40,6 +40,13 @@
     [self setUpWordBoxes];
     
     // Do any additional setup after loading the view.
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveDataWithNotification:)
+                                                 name:@"MCDidReceiveDataNotification"
+                                               object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -76,7 +83,6 @@
 
 -(void)setUpWordBoxes {
     _wordBoxes = [_calledMethod setupWordBoxes];
-    //[self sendReturnMessage];
     
 }
 
@@ -102,7 +108,7 @@
 }
 
 -(void)sendLostMessage{
-        NSString *message = @"You Lose";
+        NSString *message = @"YouLoseAA";
     
     NSData *dataToSend = [message dataUsingEncoding:NSUTF8StringEncoding];
     NSArray *allPeers = _appDelegate.mcManager.session.connectedPeers;
@@ -124,10 +130,9 @@
 
 -(void)didReceiveDataWithNotification:(NSNotification *)notification{
     
-    NSData *receivedData = [[notification userInfo] objectForKey:@"data"];
-    NSString *receivedText = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
-    NSLog(@"got this message %@",receivedText);
-   
+  //  NSData *receivedData = [[notification userInfo] objectForKey:@"data"];
+   // NSString *receivedText = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         
         [self showLabel];

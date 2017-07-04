@@ -21,7 +21,15 @@
 
 - (void)viewDidLoad {
     
-     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(peerDidChangeStateWithNotification:) name:@"MCDidChangeStateNotification" object:nil];
+     [[NSNotificationCenter defaultCenter] addObserver:self
+                                              selector:@selector(peerDidChangeStateWithNotification:) name:@"MCDidChangeStateNotification"
+                                                object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveDataWithNotification:)
+                                                 name:@"MCDidReceiveDataNotification"
+                                               object:nil];
+
     
     _gamePlayMethods = [[GamePlayMethods alloc] init];
     
@@ -31,8 +39,6 @@
     [[_appDelegate mcManager] setupPeerAndSessionWithDisplayName:[UIDevice currentDevice].name];
     
     _arrConnectedDevices = [[NSMutableArray alloc] initWithObjects:@"Host",nil];
-    
-    
     
     [_appDelegate.mcManager setupPeerAndSessionWithDisplayName:[UIDevice currentDevice].name];
     [_appDelegate.mcManager setupMCBrowser];
@@ -133,7 +139,7 @@
     if (error) {
         NSLog(@"%@", [error localizedDescription]);
     }
-    
+   
     [self performSegueWithIdentifier:@"segueHostToHeadPlay" sender:self];
 
 }
@@ -146,8 +152,8 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"segueHostToHeadPlay"]) {
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidReceiveDataNotification" object:nil];
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidChangeStateNotification" object:nil];
+       [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidReceiveDataNotification" object:nil];
+       [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidChangeStateNotification" object:nil];
         
         HeadPlayViewController *view = [segue destinationViewController];
         view.strIncomingLetters = _letters;

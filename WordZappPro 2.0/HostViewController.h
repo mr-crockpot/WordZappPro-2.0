@@ -36,6 +36,11 @@
 @property NSString *letters;
 
 @property (strong, nonatomic) NSString *level;
+@property (strong, nonatomic) NSString *list;
+
+
+@property (strong, nonatomic) NSString *dataToSend;
+
 
 
 

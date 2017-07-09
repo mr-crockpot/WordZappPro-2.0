@@ -32,7 +32,7 @@
     [_appDelegate.mcManager setupPeerAndSessionWithDisplayName:[UIDevice currentDevice].name];
     [_appDelegate.mcManager setupMCBrowser];
     [_appDelegate.mcManager advertiseSelf:NO];
-    
+     _lblLevel.text = @"Level: Easy";
     [self browseForDevices];
     
     [super viewDidLoad];
@@ -51,7 +51,8 @@
     
     if (_connected) {
         _lblStatus.text = @"Connected";
-        _lblLevel.text = @"Some Level";
+        
+      
     }
 
 }
@@ -112,7 +113,7 @@
     NSString *receivedText = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
     if ([receivedText containsString:@"Level"]) {
        
-       dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
         _lblLevel.text = receivedText;
         });
     }

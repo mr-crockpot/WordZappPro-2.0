@@ -43,7 +43,36 @@
     [_appDelegate.mcManager setupPeerAndSessionWithDisplayName:[UIDevice currentDevice].name];
     [_appDelegate.mcManager setupMCBrowser];
     [_appDelegate.mcManager advertiseSelf:YES];
+    
+    _segmentLevel.selectedSegmentIndex = 0;
+    
 
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    
+    _level = @"Nothing";
+    switch (_segmentLevel.selectedSegmentIndex) {
+            
+        case 0:
+            _level = @"Level: Easy";
+            break;
+        case 1:
+            _level = @"Level: Medium";
+            break;
+        case 2:
+            _level = @"Level: Hard";
+            break;
+            
+        default:
+            break;
+    }
+    
+    
+   
+
+    
     
 }
 
@@ -73,26 +102,11 @@
     }
     if (state == MCSessionStateConnected) {
         [_arrConnectedDevices addObject:peerDisplayName];
-       
-        NSString *level = @"Level One";
         
-        NSData *dataToSend = [level dataUsingEncoding:NSUTF8StringEncoding];
-        
-        NSArray *allPeers = _appDelegate.mcManager.session.connectedPeers;
-        NSError *error;
-        
-        [_appDelegate.mcManager.session sendData:dataToSend
-                                         toPeers:allPeers
-                                        withMode:MCSessionSendDataUnreliable
-                                           error:&error];
-        
-        if (error) {
-            NSLog(@"%@", [error localizedDescription]);
-        }
+        [self sendData:_level];
+        NSLog(@"Data was sent with level %@",_level);
         
         
-
-                
         
     }
     else if (state == MCSessionStateNotConnected){
@@ -134,7 +148,25 @@
 
 - (IBAction)btnPlayPressed:(id)sender {
     
-    _arrayOfLettersInOrder = [[NSMutableArray alloc]initWithArray:[_gamePlayMethods arrayOfLettersInOrder:_level]];
+    
+    switch (_segmentLevel.selectedSegmentIndex) {
+            
+            
+        case 0:
+            _list = @"easyList";
+            break;
+        case 1:
+            _list = @"mediumList";
+            break;
+        case 2:
+            _list = @"hardList";
+            break;
+        default:
+            break;
+    }
+    
+  
+    _arrayOfLettersInOrder = [[NSMutableArray alloc]initWithArray:[_gamePlayMethods arrayOfLettersInOrder:_list]];
     _arrayOfRandomLetters = [[NSMutableArray alloc] initWithArray:[_gamePlayMethods arrayOfRandomLetters:_arrayOfLettersInOrder]];
 
     
@@ -147,7 +179,15 @@
         
     }
     
-    NSData *dataToSend = [_letters dataUsingEncoding:NSUTF8StringEncoding];
+    [self sendData:_letters];
+    
+    [self performSegueWithIdentifier:@"segueHostToHeadPlay" sender:self];
+
+}
+
+-(void)sendData: (NSString *)incomingData{
+    
+    NSData *dataToSend = [incomingData dataUsingEncoding:NSUTF8StringEncoding];
     
     NSArray *allPeers = _appDelegate.mcManager.session.connectedPeers;
     NSError *error;
@@ -160,17 +200,14 @@
     if (error) {
         NSLog(@"%@", [error localizedDescription]);
     }
-   
-    [self performSegueWithIdentifier:@"segueHostToHeadPlay" sender:self];
 
 }
 
 
 
 - (IBAction)segmentLevelChanged:(id)sender {
-    NSLog(@"The segment value is %li",_segmentLevel.selectedSegmentIndex);
-    
-   _level = @"Nothing";
+  
+    _level = @"Nothing";
     switch (_segmentLevel.selectedSegmentIndex) {
    
         case 0:
@@ -188,27 +225,10 @@
     }
     
     
-    [self sendLevel];
+    [self sendData:_level];
     
 }
 
--(void)sendLevel{
-    
-    
-    NSData *dataToSend = [_level dataUsingEncoding:NSUTF8StringEncoding];
-    
-    NSArray *allPeers = _appDelegate.mcManager.session.connectedPeers;
-    NSError *error;
-    
-    [_appDelegate.mcManager.session sendData:dataToSend
-                                     toPeers:allPeers
-                                    withMode:MCSessionSendDataUnreliable
-                                       error:&error];
-    
-    if (error) {
-        NSLog(@"%@", [error localizedDescription]);
-    }
-}
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"segueHostToHeadPlay"]) {

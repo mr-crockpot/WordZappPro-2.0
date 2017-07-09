@@ -24,8 +24,8 @@
 @property NSString *letters;
 
 @property (strong, nonatomic) IBOutlet UILabel *lblStatus;
-@property BOOL connected;
+
 @property (strong, nonatomic) IBOutlet UILabel *lblLevel;
 
-
+@property BOOL connected;
 @end

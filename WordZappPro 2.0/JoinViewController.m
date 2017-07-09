@@ -110,10 +110,10 @@
 -(void)didReceiveDataWithNotification:(NSNotification *)notification{
     NSData *receivedData = [[notification userInfo] objectForKey:@"data"];
     NSString *receivedText = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
-    if ([receivedText isEqualToString:@"Level"]) {
+    if ([receivedText containsString:@"Level"]) {
        
        dispatch_async(dispatch_get_main_queue(), ^{
-        _lblLevel.text = @"Got the level";
+        _lblLevel.text = receivedText;
         });
     }
     else {

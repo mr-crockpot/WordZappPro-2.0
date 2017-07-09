@@ -73,7 +73,8 @@
     }
     if (state == MCSessionStateConnected) {
         [_arrConnectedDevices addObject:peerDisplayName];
-       NSString *level = @"Level";
+       
+        NSString *level = @"Level One";
         
         NSData *dataToSend = [level dataUsingEncoding:NSUTF8StringEncoding];
         
@@ -103,6 +104,7 @@
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{
+        
         [_tblConnectedDevices reloadData];
     });
 
@@ -166,8 +168,47 @@
 
 
 - (IBAction)segmentLevelChanged:(id)sender {
+    NSLog(@"The segment value is %li",_segmentLevel.selectedSegmentIndex);
+    
+   _level = @"Nothing";
+    switch (_segmentLevel.selectedSegmentIndex) {
+   
+        case 0:
+            _level = @"Level: Easy";
+            break;
+        case 1:
+            _level = @"Level: Medium";
+            break;
+        case 2:
+            _level = @"Level: Hard";
+            break;
+            
+        default:
+            break;
+    }
+    
+    
+    [self sendLevel];
+    
 }
 
+-(void)sendLevel{
+    
+    
+    NSData *dataToSend = [_level dataUsingEncoding:NSUTF8StringEncoding];
+    
+    NSArray *allPeers = _appDelegate.mcManager.session.connectedPeers;
+    NSError *error;
+    
+    [_appDelegate.mcManager.session sendData:dataToSend
+                                     toPeers:allPeers
+                                    withMode:MCSessionSendDataUnreliable
+                                       error:&error];
+    
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+    }
+}
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"segueHostToHeadPlay"]) {

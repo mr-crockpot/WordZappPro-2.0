@@ -21,11 +21,6 @@
     self.navigationItem.hidesBackButton = YES;
     _appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
 
- /*   [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveDataWithNotification:)
-                                                 name:@"MCDidReceiveDataNotification"
-                                               object:nil];
-   */
    
     _calledMethod = [[GamePlayMethods alloc] initWithView:self.view selectorForWin:@selector(sendLostMessage) delegate:self];
     [super viewDidLoad];
@@ -47,6 +42,11 @@
                                              selector:@selector(didReceiveDataWithNotification:)
                                                  name:@"MCDidReceiveDataNotification"
                                                object:nil];
+}
+
+-(void)viewDidDisappear:(BOOL)animated {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidReceiveDataNotification" object:nil];
+   
 }
 
 - (void)didReceiveMemoryWarning {
@@ -123,8 +123,7 @@
         NSLog(@"%@", [error localizedDescription]);
     }
     self.navigationItem.hidesBackButton = NO;
-    NSLog(@"This sent message is %@",message);
-    
+        
 }
 
 

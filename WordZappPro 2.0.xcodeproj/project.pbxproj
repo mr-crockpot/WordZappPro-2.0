@@ -144,8 +144,8 @@
 		E34432B21F09C341004F84FD /* Join  */ = {
 			isa = PBXGroup;
 			children = (
-				E34432AD1F02DD25004F84FD /* JoinViewController.m */,
 				E34432AC1F02DD25004F84FD /* JoinViewController.h */,
+				E34432AD1F02DD25004F84FD /* JoinViewController.m */,
 			);
 			name = "Join ";
 			sourceTree = "<group>";

@@ -9,6 +9,7 @@
 #import "GamePlayMethods.h"
 #import "letterButton.h"
 #import "wordBox.h"
+#import "SoloPlayViewController.h"
 
 
 @implementation GamePlayMethods
@@ -76,9 +77,6 @@
     while (word2.length != 2);
     
     
-    NSLog(@"the words are %@ %@ %@",word2,word3,word4);
-    
-    
     
     for (int w = 1; w<3; w++) {
         NSString *eachLetter = [NSString stringWithFormat:@"%c", [word2 characterAtIndex:w-1]];
@@ -98,7 +96,7 @@
         [_arrayOfLettersInOrder addObject:eachLetter];
         
     }
-    NSLog(@"array set to: %@", _arrayOfLettersInOrder);
+   
 
     return _arrayOfLettersInOrder;
 }
@@ -254,7 +252,7 @@
         
         [_delegate performSelector:_winMethod];
         
-// TODO: tell other player they lose here
+
     }
     
     
@@ -287,7 +285,7 @@
     NSString *word4 = [NSString stringWithFormat:@"%@%@%@%@", letters[5], letters[6], letters[7], letters[8]];
     NSString *word3 = [NSString stringWithFormat:@"%@%@%@", letters[2], letters[3], letters[4]];
     NSString *word2 = [NSString stringWithFormat:@"%@%@", letters[0], letters[1]];
-    NSLog(@"%@ (%d), %@ (%d), %@ (%d)", word2, [_masterWordList containsObject:word2], word3, [_masterWordList containsObject:word3], word4, [_masterWordList containsObject:word4]);
+   
     
     if ([_masterWordList containsObject:word4]) {
         _light4.backgroundColor = [UIColor greenColor];}
@@ -445,8 +443,10 @@
         _startTimerValue = 6;
         [_timer invalidate];
         
+        ((SoloPlayViewController*)self.delegate).navigationItem.hidesBackButton=NO;
         
-        NSLog(@"Timer countdown say letters in order %@",_arrayOfLettersInOrder);
+        
+       
         [UIView animateWithDuration:4 animations:^{
             labelGameOver.alpha = 0;
         } completion:^(BOOL finished) {
@@ -470,6 +470,7 @@
 
 -(void)stopTimer {
     [_timer invalidate];
+    
 }
 
 -(void)winSolo{
@@ -551,7 +552,9 @@
         label.textAlignment = NSTextAlignmentCenter;
         label.font = [UIFont fontWithName:@"Helvetica" size:0.8*(_screenWidth/8)];
         label.textColor = [UIColor blackColor];
-        label.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"tile.png"]];
+        label.backgroundColor = [UIColor yellowColor];
+        //label.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"tile.png"]];
+        
         
         
         _light2.backgroundColor= [UIColor greenColor];
@@ -560,7 +563,8 @@
         
         label.text = letters[i];
     }
-  //  _buttonAgain.enabled = YES;
+    
+   //  _buttonAgain.enabled = YES;
   //  _buttonAgain.alpha = 1;
     
 }

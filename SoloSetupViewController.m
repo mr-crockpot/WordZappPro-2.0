@@ -52,7 +52,7 @@
 -(void)getLetters{
     
     _arrayOfLettersInOrder = [[NSMutableArray alloc]initWithArray:[_gamePlayMethods arrayOfLettersInOrder:_level]];
-    NSLog(@"Solo Setup Order is %@",_gamePlayMethods.arrayOfLettersInOrder);
+ 
     [self randomizeLetters];
     
     
@@ -70,7 +70,7 @@
         }
         
     }
-    NSLog(@"Solo Setup Random is %@",_arrayOfRandomLetters);
+    
     
     
     

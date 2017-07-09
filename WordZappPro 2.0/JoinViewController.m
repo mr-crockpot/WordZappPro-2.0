@@ -18,16 +18,9 @@
 
 - (void)viewDidLoad {
     
-     [[NSNotificationCenter defaultCenter] addObserver:self
-                                              selector:@selector(peerDidChangeStateWithNotification:) name:@"MCDidChangeStateNotification"
-                                                object:nil];
-    
-   
-
-    
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveDataWithNotification:)
-                                                 name:@"MCDidReceiveDataNotification"
+                                             selector:@selector(peerDidChangeStateWithNotification:)
+                                                 name:@"MCDidChangeStateNotification"
                                                object:nil];
     
     _appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
@@ -47,7 +40,13 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-
+    
+   
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveDataWithNotification:)
+                                                 name:@"MCDidReceiveDataNotification"
+                                               object:nil];
     
     
     if (_connected) {
@@ -55,6 +54,12 @@
         _lblLevel.text = @"Some Level";
     }
 
+}
+
+-(void)viewDidDisappear:(BOOL)animated {
+ 
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidReceiveDataNotification" object:nil];
+ 
 }
 
 - (void)didReceiveMemoryWarning {
@@ -89,15 +94,14 @@
         [_appDelegate.mcManager.browser dismissViewControllerAnimated:YES completion:nil];
         [_appDelegate.mcManager advertiseSelf:false];
         _connected = YES;
-
+        
         }
     
     else if (state == MCSessionStateNotConnected){
         if ([_arrConnectedDevices count] > 0) {
             NSInteger indexOfPeer = [_arrConnectedDevices indexOfObject:peerDisplayName];
             [_arrConnectedDevices removeObjectAtIndex:indexOfPeer];
-            _lblStatus.text = @"Not Connected";
-            
+                       
         }
     }
     
@@ -107,7 +111,7 @@
     NSData *receivedData = [[notification userInfo] objectForKey:@"data"];
     NSString *receivedText = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
     if ([receivedText isEqualToString:@"Level"]) {
-        NSLog(@"I just got the level");
+       
        dispatch_async(dispatch_get_main_queue(), ^{
         _lblLevel.text = @"Got the level";
         });
@@ -118,7 +122,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
         [self performSegueWithIdentifier:@"segueJoinToHeadPlay" sender:self];
             
-            NSLog(@"Is this message twice?");
+            
     });
     }
   
@@ -134,9 +138,7 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"segueJoinToHeadPlay"]) {
-     //   [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidReceiveDataNotification" object:nil];
-      //  [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidChangeStateNotification" object:nil];
-       
+     
         HeadPlayViewController *view = [segue destinationViewController];
         view.strIncomingLetters = _letters;
         

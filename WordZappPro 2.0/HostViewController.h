@@ -20,7 +20,7 @@
 
 @property GamePlayMethods *gamePlayMethods;
 @property NSMutableArray *arrayOfLettersInOrder;
-
+@property NSMutableArray *arrayOfRandomLetters;
 
 @property (nonatomic, strong) AppDelegate *appDelegate;
 @property (nonatomic, strong) NSMutableArray *arrConnectedDevices;

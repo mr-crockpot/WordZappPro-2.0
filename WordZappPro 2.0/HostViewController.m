@@ -113,15 +113,34 @@
 
 }
 
-- (IBAction)btnPlayPressed:(id)sender {
-    
-    _arrayOfLettersInOrder = [[NSMutableArray alloc]initWithArray:[_gamePlayMethods arrayOfLettersInOrder:_level]];
+-(void)randomizeLetters{
+    _arrayOfRandomLetters = [[NSMutableArray alloc] initWithArray:[_gamePlayMethods arrayOfRandomLetters:_arrayOfLettersInOrder]];
     
     for (int x=0; x<9; x++) {
         if (x!=0){
-            _letters = [NSString stringWithFormat:@"%@%@",_letters,_arrayOfLettersInOrder[x]];
+            _letters = [NSString stringWithFormat:@"%@%@",_letters,_arrayOfRandomLetters[x]];
         } else {
-            _letters = [NSString stringWithFormat:@"%@",_arrayOfLettersInOrder[x]];
+            _letters = [NSString stringWithFormat:@"%@",_arrayOfRandomLetters[x]];
+        }
+        
+    }
+       
+    
+}
+
+
+
+- (IBAction)btnPlayPressed:(id)sender {
+    
+    _arrayOfLettersInOrder = [[NSMutableArray alloc]initWithArray:[_gamePlayMethods arrayOfLettersInOrder:_level]];
+    _arrayOfRandomLetters = [[NSMutableArray alloc] initWithArray:[_gamePlayMethods arrayOfRandomLetters:_arrayOfLettersInOrder]];
+
+    
+    for (int x=0; x<9; x++) {
+        if (x!=0){
+            _letters = [NSString stringWithFormat:@"%@%@",_letters,_arrayOfRandomLetters[x]];
+        } else {
+            _letters = [NSString stringWithFormat:@"%@",_arrayOfRandomLetters[x]];
         }
         
     }
@@ -154,6 +173,9 @@
     if ([segue.identifier isEqualToString:@"segueHostToHeadPlay"]) {
        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidReceiveDataNotification" object:nil];
        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidChangeStateNotification" object:nil];
+        
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidReceiveDataNotification" object:nil];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidChangeStateNotification" object:nil];
         
         HeadPlayViewController *view = [segue destinationViewController];
         view.strIncomingLetters = _letters;

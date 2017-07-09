@@ -42,7 +42,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated{
-    NSLog(@"I'm back");
+   
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(peerDidChangeStateWithNotification:) name:@"MCDidChangeStateNotification" object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self

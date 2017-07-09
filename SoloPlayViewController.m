@@ -82,5 +82,9 @@
     
 }
 
+-(void)endGame {
+    self.navigationItem.hidesBackButton = YES;
+}
+
 
 @end

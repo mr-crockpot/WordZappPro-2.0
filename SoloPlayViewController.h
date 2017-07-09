@@ -30,4 +30,8 @@
 @property CGFloat screenWidth;
 @property CGFloat screenHeight;
 
+@property BOOL GameOver;
+-(void)endGame;
+
+
 @end

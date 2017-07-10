@@ -38,6 +38,9 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated{
+    
+   // _playerName = @"Adam";
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didReceiveDataWithNotification:)
                                                  name:@"MCDidReceiveDataNotification"
@@ -86,7 +89,7 @@
     
 }
 
--(void)showLabel{
+-(void)showLabel: (NSString*)winnerName{
     
     UILabel *labelGameOver = [[UILabel alloc] init];
     labelGameOver.frame = CGRectMake(20, self.view.frame.size.height * .15, self.view.frame.size.width - 40, self.view.frame.size.height*.37);
@@ -96,7 +99,9 @@
     labelGameOver.textColor = [UIColor redColor];
     labelGameOver.layer.cornerRadius = 15;
     labelGameOver.clipsToBounds = YES;
-    labelGameOver.text = @"Game Over";
+    labelGameOver.text = [NSString stringWithFormat:@"%@ Wins",winnerName];
+    
+   // labelGameOver.text = @"Game Over";
     labelGameOver.font = [UIFont fontWithName:@"Courier" size:self.view.frame.size.height*.4*.2];
     labelGameOver.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:labelGameOver];
@@ -108,7 +113,9 @@
 }
 
 -(void)sendLostMessage{
-        NSString *message = @"YouLoseAA";
+    
+    NSString *message = _playerName;
+    
     
     NSData *dataToSend = [message dataUsingEncoding:NSUTF8StringEncoding];
     NSArray *allPeers = _appDelegate.mcManager.session.connectedPeers;
@@ -129,12 +136,13 @@
 
 -(void)didReceiveDataWithNotification:(NSNotification *)notification{
     
-  //  NSData *receivedData = [[notification userInfo] objectForKey:@"data"];
-   // NSString *receivedText = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
+    NSData *receivedData = [[notification userInfo] objectForKey:@"data"];
+    NSString *receivedText = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
+    NSLog(@"Received text from winner is %@",receivedText);
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
-        [self showLabel];
+        [self showLabel:receivedText];
     });
     
     

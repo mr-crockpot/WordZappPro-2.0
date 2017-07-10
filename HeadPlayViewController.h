@@ -22,6 +22,9 @@
 @property (strong, nonatomic) IBOutlet UILabel *labelLetters;
 @property GamePlayMethods *calledMethod;
 
+@property (strong, nonatomic) NSString *playerName;
+
+
 //LIGHTS
 @property NSArray *lights;
 //LETTERS

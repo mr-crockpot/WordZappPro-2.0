@@ -141,6 +141,7 @@
      
         HeadPlayViewController *view = [segue destinationViewController];
         view.strIncomingLetters = _letters;
+        view.playerName = _peerNameEntered;
         
         
 }

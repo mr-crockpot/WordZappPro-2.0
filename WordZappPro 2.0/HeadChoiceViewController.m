@@ -7,6 +7,8 @@
 //
 
 #import "HeadChoiceViewController.h"
+#import "JoinViewController.h"
+#import "HostViewController.h"
 
 @interface HeadChoiceViewController ()
 
@@ -16,6 +18,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    _textFieldPeerNameEntered.text = [UIDevice currentDevice].name;
+    
     // Do any additional setup after loading the view.
 }
 
@@ -24,14 +29,38 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    
+    _peerNameEntered = _textFieldPeerNameEntered.text;
+    NSLog(@"This is the peer name: %@",_peerNameEntered);
+    
+    [textField resignFirstResponder];
+    
+    return YES;
 }
-*/
 
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"segueHeadChoiceToJoin"]) {
+        JoinViewController *view = [segue destinationViewController];
+               view.peerNameEntered = _peerNameEntered;
+        
+    }
+    if ([segue.identifier isEqualToString:@"segueHeadChoiceToHost"]) {
+        HostViewController *view = [segue destinationViewController];
+        view.peerNameEntered = _peerNameEntered;
+        
+    }
+
+
+    
+}
+
+- (IBAction)btnBeHostPressed:(id)sender {
+    
+   // [self performSegueWithIdentifier:@"segueHeadChoicetoJoin" sender:self];
+}
+- (IBAction)btnJoinPressed:(id)sender {
+  //  [self performSegueWithIdentifier:@"segueHeadChoiceToJoin" sender:self];
+}
 @end

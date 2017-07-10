@@ -24,12 +24,11 @@
                                                object:nil];
     
     _appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-    [[_appDelegate mcManager] setupPeerAndSessionWithDisplayName:[UIDevice currentDevice].name];
+    NSLog(@"The incoming peer name is %@",_peerNameEntered);
     
     _arrConnectedDevices = [[NSMutableArray alloc] init];
-    
-    
-    [_appDelegate.mcManager setupPeerAndSessionWithDisplayName:[UIDevice currentDevice].name];
+ 
+    [_appDelegate.mcManager setupPeerAndSessionWithDisplayName:_peerNameEntered];
     [_appDelegate.mcManager setupMCBrowser];
     [_appDelegate.mcManager advertiseSelf:NO];
      _lblLevel.text = @"Level: Easy";
@@ -152,4 +151,12 @@
 
 
 
-@end
+- (IBAction)btnDisconnectPressed:(id)sender {
+     [_appDelegate.mcManager.session disconnect];
+}
+
+
+  
+  
+  
+  @end

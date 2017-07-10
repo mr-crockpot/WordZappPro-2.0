@@ -40,6 +40,8 @@
 
 
 @property (strong, nonatomic) NSString *dataToSend;
+@property NSString *peerNameEntered;
+
 
 
 

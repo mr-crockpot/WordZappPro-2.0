@@ -8,6 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HeadChoiceViewController : UIViewController
+@interface HeadChoiceViewController : UIViewController <UITextFieldDelegate>
+
+
+@property (strong, nonatomic) IBOutlet UITextField *textFieldPeerNameEntered;
+@property NSString *peerNameEntered;
+
+@property (strong, nonatomic) IBOutlet UIButton *btnBeHost;
+- (IBAction)btnBeHostPressed:(id)sender;
+
+@property (strong, nonatomic) IBOutlet UIButton *btnJoin;
+- (IBAction)btnJoinPressed:(id)sender;
 
 @end

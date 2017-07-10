@@ -13,6 +13,7 @@
 @interface JoinViewController : UIViewController <MCBrowserViewControllerDelegate>
 
 
+
 @property (weak, nonatomic) IBOutlet UITableView *tblConnectedDevices;
 
 
@@ -26,6 +27,12 @@
 @property (strong, nonatomic) IBOutlet UILabel *lblStatus;
 
 @property (strong, nonatomic) IBOutlet UILabel *lblLevel;
+@property (strong, nonatomic) IBOutlet UIButton *btnDisconnect;
+- (IBAction)btnDisconnectPressed:(id)sender;
+
+@property NSString *peerNameEntered;
+
+@property (nonatomic, strong) MCPeerID *peerID;
 
 @property BOOL connected;
 @end

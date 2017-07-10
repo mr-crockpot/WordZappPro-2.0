@@ -21,14 +21,7 @@
 
 - (void)viewDidLoad {
     
-     [[NSNotificationCenter defaultCenter] addObserver:self
-                                              selector:@selector(peerDidChangeStateWithNotification:) name:@"MCDidChangeStateNotification"
-                                                object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveDataWithNotification:)
-                                                 name:@"MCDidReceiveDataNotification"
-                                               object:nil];
+ 
 
     
     _gamePlayMethods = [[GamePlayMethods alloc] init];
@@ -36,11 +29,12 @@
     [super viewDidLoad];
     
     _appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-    [[_appDelegate mcManager] setupPeerAndSessionWithDisplayName:[UIDevice currentDevice].name];
+  //  [[_appDelegate mcManager] setupPeerAndSessionWithDisplayName:[UIDevice currentDevice].name];
+    [_appDelegate.mcManager setupPeerAndSessionWithDisplayName:_peerNameEntered];
     
-    _arrConnectedDevices = [[NSMutableArray alloc] initWithObjects:@"Host",nil];
+    _arrConnectedDevices = [[NSMutableArray alloc] initWithObjects:_peerNameEntered,nil];
     
-    [_appDelegate.mcManager setupPeerAndSessionWithDisplayName:[UIDevice currentDevice].name];
+ 
     [_appDelegate.mcManager setupMCBrowser];
     [_appDelegate.mcManager advertiseSelf:YES];
     
@@ -51,6 +45,15 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(peerDidChangeStateWithNotification:) name:@"MCDidChangeStateNotification"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveDataWithNotification:)
+                                                 name:@"MCDidReceiveDataNotification"
+                                               object:nil];
     
     _level = @"Nothing";
     switch (_segmentLevel.selectedSegmentIndex) {
@@ -113,7 +116,8 @@
         if ([_arrConnectedDevices count] > 0) {
             NSInteger indexOfPeer = [_arrConnectedDevices indexOfObject:peerDisplayName];
             [_arrConnectedDevices removeObjectAtIndex:indexOfPeer];
-           
+            NSLog(@"Joiner disconnected");
+            
         }
     }
     
@@ -232,11 +236,11 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"segueHostToHeadPlay"]) {
+        
        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidReceiveDataNotification" object:nil];
        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidChangeStateNotification" object:nil];
         
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidReceiveDataNotification" object:nil];
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidChangeStateNotification" object:nil];
+       
         
         HeadPlayViewController *view = [segue destinationViewController];
         view.strIncomingLetters = _letters;

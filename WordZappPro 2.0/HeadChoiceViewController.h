@@ -20,4 +20,6 @@
 @property (strong, nonatomic) IBOutlet UIButton *btnJoin;
 - (IBAction)btnJoinPressed:(id)sender;
 
+- (IBAction)btnTouched:(UIButton *)sender;
+
 @end

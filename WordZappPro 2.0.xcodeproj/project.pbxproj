@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E311C34B1F14648100296041 /* blue background.png in Resources */ = {isa = PBXBuildFile; fileRef = E311C34A1F14648100296041 /* blue background.png */; };
+		E311C34D1F1465B300296041 /* blue.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E311C34C1F1465B300296041 /* blue.jpg */; };
+		E311C34F1F148B2900296041 /* wood.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E311C34E1F148B2900296041 /* wood.jpg */; };
+		E311C3511F148E9300296041 /* darkWood.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E311C3501F148E9300296041 /* darkWood.jpg */; };
+		E311C3531F14964A00296041 /* woodFloor.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E311C3521F14964A00296041 /* woodFloor.jpg */; };
+		E311C3551F15B8CD00296041 /* parquet.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E311C3541F15B8CD00296041 /* parquet.jpg */; };
+		E311C3571F15B94A00296041 /* woodPattern.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E311C3561F15B94A00296041 /* woodPattern.jpg */; };
+		E311C3591F15E61500296041 /* blackStone.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E311C3581F15E61500296041 /* blackStone.jpg */; };
+		E311C35B1F15E68F00296041 /* concrete.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E311C35A1F15E68F00296041 /* concrete.jpg */; };
+		E311C35F1F17223300296041 /* greyFelt.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E311C35E1F17223300296041 /* greyFelt.jpg */; };
+		E311C3611F17246300296041 /* woodPlank.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E311C3601F17246300296041 /* woodPlank.jpg */; };
+		E311C3631F1724D100296041 /* whiteStone.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E311C3621F1724D100296041 /* whiteStone.jpg */; };
 		E3418E201EF2106700EF2487 /* GamePlayMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = E3418E1F1EF2106700EF2487 /* GamePlayMethods.m */; };
 		E3418E251EF214DD00EF2487 /* easyList.txt in Resources */ = {isa = PBXBuildFile; fileRef = E3418E211EF214DD00EF2487 /* easyList.txt */; };
 		E3418E261EF214DD00EF2487 /* mediumList.txt in Resources */ = {isa = PBXBuildFile; fileRef = E3418E221EF214DD00EF2487 /* mediumList.txt */; };
@@ -51,6 +63,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E311C34A1F14648100296041 /* blue background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blue background.png"; sourceTree = "<group>"; };
+		E311C34C1F1465B300296041 /* blue.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = blue.jpg; sourceTree = "<group>"; };
+		E311C34E1F148B2900296041 /* wood.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = wood.jpg; sourceTree = "<group>"; };
+		E311C3501F148E9300296041 /* darkWood.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = darkWood.jpg; sourceTree = "<group>"; };
+		E311C3521F14964A00296041 /* woodFloor.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woodFloor.jpg; sourceTree = "<group>"; };
+		E311C3541F15B8CD00296041 /* parquet.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = parquet.jpg; sourceTree = "<group>"; };
+		E311C3561F15B94A00296041 /* woodPattern.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woodPattern.jpg; sourceTree = "<group>"; };
+		E311C3581F15E61500296041 /* blackStone.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = blackStone.jpg; sourceTree = "<group>"; };
+		E311C35A1F15E68F00296041 /* concrete.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = concrete.jpg; sourceTree = "<group>"; };
+		E311C35E1F17223300296041 /* greyFelt.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = greyFelt.jpg; sourceTree = "<group>"; };
+		E311C3601F17246300296041 /* woodPlank.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woodPlank.jpg; sourceTree = "<group>"; };
+		E311C3621F1724D100296041 /* whiteStone.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = whiteStone.jpg; sourceTree = "<group>"; };
 		E3418E1E1EF2106700EF2487 /* GamePlayMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePlayMethods.h; sourceTree = "<group>"; };
 		E3418E1F1EF2106700EF2487 /* GamePlayMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePlayMethods.m; sourceTree = "<group>"; };
 		E3418E211EF214DD00EF2487 /* easyList.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = easyList.txt; sourceTree = "<group>"; };
@@ -238,10 +262,22 @@
 		E3C344F71EF1D9C700690D4C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E311C34C1F1465B300296041 /* blue.jpg */,
+				E311C34A1F14648100296041 /* blue background.png */,
 				E3418E211EF214DD00EF2487 /* easyList.txt */,
 				E3418E221EF214DD00EF2487 /* mediumList.txt */,
 				E3418E231EF214DD00EF2487 /* hardList.txt */,
 				E3418E241EF214DD00EF2487 /* wordlist.txt */,
+				E311C35A1F15E68F00296041 /* concrete.jpg */,
+				E311C35E1F17223300296041 /* greyFelt.jpg */,
+				E311C3521F14964A00296041 /* woodFloor.jpg */,
+				E311C3541F15B8CD00296041 /* parquet.jpg */,
+				E311C34E1F148B2900296041 /* wood.jpg */,
+				E311C3601F17246300296041 /* woodPlank.jpg */,
+				E311C3561F15B94A00296041 /* woodPattern.jpg */,
+				E311C3581F15E61500296041 /* blackStone.jpg */,
+				E311C3501F148E9300296041 /* darkWood.jpg */,
+				E311C3621F1724D100296041 /* whiteStone.jpg */,
 				E3418E2F1EF4E32F00EF2487 /* tile.png */,
 				E3C344F81EF1D9C700690D4C /* main.m */,
 			);
@@ -376,13 +412,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				E3418E251EF214DD00EF2487 /* easyList.txt in Resources */,
+				E311C34D1F1465B300296041 /* blue.jpg in Resources */,
+				E311C35B1F15E68F00296041 /* concrete.jpg in Resources */,
 				E3418E301EF4E32F00EF2487 /* tile.png in Resources */,
+				E311C3591F15E61500296041 /* blackStone.jpg in Resources */,
 				E3418E261EF214DD00EF2487 /* mediumList.txt in Resources */,
+				E311C3571F15B94A00296041 /* woodPattern.jpg in Resources */,
+				E311C3631F1724D100296041 /* whiteStone.jpg in Resources */,
+				E311C35F1F17223300296041 /* greyFelt.jpg in Resources */,
+				E311C3531F14964A00296041 /* woodFloor.jpg in Resources */,
 				E3C345071EF1D9C700690D4C /* LaunchScreen.storyboard in Resources */,
 				E3418E281EF214DD00EF2487 /* wordlist.txt in Resources */,
+				E311C34F1F148B2900296041 /* wood.jpg in Resources */,
 				E3C345041EF1D9C700690D4C /* Assets.xcassets in Resources */,
 				E3C345021EF1D9C700690D4C /* Main.storyboard in Resources */,
+				E311C34B1F14648100296041 /* blue background.png in Resources */,
+				E311C3511F148E9300296041 /* darkWood.jpg in Resources */,
+				E311C3551F15B8CD00296041 /* parquet.jpg in Resources */,
 				E3418E271EF214DD00EF2487 /* hardList.txt in Resources */,
+				E311C3611F17246300296041 /* woodPlank.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

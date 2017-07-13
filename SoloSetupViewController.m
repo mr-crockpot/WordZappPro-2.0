@@ -18,6 +18,10 @@
 @implementation SoloSetupViewController
 
 - (void)viewDidLoad {
+      self.navigationController.navigationBarHidden = NO;
+    
+    
+    
     [super viewDidLoad];
     _gamePlayMethods = [[GamePlayMethods alloc] init];
     // Do any additional setup after loading the view.

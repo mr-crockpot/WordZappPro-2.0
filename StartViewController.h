@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface StartViewController : UIViewController
+@property (strong, nonatomic) IBOutlet UIButton *btnSolo;
+@property (strong, nonatomic) IBOutlet UIButton *btnHead;
+
+-(IBAction)btnTouched:(UIButton*)sender;
 
 @end

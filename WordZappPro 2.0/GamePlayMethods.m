@@ -183,13 +183,18 @@
             letter.frame = CGRectMake(20 + _screenWidth/xPositionFactorRow2 * (y-4), _screenHeight*.8 + paddingTop, boxWidth, boxHeight);
         }
         
-        [letter setBackgroundImage:[UIImage imageNamed:@"tile.png"] forState:UIControlStateNormal];
+        [letter setBackgroundImage:[UIImage imageNamed:@"wood.jpg"] forState:UIControlStateNormal];
         letter.titleLabel.font = [UIFont fontWithName:@"Helvetica" size:boxWidth*.9];
         [letter setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        letter.layer.shadowColor = [[UIColor blackColor] CGColor];
+        letter.layer.shadowOffset = CGSizeMake(2, 2);
+        letter.layer.shadowOpacity = 0.75;
         
         [letter addTarget:self action:@selector(wasDragged:withEvent:)forControlEvents:UIControlEventTouchDragInside];
         [letter addTarget:self action:@selector(dragStopped:) forControlEvents:UIControlEventTouchUpInside];
         
+        [letter addTarget:self action:@selector(buttonTouched:) forControlEvents:UIControlEventTouchDown];
+        [letter addTarget:self action:@selector(buttonUntouched:) forControlEvents:UIControlEventTouchUpInside];
        
         
         [_letterButtons addObject:letter];
@@ -217,6 +222,10 @@
 
 
 -(IBAction)wasDragged: (UIButton *)button withEvent: (UIEvent *)event {
+    
+   
+
+    
         UITouch *touch = [[event touchesForView:button]anyObject];
         CGPoint previousLocation = [touch previousLocationInView:button];
         CGPoint location = [touch locationInView:button];
@@ -226,6 +235,16 @@
         [self.view bringSubviewToFront:button];
    
     }
+
+-(void)buttonTouched: (UIButton*)button{
+  
+     button.frame = CGRectMake(button.frame.origin.x, button.frame.origin.y, button.frame.size.width+15, button.frame.size.height + 15);
+    
+}
+
+-(void)buttonUntouched: (UIButton*)button{
+    button.frame = CGRectMake(button.frame.origin.x, button.frame.origin.y, button.frame.size.width -15, button.frame.size.height - 15);
+}
 
 -(void)dragStopped: (letterButton *)sender {
     
@@ -348,6 +367,11 @@
         wordSquare.layer.borderWidth = 2;
         
         wordSquare.backgroundColor = [UIColor whiteColor];
+        wordSquare.layer.shadowColor = [[UIColor blackColor] CGColor];
+        wordSquare.layer.shadowOffset = CGSizeMake(-2, -2);
+        wordSquare.layer.shadowOpacity = 1.0;
+        
+        
         
         [_arrayWordBoxes addObject:wordSquare];
         [self.view addSubview:wordSquare];
@@ -362,7 +386,7 @@
 
 -(UILabel *)setUpTimerLabel {
     
-    _startTimerValue = 6;
+    _startTimerValue = 60;
     
     _labelTimer = [[UILabel alloc] initWithFrame:CGRectMake(_screenWidth/2-_screenWidth/6, _screenHeight-_screenHeight/15, _screenWidth/3, _screenHeight/15)];
     _labelTimer.backgroundColor = [UIColor clearColor];
@@ -454,16 +478,7 @@
             
         }];
         
-        
-        
-        
-        
-        
-        
     }
-    
-    
-    
 }
 
 
@@ -551,9 +566,8 @@
         wordBox *label = ((wordBox *)_arrayWordBoxes[i]);
         label.textAlignment = NSTextAlignmentCenter;
         label.font = [UIFont fontWithName:@"Helvetica" size:0.8*(_screenWidth/8)];
-        label.textColor = [UIColor blackColor];
-        label.backgroundColor = [UIColor yellowColor];
-        //label.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"tile.png"]];
+        label.textColor = [UIColor redColor];
+        label.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"wood.jpg"]];
         
         
         

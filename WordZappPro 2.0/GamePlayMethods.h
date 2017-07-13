@@ -61,6 +61,8 @@
 
 //WIN
 -(void)winSolo;
+-(void)stopButtons;
+
 
 //REVEAL
 -(void)revealWord: (NSArray *) letters;

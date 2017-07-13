@@ -21,6 +21,8 @@
     
     self.navigationItem.hidesBackButton = YES;
     
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"whiteStone.jpg"]];
+    
     
     _screenWidth  = [UIScreen mainScreen].bounds.size.width;
     _screenHeight = [UIScreen mainScreen].bounds.size.height;

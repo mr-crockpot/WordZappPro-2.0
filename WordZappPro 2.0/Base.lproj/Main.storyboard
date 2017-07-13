@@ -26,6 +26,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Solo"/>
                                 <connections>
+                                    <action selector="btnTouched:" destination="BYZ-38-t0r" eventType="touchDown" id="ogx-su-E0P"/>
                                     <segue destination="0Zb-wP-I9R" kind="show" identifier="segueStartToSolo" id="ZEL-lv-zzt"/>
                                 </connections>
                             </button>
@@ -39,13 +40,18 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Head To Head"/>
                                 <connections>
-                                    <segue destination="V9Y-Kc-PVU" kind="show" identifier="segueStartToHeadChoice" id="rHd-b9-slc"/>
+                                    <action selector="btnTouched:" destination="BYZ-38-t0r" eventType="touchDown" id="NS4-dg-ov4"/>
+                                    <segue destination="V9Y-Kc-PVU" kind="show" identifier="segueStartToHeadChoice" animates="NO" id="jIw-6S-XJd"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="QWb-93-TBt"/>
+                    <connections>
+                        <outlet property="btnHead" destination="t47-Da-3QB" id="wO0-bn-ztb"/>
+                        <outlet property="btnSolo" destination="2eH-34-Ke6" id="871-M0-6XC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -141,6 +147,7 @@
                                 <state key="normal" title="Host"/>
                                 <connections>
                                     <action selector="btnBeHostPressed:" destination="V9Y-Kc-PVU" eventType="touchUpInside" id="1mt-66-Ji0"/>
+                                    <action selector="btnTouched:" destination="V9Y-Kc-PVU" eventType="touchDown" id="8cO-E5-QdP"/>
                                     <segue destination="BHN-nk-uKK" kind="show" identifier="segueHeadChoiceToHost" id="1fH-GL-sBA"/>
                                 </connections>
                             </button>
@@ -150,11 +157,12 @@
                                 <state key="normal" title="Join"/>
                                 <connections>
                                     <action selector="btnJoinPressed:" destination="V9Y-Kc-PVU" eventType="touchUpInside" id="62L-cs-qOx"/>
+                                    <action selector="btnTouched:" destination="V9Y-Kc-PVU" eventType="touchDown" id="l2X-lw-r2L"/>
                                     <segue destination="xwb-3g-cfg" kind="show" identifier="segueHeadChoiceToJoin" id="AOo-TO-Dpz"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qof-O2-nsu">
-                                <rect key="frame" x="139" y="324" width="97" height="30"/>
+                                <rect key="frame" x="139" y="437" width="97" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>

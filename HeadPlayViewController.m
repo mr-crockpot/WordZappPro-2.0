@@ -115,8 +115,6 @@
 -(void)sendLostMessage{
     
     NSString *message = _playerName;
-    
-    
     NSData *dataToSend = [message dataUsingEncoding:NSUTF8StringEncoding];
     NSArray *allPeers = _appDelegate.mcManager.session.connectedPeers;
     NSError *error;
@@ -130,6 +128,8 @@
         NSLog(@"%@", [error localizedDescription]);
     }
     self.navigationItem.hidesBackButton = NO;
+    [_calledMethod stopButtons];
+    
         
 }
 

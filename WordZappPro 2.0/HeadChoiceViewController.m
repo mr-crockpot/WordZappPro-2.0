@@ -16,6 +16,9 @@
 
 @implementation HeadChoiceViewController
 
+
+
+
 - (void)viewDidLoad {
     
    self.navigationController.navigationBarHidden = NO;

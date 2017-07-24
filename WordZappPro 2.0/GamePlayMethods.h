@@ -67,6 +67,9 @@
 //REVEAL
 -(void)revealWord: (NSArray *) letters;
 
+//TILE DRAG
+@property BOOL inPlace;
+
 
 
 @end

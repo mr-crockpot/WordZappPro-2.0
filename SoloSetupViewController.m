@@ -19,13 +19,19 @@
 
 - (void)viewDidLoad {
       self.navigationController.navigationBarHidden = NO;
-    
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"woodPattern.jpg"]];
     
     
     [super viewDidLoad];
     _gamePlayMethods = [[GamePlayMethods alloc] init];
+    
+    [self formatButtons];
+    
+    
     // Do any additional setup after loading the view.
 }
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -79,6 +85,33 @@
     
     
 }
+
+
+-(void)formatButtons{
+    
+        CGFloat width = self.view.frame.size.width;
+        CGFloat height = self.view.frame.size.height;
+    
+    for (UIButton *button in _levelButtons) {
+        
+        button.frame = CGRectMake(width*.125, height*button.tag*.25-25,width*.75, 50);
+        button.backgroundColor = [UIColor yellowColor];
+        button.titleLabel.textColor = [UIColor redColor];
+        button.layer.borderWidth = 2;
+        button.layer.borderColor = [[UIColor brownColor] CGColor];
+        button.layer.cornerRadius = 15;
+        button.titleLabel.font = [UIFont fontWithName:@"Helvetica" size:30];
+        button.layer.shadowColor = [[UIColor blackColor] CGColor];
+        button.layer.shadowOffset = CGSizeMake(5.0, 5.0);
+        button.layer.shadowOpacity = 0.5;
+        button.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"wood.jpg"]];
+    }
+    
+    
+    
+}
+
+
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"segueSoloSetupToSoloPlay"]) {

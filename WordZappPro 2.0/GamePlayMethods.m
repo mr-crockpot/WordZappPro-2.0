@@ -184,11 +184,14 @@
         }
         
         [letter setBackgroundImage:[UIImage imageNamed:@"wood.jpg"] forState:UIControlStateNormal];
-        letter.titleLabel.font = [UIFont fontWithName:@"Helvetica" size:boxWidth*.9];
-        [letter setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+  
         letter.layer.shadowColor = [[UIColor blackColor] CGColor];
         letter.layer.shadowOffset = CGSizeMake(2, 2);
         letter.layer.shadowOpacity = 0.75;
+        
+        
+        
+        
         
         [letter addTarget:self action:@selector(wasDragged:withEvent:)forControlEvents:UIControlEventTouchDragInside];
         [letter addTarget:self action:@selector(dragStopped:) forControlEvents:UIControlEventTouchUpInside];
@@ -237,13 +240,18 @@
     }
 
 -(void)buttonTouched: (UIButton*)button{
+    
+    _inPlace = NO;
   
      button.frame = CGRectMake(button.frame.origin.x, button.frame.origin.y, button.frame.size.width+15, button.frame.size.height + 15);
     
 }
 
 -(void)buttonUntouched: (UIButton*)button{
-    button.frame = CGRectMake(button.frame.origin.x, button.frame.origin.y, button.frame.size.width -15, button.frame.size.height - 15);
+    
+    if (!_inPlace) {
+    
+    button.frame = CGRectMake(button.frame.origin.x, button.frame.origin.y, button.frame.size.width -15, button.frame.size.height - 15);}
 }
 
 -(void)dragStopped: (letterButton *)sender {
@@ -261,7 +269,7 @@
                 sender.frame = label.frame;
                 sender.linkedLabel = label;
                 label.linkedButton = sender;
-                
+                _inPlace = YES;
             }
         }
     }
@@ -368,7 +376,7 @@
         
         wordSquare.backgroundColor = [UIColor whiteColor];
         wordSquare.layer.shadowColor = [[UIColor blackColor] CGColor];
-        wordSquare.layer.shadowOffset = CGSizeMake(-2, -2);
+        wordSquare.layer.shadowOffset = CGSizeMake(2,2);
         wordSquare.layer.shadowOpacity = 1.0;
         
         
@@ -582,6 +590,9 @@
   //  _buttonAgain.alpha = 1;
     
 }
+
+
+
 
 
 @end

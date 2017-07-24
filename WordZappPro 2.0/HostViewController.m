@@ -21,7 +21,8 @@
 
 - (void)viewDidLoad {
     
- 
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"woodPattern.jpg"]];
+    
 
     
     _gamePlayMethods = [[GamePlayMethods alloc] init];
@@ -45,6 +46,9 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated {
+    
+    CGFloat width = self.view.frame.size.width;
+    CGFloat height = self.view.frame.size.height;
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(peerDidChangeStateWithNotification:) name:@"MCDidChangeStateNotification"
@@ -73,8 +77,29 @@
     }
     
     
-   
-
+    _tblConnectedDevices.layer.borderColor = [[UIColor blueColor] CGColor];
+    _tblConnectedDevices.layer.borderWidth = 2;
+    _tblConnectedDevices.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"wood.jpg"]];
+    
+    
+    _btnPlay.frame = CGRectMake(width*.125, height*.25-25,width*.75, 50);
+    _btnPlay.backgroundColor = [UIColor yellowColor];
+    _btnPlay.titleLabel.textColor = [UIColor redColor];
+    _btnPlay.layer.borderWidth = 2;
+    _btnPlay.layer.borderColor = [[UIColor brownColor] CGColor];
+    _btnPlay.layer.cornerRadius = 15;
+    _btnPlay.titleLabel.font = [UIFont fontWithName:@"Helvetica" size:30];
+    _btnPlay.layer.shadowColor = [[UIColor blackColor] CGColor];
+    _btnPlay.layer.shadowOffset = CGSizeMake(5.0, 5.0);
+    _btnPlay.layer.shadowOpacity = 0.5;
+    _btnPlay.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"wood.jpg"]];
+    
+    if (_arrConnectedDevices.count==1) {
+        _btnPlay.enabled = NO;
+        [_btnPlay setTitle:@"Find Player(s)" forState:UIControlStateNormal];
+        
+    }
+    
     
     
 }
@@ -106,10 +131,13 @@
     if (state == MCSessionStateConnected) {
         [_arrConnectedDevices addObject:peerDisplayName];
         
+      dispatch_async(dispatch_get_main_queue(), ^{
+          NSLog(@"Issue?");
+          [_btnPlay setTitle:@"Start" forState:UIControlStateNormal];
+        _btnPlay.enabled =YES;
         [self sendData:_level];
-        NSLog(@"Data was sent with level %@",_level);
         
-        
+      });
         
     }
     else if (state == MCSessionStateNotConnected){
@@ -152,7 +180,7 @@
 
 - (IBAction)btnPlayPressed:(id)sender {
     
-    
+     dispatch_async(dispatch_get_main_queue(), ^{
     switch (_segmentLevel.selectedSegmentIndex) {
             
             
@@ -183,10 +211,11 @@
         
     }
     
-    [self sendData:_letters];
     
+    [self sendData:_letters];
     [self performSegueWithIdentifier:@"segueHostToHeadPlay" sender:self];
-
+     });
+    
 }
 
 -(void)sendData: (NSString *)incomingData{
@@ -259,15 +288,15 @@
    
 }
 
--(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+/*-(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+    
+    
     return @"Players";
-}
+}*/
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
 }
-
-
 
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -279,6 +308,10 @@
     
    
     cell.textLabel.text = [NSString stringWithFormat:@"%@",_arrConnectedDevices[indexPath.row]];
+    cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"wood.jpg"]];
+    cell.textLabel.textColor= [UIColor redColor];
+    cell.textLabel.font = [UIFont fontWithName:@"Helvetica" size:18];
+    
     
     return cell;
 

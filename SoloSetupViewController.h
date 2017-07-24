@@ -25,5 +25,14 @@
 
 @property GamePlayMethods *gamePlayMethods;
 
+@property (strong, nonatomic) IBOutlet UIButton *btnEasy;
+@property (strong, nonatomic) IBOutlet UIButton *btnMedium;
+@property (strong, nonatomic) IBOutlet UIButton *btnHard;
+
+@property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *levelButtons;
+
+@property (strong, nonatomic) IBOutlet UILabel *lblSolo;
+
+
 
 @end

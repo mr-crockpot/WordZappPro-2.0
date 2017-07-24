@@ -31,7 +31,13 @@
     _calledMethod = [[GamePlayMethods alloc] initWithView:self.view selectorForWin:@selector(win) delegate:self];
     _calledMethod.arrayOfLettersInOrder = _lettersInOrder;
     [self setUpLights];
-    [self setUpLetters];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [self setUpLetters];
+    });
+
+ //   [self setUpLetters];
     [self setUpWordBoxes];
     [self setUpTimerLabel];
     
@@ -63,13 +69,34 @@
     
 }
 -(void)setUpLetters{
-    
+    CGFloat boxWidth = self.view.frame.size.width/8;
     _letterTiles = [_calledMethod setUpLetterButtons];
     for (int y =0; y<9; y++) {
         
-        [(UIButton *)[_letterTiles objectAtIndex:y] setTitle:[NSString stringWithFormat:@"%c", [_strIncomingLetters characterAtIndex:y] ] forState: UIControlStateNormal];
-        [(UIButton *)[_letterTiles objectAtIndex:y] setTag:y];
+     /*   [(UIButton *)[_letterTiles objectAtIndex:y] setTitle:[NSString stringWithFormat:@"%c", [_strIncomingLetters characterAtIndex:y] ] forState: UIControlStateNormal];
+        [(UIButton *)[_letterTiles objectAtIndex:y] setTag:y];*/
         
+         NSString *theLetter = [NSString stringWithFormat:@"%c",[_strIncomingLetters characterAtIndex:y]];
+        
+        UIColor *letterColor = [UIColor blackColor];
+        UIFont  *letterFont = [UIFont fontWithName:@"Helvetica" size:boxWidth*.8];
+        
+        
+        NSDictionary *attributes = @{ NSForegroundColorAttributeName: letterColor,
+                                      NSFontAttributeName: letterFont,
+                                      NSTextEffectAttributeName: NSTextEffectLetterpressStyle};
+        
+        
+        
+        NSAttributedString *attributedText = [[NSAttributedString alloc] initWithString:theLetter
+                                                                             attributes:attributes];
+        
+        
+        
+        [(UIButton *)[_letterTiles objectAtIndex:y] setAttributedTitle: attributedText forState: UIControlStateNormal];
+        [(UIButton *)[_letterTiles objectAtIndex:y] setTag:y];
+
+       
         
     }
 }

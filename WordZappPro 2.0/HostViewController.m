@@ -21,6 +21,9 @@
 
 - (void)viewDidLoad {
     
+    CGFloat width = self.view.frame.size.width;
+    CGFloat height = self.view.frame.size.height;
+    
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"woodPattern.jpg"]];
     
 
@@ -30,8 +33,11 @@
     [super viewDidLoad];
     
     _appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-  //  [[_appDelegate mcManager] setupPeerAndSessionWithDisplayName:[UIDevice currentDevice].name];
     [_appDelegate.mcManager setupPeerAndSessionWithDisplayName:_peerNameEntered];
+    
+    
+  //  [[_appDelegate mcManager] setupPeerAndSessionWithDisplayName:[UIDevice currentDevice].name];
+    
     
     _arrConnectedDevices = [[NSMutableArray alloc] initWithObjects:_peerNameEntered,nil];
     
@@ -41,45 +47,25 @@
     
     _segmentLevel.selectedSegmentIndex = 0;
     
-
-    
-}
-
--(void)viewDidAppear:(BOOL)animated {
-    
-    CGFloat width = self.view.frame.size.width;
-    CGFloat height = self.view.frame.size.height;
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(peerDidChangeStateWithNotification:) name:@"MCDidChangeStateNotification"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveDataWithNotification:)
-                                                 name:@"MCDidReceiveDataNotification"
-                                               object:nil];
-    
-    _level = @"Nothing";
-    switch (_segmentLevel.selectedSegmentIndex) {
-            
-        case 0:
-            _level = @"Level: Easy";
-            break;
-        case 1:
-            _level = @"Level: Medium";
-            break;
-        case 2:
-            _level = @"Level: Hard";
-            break;
-            
-        default:
-            break;
-    }
-    
+    //SET UP BUTTONS AND TABLE
+    _tblConnectedDevices.frame = CGRectMake(width*.125, height*.5, width*.75, height*.5);
     
     _tblConnectedDevices.layer.borderColor = [[UIColor blueColor] CGColor];
     _tblConnectedDevices.layer.borderWidth = 2;
     _tblConnectedDevices.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"wood.jpg"]];
+    
+    _segmentLevel.frame = CGRectMake(width*.125, height*.5-100, width*.75, 50);
+    NSDictionary *segAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                   [UIFont fontWithName:@"Helvetica" size:18],
+                                   NSFontAttributeName,[UIColor blueColor],
+                                   NSForegroundColorAttributeName,
+                                   nil];
+    _segmentLevel.layer.borderWidth = 2;
+    _segmentLevel.layer.borderColor = [[UIColor blueColor] CGColor];
+    
+    
+    
+    [_segmentLevel setTitleTextAttributes:segAttributes forState:UIControlStateNormal];
     
     
     _btnPlay.frame = CGRectMake(width*.125, height*.25-25,width*.75, 50);
@@ -99,6 +85,43 @@
         [_btnPlay setTitle:@"Find Player(s)" forState:UIControlStateNormal];
         
     }
+
+
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    
+    _arrayJoiners = [[NSMutableArray alloc] initWithObjects:_peerNameEntered, nil];
+    
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(peerDidChangeStateWithNotification:) name:@"MCDidChangeStateNotification"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveDataWithNotification:)
+                                                 name:@"MCDidReceiveDataNotification"
+                                               object:nil];
+    
+//    _level = @"Nothing";
+    switch (_segmentLevel.selectedSegmentIndex) {
+            
+        case 0:
+            _level = @"Level: Easy";
+            break;
+        case 1:
+            _level = @"Level: Medium";
+            break;
+        case 2:
+            _level = @"Level: Hard";
+            break;
+            
+        default:
+            break;
+    }
+    
     
     
     
@@ -132,7 +155,7 @@
         [_arrConnectedDevices addObject:peerDisplayName];
         
       dispatch_async(dispatch_get_main_queue(), ^{
-          NSLog(@"Issue?");
+          
           [_btnPlay setTitle:@"Start" forState:UIControlStateNormal];
         _btnPlay.enabled =YES;
         [self sendData:_level];
@@ -144,7 +167,13 @@
         if ([_arrConnectedDevices count] > 0) {
             NSInteger indexOfPeer = [_arrConnectedDevices indexOfObject:peerDisplayName];
             [_arrConnectedDevices removeObjectAtIndex:indexOfPeer];
-            NSLog(@"Joiner disconnected");
+            if (_arrConnectedDevices.count==1) {
+                _btnPlay.enabled = NO;
+               dispatch_async(dispatch_get_main_queue(), ^{
+                   [_btnPlay setTitle:@"Find Player(s)" forState:UIControlStateNormal];
+               });
+            }
+
             
         }
     }
@@ -158,7 +187,25 @@
 
 -(void)didReceiveDataWithNotification:(NSNotification *)notification{
 
-
+    NSData *receivedData = [[notification userInfo] objectForKey:@"data"];
+    NSString *receivedText = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
+    
+    [_arrayJoiners addObject:receivedText];
+    
+    if ([_arrayJoiners isEqualToArray:_arrConnectedDevices]) {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            _btnPlay.enabled = YES;
+        });
+        
+       
+    }
+    
+    
+    
+    
+   
 }
 
 -(void)randomizeLetters{
@@ -180,7 +227,7 @@
 
 - (IBAction)btnPlayPressed:(id)sender {
     
-     dispatch_async(dispatch_get_main_queue(), ^{
+    _btnPlay.enabled = NO;
     switch (_segmentLevel.selectedSegmentIndex) {
             
             
@@ -210,7 +257,7 @@
         }
         
     }
-    
+   dispatch_async(dispatch_get_main_queue(), ^{
     
     [self sendData:_letters];
     [self performSegueWithIdentifier:@"segueHostToHeadPlay" sender:self];
@@ -266,7 +313,8 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"segueHostToHeadPlay"]) {
         
-       [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidReceiveDataNotification" object:nil];
+ 
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidReceiveDataNotification" object:nil];
        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidChangeStateNotification" object:nil];
         
        

@@ -17,17 +17,19 @@
 @implementation HeadPlayViewController
 
 - (void)viewDidLoad {
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"whiteStone.jpg"]];
+
     
     self.navigationItem.hidesBackButton = YES;
+    self.navigationController.navigationBarHidden = YES;
+
+    
     _appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
 
    
     _calledMethod = [[GamePlayMethods alloc] initWithView:self.view selectorForWin:@selector(sendLostMessage) delegate:self];
     [super viewDidLoad];
     
-    
-    
-    _labelLetters.text = _strIncomingLetters;
     
     [self setUpLights];
   
@@ -39,7 +41,6 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     
-   // _playerName = @"Adam";
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didReceiveDataWithNotification:)
@@ -67,7 +68,6 @@
     
     [_lights[row] setBackgroundColor:color];
      
-    
 }
 
 
@@ -111,6 +111,8 @@
 
 -(void)showLabel: (NSString*)winnerName{
     
+    [_calledMethod stopButtons];
+    
     UILabel *labelGameOver = [[UILabel alloc] init];
     labelGameOver.frame = CGRectMake(20, self.view.frame.size.height * .15, self.view.frame.size.width - 40, self.view.frame.size.height*.37);
     labelGameOver.layer.borderColor = [[UIColor redColor] CGColor];
@@ -119,22 +121,28 @@
     labelGameOver.textColor = [UIColor redColor];
     labelGameOver.layer.cornerRadius = 15;
     labelGameOver.clipsToBounds = YES;
-    labelGameOver.text = [NSString stringWithFormat:@"%@ Wins",winnerName];
+    labelGameOver.text = winnerName;
     
    // labelGameOver.text = @"Game Over";
     labelGameOver.font = [UIFont fontWithName:@"Courier" size:self.view.frame.size.height*.4*.2];
     labelGameOver.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:labelGameOver];
     
+    [UIView animateWithDuration:4 animations:^{
+        labelGameOver.alpha = 0;
+    } completion:^(BOOL finished) {
+        
+        
+    }];
+    
     self.navigationItem.hidesBackButton = NO;
-    
-    
+    self.navigationController.navigationBarHidden = NO;
     
 }
 
 -(void)sendLostMessage{
     
-    NSString *message = _playerName;
+    NSString *message = [NSString stringWithFormat:@"%@ Wins",  _playerName];
     NSData *dataToSend = [message dataUsingEncoding:NSUTF8StringEncoding];
     NSArray *allPeers = _appDelegate.mcManager.session.connectedPeers;
     NSError *error;
@@ -150,22 +158,28 @@
     self.navigationItem.hidesBackButton = NO;
     [_calledMethod stopButtons];
     
-        
+    self.navigationItem.hidesBackButton = NO;
+    self.navigationController.navigationBarHidden = NO;
+    
 }
 
 
 -(void)didReceiveDataWithNotification:(NSNotification *)notification{
     
+   
+    
     NSData *receivedData = [[notification userInfo] objectForKey:@"data"];
     NSString *receivedText = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
-    NSLog(@"Received text from winner is %@",receivedText);
     
+    
+    if ([receivedText containsString:@"Wins"]) {
+    
+  
     dispatch_async(dispatch_get_main_queue(), ^{
         
         [self showLabel:receivedText];
     });
-    
-    
+    }
 }
 
 

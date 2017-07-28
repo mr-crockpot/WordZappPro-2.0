@@ -23,7 +23,7 @@
     
    self.navigationController.navigationBarHidden = NO;
    
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Woodpattern.jpg"]];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"woodPattern.jpg"]];
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     
@@ -33,7 +33,7 @@
     CGFloat height = self.view.frame.size.height;
 
     
-    _btnBeHost.frame = CGRectMake(width*.125, height*.25-25,width*.75, 50);
+    _btnBeHost.frame = CGRectMake(width*.125, height*.35-25,width*.75, 50);
     _btnBeHost.backgroundColor = [UIColor yellowColor];
     _btnBeHost.titleLabel.textColor = [UIColor redColor];
     _btnBeHost.layer.borderWidth = 2;
@@ -67,9 +67,6 @@
     _textFieldPeerNameEntered.font = [UIFont fontWithName:@"Helvetica" size:30];
     _textFieldPeerNameEntered.textColor = [UIColor redColor];
     _textFieldPeerNameEntered.textAlignment = NSTextAlignmentCenter;
-    
-
-    
     
     
     [super viewDidLoad];

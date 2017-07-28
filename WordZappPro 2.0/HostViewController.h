@@ -42,6 +42,7 @@
 @property (strong, nonatomic) NSString *dataToSend;
 @property NSString *peerNameEntered;
 
+@property (strong, nonatomic) NSMutableArray *arrayJoiners;
 
 
 

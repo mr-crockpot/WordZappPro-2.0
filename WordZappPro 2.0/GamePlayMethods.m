@@ -41,8 +41,6 @@
     NSString *content = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
     activeWordList = [content componentsSeparatedByString:@"\n"];
     
-   
-    
     arrayWordTwo = [[NSMutableArray alloc] initWithObjects:@"",@"", nil];
     arrayWordThree = [[NSMutableArray alloc] initWithObjects:@"",@"",@"", nil];
     arrayWordFour = [[NSMutableArray alloc] initWithObjects:@"",@"",@"",@"", nil];
@@ -50,8 +48,6 @@
     NSString *word4;
     NSString *word3;
     NSString *word2;
-    
-    
     
     int randomNumber1;
     int randomNumber2;
@@ -75,8 +71,6 @@
         word2=[[activeWordList objectAtIndex:randomNumber3] uppercaseString];
     }
     while (word2.length != 2);
-    
-    
     
     for (int w = 1; w<3; w++) {
         NSString *eachLetter = [NSString stringWithFormat:@"%c", [word2 characterAtIndex:w-1]];
@@ -188,10 +182,6 @@
         letter.layer.shadowColor = [[UIColor blackColor] CGColor];
         letter.layer.shadowOffset = CGSizeMake(2, 2);
         letter.layer.shadowOpacity = 0.75;
-        
-        
-        
-        
         
         [letter addTarget:self action:@selector(wasDragged:withEvent:)forControlEvents:UIControlEventTouchDragInside];
         [letter addTarget:self action:@selector(dragStopped:) forControlEvents:UIControlEventTouchUpInside];

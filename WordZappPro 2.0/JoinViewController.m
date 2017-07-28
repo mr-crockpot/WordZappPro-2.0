@@ -18,20 +18,69 @@
 
 - (void)viewDidLoad {
     
+    CGFloat width = self.view.frame.size.width;
+    CGFloat height = self.view.frame.size.height;
+    
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"woodPattern.jpg"]];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(peerDidChangeStateWithNotification:)
                                                  name:@"MCDidChangeStateNotification"
                                                object:nil];
     
     _appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-    NSLog(@"The incoming peer name is %@",_peerNameEntered);
-    
+   
     _arrConnectedDevices = [[NSMutableArray alloc] init];
  
     [_appDelegate.mcManager setupPeerAndSessionWithDisplayName:_peerNameEntered];
     [_appDelegate.mcManager setupMCBrowser];
     [_appDelegate.mcManager advertiseSelf:NO];
-     _lblLevel.text = @"Level: Easy";
+         //SET UP LABELS
+    
+    _lblStatus.frame = CGRectMake(width*.125, height*.25-25,width*.75, 50);
+    _lblStatus.backgroundColor = [UIColor yellowColor];
+    _lblStatus.textColor = [UIColor redColor];
+    _lblStatus.layer.borderWidth = 2;
+    _lblStatus.layer.borderColor = [[UIColor brownColor] CGColor];
+    _lblStatus.layer.cornerRadius = 15;
+    _lblStatus.clipsToBounds = YES;
+    _lblStatus.font = [UIFont fontWithName:@"Helvetica" size:30];
+    _lblStatus.layer.shadowColor = [[UIColor blackColor] CGColor];
+    _lblStatus.layer.shadowOffset = CGSizeMake(5.0, 5.0);
+    _lblStatus.layer.shadowOpacity = 0.5;
+    _lblStatus.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"wood.jpg"]];
+    _lblStatus.text = @"Not Connected";
+    
+    
+    _lblLevel.frame = CGRectMake(width*.125, height*.45-25,width*.75, 50);
+    _lblLevel.backgroundColor = [UIColor yellowColor];
+    _lblLevel.textColor = [UIColor redColor];
+    _lblLevel.layer.borderWidth = 2;
+    _lblLevel.layer.borderColor = [[UIColor brownColor] CGColor];
+    _lblLevel.layer.cornerRadius = 15;
+    _lblLevel.clipsToBounds = YES;
+    _lblLevel.font = [UIFont fontWithName:@"Helvetica" size:30];
+    _lblLevel.layer.shadowColor = [[UIColor blackColor] CGColor];
+    _lblLevel.layer.shadowOffset = CGSizeMake(5.0, 5.0);
+    _lblLevel.layer.shadowOpacity = 0.5;
+    _lblLevel.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"wood.jpg"]];
+    
+    _lblLevel.text = @"Level: Easy";
+    
+    
+    _btnDisconnect.frame = CGRectMake(width*.125, height*.65-25,width*.75, 50);
+    _btnDisconnect.backgroundColor = [UIColor yellowColor];
+    _btnDisconnect.titleLabel.textColor = [UIColor redColor];
+    _btnDisconnect.layer.borderWidth = 2;
+    _btnDisconnect.layer.borderColor = [[UIColor brownColor] CGColor];
+    _btnDisconnect.layer.cornerRadius = 15;
+    _btnDisconnect.titleLabel.font = [UIFont fontWithName:@"Helvetica" size:30];
+    _btnDisconnect.layer.shadowColor = [[UIColor blackColor] CGColor];
+    _btnDisconnect.layer.shadowOffset = CGSizeMake(5.0, 5.0);
+    _btnDisconnect.layer.shadowOpacity = 0.5;
+    _btnDisconnect.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"wood.jpg"]];
+
+
     [self browseForDevices];
     
     [super viewDidLoad];
@@ -47,11 +96,10 @@
                                                  name:@"MCDidReceiveDataNotification"
                                                object:nil];
     
-    
     if (_connected) {
         _lblStatus.text = @"Connected";
-        
-      
+        NSString *strSendData = [NSString stringWithFormat:@"%@",_peerNameEntered];
+        [self sendData:strSendData];
     }
 
 }
@@ -94,6 +142,8 @@
         [_appDelegate.mcManager.browser dismissViewControllerAnimated:YES completion:nil];
         [_appDelegate.mcManager advertiseSelf:false];
         _connected = YES;
+       
+        
         
         }
     
@@ -101,7 +151,7 @@
         if ([_arrConnectedDevices count] > 0) {
             NSInteger indexOfPeer = [_arrConnectedDevices indexOfObject:peerDisplayName];
             [_arrConnectedDevices removeObjectAtIndex:indexOfPeer];
-                       
+            _lblStatus.text = @"Not Connected";
         }
     }
     
@@ -154,10 +204,28 @@
 
 - (IBAction)btnDisconnectPressed:(id)sender {
      [_appDelegate.mcManager.session disconnect];
+    [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
 }
 
 
-  
+-(void)sendData: (NSString *)joinerIsReady{
+    
+    
+    NSData *dataToSend = [joinerIsReady dataUsingEncoding:NSUTF8StringEncoding];
+    
+    NSArray *allPeers = _appDelegate.mcManager.session.connectedPeers;
+    NSError *error;
+    
+    [_appDelegate.mcManager.session sendData:dataToSend
+                                     toPeers:allPeers
+                                    withMode:MCSessionSendDataUnreliable
+                                       error:&error];
+    
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+    }
+    
+}
   
   
   @end

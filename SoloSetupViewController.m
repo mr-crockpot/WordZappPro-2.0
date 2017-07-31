@@ -43,49 +43,21 @@
 - (IBAction)btnEasyPressed:(id)sender {
     
     _level = @"easyList";
-    [self getLetters];
-
+     [self performSegueWithIdentifier:@"segueSoloSetupToSoloPlay" sender:self];
+   
 }
 
 - (IBAction)btnMediumPressed:(id)sender{
     _level = @"mediumList";
-    [self getLetters];
+     [self performSegueWithIdentifier:@"segueSoloSetupToSoloPlay" sender:self];
     
 }
 
 -(IBAction)btnHardPressed:(id)sender{
     _level = @"hardList";
-    [self getLetters];
+     [self performSegueWithIdentifier:@"segueSoloSetupToSoloPlay" sender:self];
     
 }
-
--(void)getLetters{
-    
-    _arrayOfLettersInOrder = [[NSMutableArray alloc]initWithArray:[_gamePlayMethods arrayOfLettersInOrder:_level]];
- 
-    [self randomizeLetters];
-    
-    
-    [self performSegueWithIdentifier:@"segueSoloSetupToSoloPlay" sender:self];
-}
-
--(void)randomizeLetters{
-    _arrayOfRandomLetters = [[NSMutableArray alloc] initWithArray:[_gamePlayMethods arrayOfRandomLetters:_arrayOfLettersInOrder]];
-    
-    for (int x=0; x<9; x++) {
-        if (x!=0){
-            _letters = [NSString stringWithFormat:@"%@%@",_letters,_arrayOfRandomLetters[x]];
-        } else {
-            _letters = [NSString stringWithFormat:@"%@",_arrayOfRandomLetters[x]];
-        }
-        
-    }
-    
-    
-    
-    
-}
-
 
 -(void)formatButtons{
     
@@ -116,8 +88,8 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"segueSoloSetupToSoloPlay"]) {
         SoloPlayViewController *view = [segue destinationViewController];
-        view.strIncomingLetters = _letters;
-        view.lettersInOrder = _arrayOfLettersInOrder;
+        
+        view.level = _level;
         
     }
 }

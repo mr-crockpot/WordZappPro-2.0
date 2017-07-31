@@ -169,7 +169,7 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"segueHeadSetUpToHeadPlay"]) {
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidReceiveDataNotification" object:nil];
+       // [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidReceiveDataNotification" object:nil];
         HeadPlayViewController *view = [segue destinationViewController];
         view.strIncomingLetters = _letters;
         

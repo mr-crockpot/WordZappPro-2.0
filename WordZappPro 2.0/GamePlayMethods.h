@@ -53,7 +53,7 @@
 //SET UP TIMER LABEL
 
 -(void)stopTimer;
--(UILabel *)setUpTimerLabel;
+-(UILabel *)setUpTimerLabel: (int) startTimerValue;
 
 @property NSTimer *timer;
 @property int startTimerValue;

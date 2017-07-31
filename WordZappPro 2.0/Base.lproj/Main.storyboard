@@ -93,13 +93,6 @@
                                     <action selector="btnHardPressed:" destination="0Zb-wP-I9R" eventType="touchUpInside" id="ynK-fr-mtS"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Solo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uul-Jd-W2M">
-                                <rect key="frame" x="155" y="86" width="34" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -107,7 +100,6 @@
                         <outlet property="btnEasy" destination="Jdi-Ie-iU3" id="CmP-pW-2ql"/>
                         <outlet property="btnHard" destination="KwC-Lc-UB3" id="MD0-wv-NlD"/>
                         <outlet property="btnMedium" destination="QXp-FN-huO" id="1QI-Hs-BCd"/>
-                        <outlet property="lblSolo" destination="Uul-Jd-W2M" id="OYx-mE-Jrm"/>
                         <outletCollection property="levelButtons" destination="QXp-FN-huO" id="g6P-lx-xIe"/>
                         <outletCollection property="levelButtons" destination="KwC-Lc-UB3" id="oWb-qP-nPh"/>
                         <outletCollection property="levelButtons" destination="Jdi-Ie-iU3" id="yDe-1e-mfo"/>
@@ -118,19 +110,28 @@
             </objects>
             <point key="canvasLocation" x="1854" y="16"/>
         </scene>
-        <!--Solo Play View Controller-->
+        <!--Title-->
         <scene sceneID="pcL-E8-2aH">
             <objects>
                 <viewController id="UNl-EK-8Py" customClass="SoloPlayViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="jYd-pm-hMS"/>
-                        <viewControllerLayoutGuide type="bottom" id="jrD-xC-3I5"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="NRk-CS-lza">
+                    <navigationBar key="view" contentMode="scaleToFill" id="0dh-mv-9lV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    </navigationBar>
+                    <toolbarItems>
+                        <barButtonItem title="Item" id="XCK-S1-if7"/>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" title="Title" id="y3t-5u-WIs">
+                        <barButtonItem key="rightBarButtonItem" title="Again" id="t4A-O8-1l8">
+                            <connections>
+                                <action selector="btnAgainPressed:" destination="UNl-EK-8Py" id="0RY-gb-ygu"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="btnAgain" destination="t4A-O8-1l8" id="D6N-v0-hyC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2B8-dV-t4c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

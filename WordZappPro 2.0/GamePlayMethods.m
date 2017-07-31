@@ -91,7 +91,7 @@
         
     }
    
-
+ NSLog(@"was called first %@",_arrayOfLettersInOrder);
     return _arrayOfLettersInOrder;
 }
 
@@ -113,6 +113,10 @@
         int exchangeIndex = z + arc4random_uniform(countRemaining);
         [_arrayOfRandomLetters exchangeObjectAtIndex:z withObjectAtIndex:exchangeIndex];
     }
+    
+    NSLog(@"after randomize %@",_arrayOfLettersInOrder);
+    
+    [self revealWord:_arrayOfLettersInOrder];
     return _arrayOfRandomLetters;
     
     
@@ -193,7 +197,7 @@
         [_letterButtons addObject:letter];
         [self.view addSubview:letter];
     }
-    
+    NSLog(@"the number of letter buttons is %li",_letterButtons.count);
     return _letterButtons;
 }
 
@@ -382,9 +386,9 @@
 
 //TIMER
 
--(UILabel *)setUpTimerLabel {
+-(UILabel *)setUpTimerLabel: (int) startTimerValue{
     
-    _startTimerValue = 60;
+    _startTimerValue = startTimerValue;
     
     _labelTimer = [[UILabel alloc] initWithFrame:CGRectMake(_screenWidth/2-_screenWidth/6, _screenHeight-_screenHeight/15, _screenWidth/3, _screenHeight/15)];
     _labelTimer.backgroundColor = [UIColor clearColor];
@@ -420,6 +424,7 @@
 }
 
 -(void)timerCountDown{
+    NSLog(@"during timer %@",_arrayOfLettersInOrder);
     
     _startTimerValue = _startTimerValue - 1;
     _labelTimer.text = [NSString stringWithFormat:@"%i",_startTimerValue];
@@ -472,7 +477,7 @@
         [UIView animateWithDuration:4 animations:^{
             labelGameOver.alpha = 0;
         } completion:^(BOOL finished) {
-            [self revealWord: _arrayOfLettersInOrder];
+            NSLog(@"last minute %@",_arrayOfLettersInOrder);
             
         }];
         
@@ -502,8 +507,6 @@
     UIColor *splashColor = [arraySplashColors objectAtIndex:randomNumberColor];
     //randomScale = [[arrayScales objectAtIndex:randomNumberScale] floatValue];
     
-    
-    
     UILabel *winLabel = [[UILabel alloc] init];
     winLabel.frame = CGRectMake(0, _screenHeight*.65, _screenWidth,_screenHeight*.3);
     winLabel.text = splashWord;
@@ -519,8 +522,6 @@
     winLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:winLabel];
     [self.view bringSubviewToFront:winLabel];
-    
-    
     
     
     
@@ -554,13 +555,15 @@
     
 }
 
--(void)revealWord: (NSArray *) letters{
-   
+-(void)revealWord: (NSMutableArray *) revealLetters {
+    
+    NSLog(@"the reveal letters are %@ and letterButtons count is %li",revealLetters,_letterButtons.count);
+    
     for (letterButton *button in _letterButtons) {
         [button removeFromSuperview];
     }
     
-    for (int i = 0; i<letters.count; i++) {
+    for (int i = 0; i<revealLetters.count; i++) {
         wordBox *label = ((wordBox *)_arrayWordBoxes[i]);
         label.textAlignment = NSTextAlignmentCenter;
         label.font = [UIFont fontWithName:@"Helvetica" size:0.8*(_screenWidth/8)];
@@ -570,14 +573,12 @@
         
         
         _light2.backgroundColor= [UIColor greenColor];
-        _light3.backgroundColor = [UIColor greenColor];
+        _light3.backgroundColor = [UIColor blueColor];
         _light4.backgroundColor = [UIColor greenColor];
         
-        label.text = letters[i];
+        label.text = revealLetters[i];
     }
     
-   //  _buttonAgain.enabled = YES;
-  //  _buttonAgain.alpha = 1;
     
 }
 

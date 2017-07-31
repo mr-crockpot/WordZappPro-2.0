@@ -21,18 +21,28 @@
 
 - (void)viewDidLoad {
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(peerDidChangeStateWithNotification:) name:@"MCDidChangeStateNotification"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveDataWithNotification:)
+                                                 name:@"MCDidReceiveDataNotification"
+                                               object:nil];
+
+    
     CGFloat width = self.view.frame.size.width;
     CGFloat height = self.view.frame.size.height;
     
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"woodPattern.jpg"]];
     
-
+   _arrayJoiners = [[NSMutableArray alloc] initWithObjects:_peerNameEntered, nil];
     
     _gamePlayMethods = [[GamePlayMethods alloc] init];
     
     [super viewDidLoad];
     
-    _appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+     _appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     [_appDelegate.mcManager setupPeerAndSessionWithDisplayName:_peerNameEntered];
     
     
@@ -92,18 +102,10 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     
-    _arrayJoiners = [[NSMutableArray alloc] initWithObjects:_peerNameEntered, nil];
     
     
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(peerDidChangeStateWithNotification:) name:@"MCDidChangeStateNotification"
-                                               object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveDataWithNotification:)
-                                                 name:@"MCDidReceiveDataNotification"
-                                               object:nil];
     
 //    _level = @"Nothing";
     switch (_segmentLevel.selectedSegmentIndex) {
@@ -125,6 +127,10 @@
     
     
     
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+     _arrayJoiners = [[NSMutableArray alloc] initWithObjects:_peerNameEntered, nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -152,7 +158,8 @@
         
     }
     if (state == MCSessionStateConnected) {
-        [_arrConnectedDevices addObject:peerDisplayName];
+        
+        [_arrConnectedDevices addObject: peerDisplayName];
         
       dispatch_async(dispatch_get_main_queue(), ^{
           
@@ -164,7 +171,7 @@
         
     }
     else if (state == MCSessionStateNotConnected){
-        if ([_arrConnectedDevices count] > 0) {
+        if ([_arrConnectedDevices count] > 1) {
             NSInteger indexOfPeer = [_arrConnectedDevices indexOfObject:peerDisplayName];
             [_arrConnectedDevices removeObjectAtIndex:indexOfPeer];
             if (_arrConnectedDevices.count==1) {
@@ -190,7 +197,9 @@
     NSData *receivedData = [[notification userInfo] objectForKey:@"data"];
     NSString *receivedText = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
     
-    [_arrayJoiners addObject:receivedText];
+    if (![receivedText containsString:@"Wins"]) {
+        
+       [_arrayJoiners addObject:receivedText];}
     
     if ([_arrayJoiners isEqualToArray:_arrConnectedDevices]) {
         
@@ -199,11 +208,12 @@
             _btnPlay.enabled = YES;
         });
         
-       
+        
     }
     
     
-    
+     NSLog(@"Host received something and the array joiners is %@",_arrayJoiners);
+
     
    
 }
@@ -314,8 +324,8 @@
     if ([segue.identifier isEqualToString:@"segueHostToHeadPlay"]) {
         
  
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidReceiveDataNotification" object:nil];
-       [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidChangeStateNotification" object:nil];
+   //     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidReceiveDataNotification" object:nil];
+   //    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidChangeStateNotification" object:nil];
         
        
         

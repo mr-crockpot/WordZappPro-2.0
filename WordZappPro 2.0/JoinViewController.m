@@ -18,6 +18,12 @@
 
 - (void)viewDidLoad {
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveDataWithNotification:)
+                                                 name:@"MCDidReceiveDataNotification"
+                                               object:nil];
+
+    
     CGFloat width = self.view.frame.size.width;
     CGFloat height = self.view.frame.size.height;
     
@@ -91,14 +97,10 @@
     
    
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveDataWithNotification:)
-                                                 name:@"MCDidReceiveDataNotification"
-                                               object:nil];
     
     if (_connected) {
         _lblStatus.text = @"Connected";
-        NSString *strSendData = [NSString stringWithFormat:@"%@",_peerNameEntered];
+        NSString *strSendData = _peerNameEntered;
         [self sendData:strSendData];
     }
 
@@ -106,7 +108,7 @@
 
 -(void)viewDidDisappear:(BOOL)animated {
  
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidReceiveDataNotification" object:nil];
+  //  [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidReceiveDataNotification" object:nil];
  
 }
 
@@ -166,7 +168,9 @@
         _lblLevel.text = receivedText;
         });
     }
-    else {
+    
+   else if (![receivedText containsString:@"Wins"]) {
+        
     _letters = receivedText;
     
         dispatch_async(dispatch_get_main_queue(), ^{

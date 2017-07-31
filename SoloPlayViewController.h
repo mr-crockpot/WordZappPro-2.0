@@ -33,5 +33,20 @@
 @property BOOL GameOver;
 -(void)endGame;
 
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *btnAgain;
+- (IBAction)btnAgainPressed:(id)sender;
+
+@property (strong,nonatomic) NSString *level;
+
+@property NSMutableArray *arrayOfRandomLetters;
+@property NSMutableArray *arrayOfLettersInOrder;
+@property GamePlayMethods *gamePlayMethods;
+@property NSString *letters;
+
+@property int timerValue;
+
+
+
+
 
 @end

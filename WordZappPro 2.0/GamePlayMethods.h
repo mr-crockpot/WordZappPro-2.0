@@ -41,6 +41,7 @@
 
 
 @property NSMutableArray *arrayOfLettersInOrder;
+
 @property NSMutableArray *arrayOfRandomLetters;
 
 
@@ -53,7 +54,7 @@
 //SET UP TIMER LABEL
 
 -(void)stopTimer;
--(UILabel *)setUpTimerLabel: (int) startTimerValue;
+-(UILabel *)setUpTimerLabel: (int) startTimerValue SolutionLetters: (NSMutableArray *)lettersInOrder;
 
 @property NSTimer *timer;
 @property int startTimerValue;

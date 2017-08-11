@@ -57,8 +57,7 @@
         word4=[[activeWordList objectAtIndex:randomNumber1] uppercaseString];
         
     }
-    while (word4.length != 4);//was 6 and so on
-    
+    while (word4.length != 4);
     
     do {randomNumber2 = arc4random_uniform(activeWordList.count);
         word3=[[activeWordList objectAtIndex:randomNumber2] uppercaseString];
@@ -91,14 +90,16 @@
         
     }
    
- NSLog(@"was called first %@",_arrayOfLettersInOrder);
+   
+    
+
     return _arrayOfLettersInOrder;
 }
 
 
 -(NSMutableArray *)arrayOfRandomLetters: (NSMutableArray*)arrayOfLettersInOrder{
     
-    _arrayOfRandomLetters = [[NSMutableArray alloc] initWithArray:arrayOfLettersInOrder];
+    _arrayOfRandomLetters = [[NSMutableArray alloc] initWithArray:_arrayOfLettersInOrder];
     
     NSUInteger countLetters;
     countLetters = arrayOfLettersInOrder.count;
@@ -114,10 +115,14 @@
         [_arrayOfRandomLetters exchangeObjectAtIndex:z withObjectAtIndex:exchangeIndex];
     }
     
-    NSLog(@"after randomize %@",_arrayOfLettersInOrder);
+   
     
-    [self revealWord:_arrayOfLettersInOrder];
+   
     return _arrayOfRandomLetters;
+    
+}
+
+-(void)LocalArray: (NSMutableArray*)testOfMyArray{
     
     
     
@@ -127,6 +132,7 @@
 
 -(NSArray *)setUpLights {
     
+  
     CGFloat screenHeight = _view.frame.size.height;
     CGFloat boxWidth = _screenWidth/10;
     CGFloat boxHeight = boxWidth;
@@ -154,14 +160,15 @@
     _light4.backgroundColor = [UIColor redColor];
     [_view addSubview:_light4];
     
-    
+  
+
     return [NSArray arrayWithObjects:_light2, _light3, _light4, nil];
 }
 
 //SET UP LETTER TILES
 
 -(NSMutableArray *)setUpLetterButtons{
-    
+   
     letterButton *letter;
     _letterButtons = [[NSMutableArray alloc] init];
     CGFloat boxWidth = _screenWidth/8;
@@ -197,7 +204,8 @@
         [_letterButtons addObject:letter];
         [self.view addSubview:letter];
     }
-    NSLog(@"the number of letter buttons is %li",_letterButtons.count);
+    
+  
     return _letterButtons;
 }
 
@@ -378,6 +386,7 @@
         [_arrayWordBoxes addObject:wordSquare];
         [self.view addSubview:wordSquare];
         
+      
         
         
     }
@@ -386,7 +395,11 @@
 
 //TIMER
 
--(UILabel *)setUpTimerLabel: (int) startTimerValue{
+-(UILabel *)setUpTimerLabel: (int) startTimerValue SolutionLetters: (NSMutableArray *)lettersInOrder{
+    
+   
+    
+    _arrayOfLettersInOrder = [[NSMutableArray alloc] initWithArray:lettersInOrder];
     
     _startTimerValue = startTimerValue;
     
@@ -417,14 +430,19 @@
     
     [self.view addSubview:_labelTimer];
     
-     _timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerCountDown) userInfo:nil repeats:YES];
+    
+    _timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerCountDown:) userInfo:lettersInOrder repeats:YES];
     
     return _labelTimer;
     
 }
 
--(void)timerCountDown{
-    NSLog(@"during timer %@",_arrayOfLettersInOrder);
+
+
+-(void)timerCountDown: (NSTimer*)timer{
+    
+    _arrayOfLettersInOrder = timer.userInfo;
+    
     
     _startTimerValue = _startTimerValue - 1;
     _labelTimer.text = [NSString stringWithFormat:@"%i",_startTimerValue];
@@ -477,7 +495,10 @@
         [UIView animateWithDuration:4 animations:^{
             labelGameOver.alpha = 0;
         } completion:^(BOOL finished) {
-            NSLog(@"last minute %@",_arrayOfLettersInOrder);
+                   
+            
+            [self revealWord:_arrayOfLettersInOrder];
+            
             
         }];
         
@@ -557,8 +578,7 @@
 
 -(void)revealWord: (NSMutableArray *) revealLetters {
     
-    NSLog(@"the reveal letters are %@ and letterButtons count is %li",revealLetters,_letterButtons.count);
-    
+       
     for (letterButton *button in _letterButtons) {
         [button removeFromSuperview];
     }
@@ -573,7 +593,7 @@
         
         
         _light2.backgroundColor= [UIColor greenColor];
-        _light3.backgroundColor = [UIColor blueColor];
+        _light3.backgroundColor = [UIColor greenColor];
         _light4.backgroundColor = [UIColor greenColor];
         
         label.text = revealLetters[i];

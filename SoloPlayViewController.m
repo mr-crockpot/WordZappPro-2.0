@@ -32,8 +32,7 @@
 
     
     _calledMethod = [[GamePlayMethods alloc] initWithView:self.view selectorForWin:@selector(win) delegate:self];
-    _calledMethod.arrayOfLettersInOrder = _lettersInOrder;
-   
+    
   dispatch_async(dispatch_get_main_queue(), ^{
       [self runGameSetup];
         });
@@ -45,12 +44,13 @@
 }
 
 -(void)runGameSetup{
-    
+   
         [self getLetters];
+    
         [self setUpLetters];
         [self setUpLights];
         [self setUpWordBoxes];
-        [self setUpTimerLabel];
+      //  [self setUpTimerLabel];
    
    
 }
@@ -95,16 +95,12 @@
    _arrayOfLettersInOrder = [[NSMutableArray alloc]initWithArray:[_gamePlayMethods arrayOfLettersInOrder:_level]];
     [self randomizeLetters];
     
-  
-
-
 }
 
 -(void)randomizeLetters{
      _arrayOfRandomLetters = [[NSMutableArray alloc] initWithArray:[_gamePlayMethods arrayOfRandomLetters:_arrayOfLettersInOrder]];
     
-   
-    for (int x=0; x<9; x++) {
+   for (int x=0; x<9; x++) {
         if (x!=0){
             _letters = [NSString stringWithFormat:@"%@%@",_letters,_arrayOfRandomLetters[x]];
         } else {
@@ -112,9 +108,8 @@
         }
         
     }
-    
-    
-}
+    [self setUpTimerLabel];
+    }
 
 -(void)setUpLights {
     _lights = [_calledMethod setUpLights];
@@ -154,8 +149,8 @@
 }
 
 -(void)setUpTimerLabel {
-   
-    _labelTimer = [_calledMethod setUpTimerLabel:_timerValue];
+    
+       _labelTimer = [_calledMethod setUpTimerLabel:_timerValue SolutionLetters:_arrayOfLettersInOrder];
     
     
 }

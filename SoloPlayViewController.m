@@ -18,11 +18,13 @@
 
 - (void)viewDidLoad {
     
-    _timerValue = 6;
+    _startTimerValue = 60;
+    _timerValue = _startTimerValue;
     _gamePlayMethods = [[GamePlayMethods alloc] init];
     
     self.navigationItem.hidesBackButton = YES;
     self.navigationController.navigationBar.hidden = YES;
+   
     
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"whiteStone.jpg"]];
     
@@ -33,24 +35,39 @@
     
     _calledMethod = [[GamePlayMethods alloc] initWithView:self.view selectorForWin:@selector(win) delegate:self];
     
-  dispatch_async(dispatch_get_main_queue(), ^{
-      [self runGameSetup];
-        });
-  
+    
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [self getLetters];
+        
+        [self setUpLetters];
+        [self setUpLights];
+        [self setUpWordBoxes];
+        [self setUpTimerLabel];
+        [self setUpScoreLabel];
+    
+    });
+    
+   
+
     
       [super viewDidLoad];
      
     // Do any additional setup after loading the view.
 }
 
--(void)runGameSetup{
+-(void)viewDidAppear:(BOOL)animated {
    
-        [self getLetters];
     
-        [self setUpLetters];
-        [self setUpLights];
-        [self setUpWordBoxes];
-      //  [self setUpTimerLabel];
+   
+
+}
+
+-(void)showNavBar{
+    self.navigationItem.hidesBackButton = NO;
+    self.navigationController.navigationBar.hidden = NO;
+    
    
    
 }
@@ -73,12 +90,17 @@
 }
 -(void) win {
     
-    [_calledMethod stopTimer];
+    _score = _score + 10 +_timerValue;
+     _labelScore.text = [NSString stringWithFormat:@"%i",_score];
     
-    [_calledMethod winSolo];
+    
+    [self stopTimer];
+    
+    [self winSolo];
     
     self.navigationItem.hidesBackButton = NO;
     self.navigationController.navigationBar.hidden = NO;
+    _btnAgain.enabled = YES;
     
   }
 
@@ -108,7 +130,7 @@
         }
         
     }
-    [self setUpTimerLabel];
+   
     }
 
 -(void)setUpLights {
@@ -148,26 +170,244 @@
     
 }
 
--(void)setUpTimerLabel {
-    
-       _labelTimer = [_calledMethod setUpTimerLabel:_timerValue SolutionLetters:_arrayOfLettersInOrder];
-    
-    
-}
 
--(void)endGame {
-    self.navigationItem.hidesBackButton = YES;
-}
 
 
 - (IBAction)btnAgainPressed:(id)sender {
    
     self.navigationItem.hidesBackButton = YES;
     self.navigationController.navigationBar.hidden = YES;
+
+    if (_timerValue>0) {
+        
+        _timerValue = [_labelTimer.text integerValue] + 10;}
     
-    _timerValue = [_labelTimer.text integerValue] + 10;
+    
+    else {
+        
+    _timerValue = _startTimerValue;
+        [_labelTimer removeFromSuperview];
+        _score = 0;
+         _labelScore.text = [NSString stringWithFormat:@"%i",_score];
+        
+    }
+    
      [self runGameReset];
     
     
 }
+
+//NEW STUFF
+-(UILabel *)setUpTimerLabel{
+    
+    
+    _labelTimer = [[UILabel alloc] initWithFrame:CGRectMake(0, _screenHeight-_screenHeight/15, _screenWidth/3, _screenHeight/15)];
+    _labelTimer.backgroundColor = [UIColor clearColor];
+    _labelTimer.textColor = [UIColor blackColor];
+    _labelTimer.text = [NSString stringWithFormat:@"%i",_timerValue];
+    _labelTimer.layer.borderWidth = 2;
+    _labelTimer.layer.borderColor = [[UIColor blackColor] CGColor];
+    _labelTimer.font = [UIFont fontWithName:@"Helvetica" size:_screenHeight/10*.6];
+    _labelTimer.textAlignment = NSTextAlignmentCenter;
+    _labelTimer.layer.cornerRadius = _screenHeight/15/2;
+    
+    _labelTimer.backgroundColor = [UIColor whiteColor];
+    _labelTimer.clipsToBounds = YES;
+    
+    
+    
+    NSDateComponentsFormatter *componentFormatter = [[NSDateComponentsFormatter alloc] init];
+    componentFormatter.unitsStyle = NSDateComponentsFormatterUnitsStylePositional;
+    componentFormatter.zeroFormattingBehavior = NSDateComponentsFormatterZeroFormattingBehaviorDefault;
+    
+    NSTimeInterval interval = _timerValue;
+    NSString *formattedString = [componentFormatter stringFromTimeInterval:interval];
+    
+    _labelTimer.text = formattedString;
+    
+    
+    [self.view addSubview:_labelTimer];
+    
+    
+    _timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerCountDown) userInfo:nil repeats:YES];
+    
+    
+    
+    return _labelTimer;
+    
+}
+
+-(UILabel *)setUpScoreLabel{
+    _labelScore = [[UILabel alloc] initWithFrame:CGRectMake(_screenWidth-_screenWidth/3, _screenHeight-_screenHeight/15, _screenWidth/3, _screenHeight/15)];
+    _labelScore.backgroundColor = [UIColor clearColor];
+    _labelScore.textColor = [UIColor blackColor];
+    _labelScore.text = [NSString stringWithFormat:@"%i",_score];
+    _labelScore.layer.borderWidth = 2;
+    _labelScore.layer.borderColor = [[UIColor blackColor] CGColor];
+    _labelScore.font = [UIFont fontWithName:@"Helvetica" size:_screenHeight/10*.6];
+    _labelScore.textAlignment = NSTextAlignmentCenter;
+    _labelScore.layer.cornerRadius = _screenHeight/15/2;
+    
+    _labelScore.backgroundColor = [UIColor whiteColor];
+    _labelScore.clipsToBounds = YES;
+    
+    [self.view addSubview:_labelScore];
+    
+    return _labelScore;
+    
+    
+}
+
+
+
+-(void)timerCountDown{
+    
+    
+   
+        
+        _timerValue = _timerValue - 1;
+        _labelTimer.text = [NSString stringWithFormat:@"%i",_timerValue];
+        
+        NSDateComponentsFormatter *componentFormatter = [[NSDateComponentsFormatter alloc] init];
+        componentFormatter.unitsStyle = NSDateComponentsFormatterUnitsStylePositional;
+        componentFormatter.zeroFormattingBehavior = NSDateComponentsFormatterZeroFormattingBehaviorDefault;
+        
+        NSTimeInterval interval = _timerValue;
+        NSString *formattedString = [componentFormatter stringFromTimeInterval:interval];
+        
+        _labelTimer.text = formattedString;
+        
+        
+        
+        if (_timerValue <11) {
+            
+            
+            _labelTimer.backgroundColor = [UIColor redColor];
+            _labelTimer.textColor = [UIColor yellowColor];
+            _labelTimer.clipsToBounds = YES;
+        }
+        else {_labelTimer.backgroundColor = [UIColor whiteColor];
+            _labelTimer.textColor = [UIColor blackColor];
+        }
+    
+    if (_timerValue == 0) {
+        
+        [self showNavBar];
+        
+        UILabel *labelGameOver = [[UILabel alloc] init];
+        labelGameOver.frame = CGRectMake(20, _screenHeight * .15, _screenWidth - 40, _screenHeight*.37);
+        labelGameOver.layer.borderColor = [[UIColor redColor] CGColor];
+        labelGameOver.layer.borderWidth = 2;
+        labelGameOver.backgroundColor = [UIColor yellowColor];
+        labelGameOver.textColor = [UIColor redColor];
+        labelGameOver.layer.cornerRadius = 15;
+        labelGameOver.clipsToBounds = YES;
+        labelGameOver.text = @"Game Over";
+        labelGameOver.font = [UIFont fontWithName:@"Courier" size:_screenHeight*.4*.2];
+        labelGameOver.textAlignment = NSTextAlignmentCenter;
+    
+        
+        [self.view addSubview:labelGameOver];
+        
+        [self stopTimer];
+        
+        
+
+        
+        [UIView animateWithDuration:4 animations:^{
+            labelGameOver.alpha = 0;
+        } completion:^(BOOL finished) {
+            
+            self.navigationItem.hidesBackButton=NO;
+            self.navigationController.navigationBarHidden = NO;
+            [self revealWord];
+            
+            
+        }];
+        
+    }
+}
+
+
+
+-(void)stopTimer {
+    [_timer invalidate];
+    
+}
+
+-(void)winSolo{
+    NSArray *arraySplashWords = [[NSArray alloc] initWithObjects:@"Hooray",@"Terrific",@"Wow",@"Nifty",@"Amazing",@"Yahoo!",@"Great",@"Brilliant",@"Inspiring",@"Yay", nil];
+    NSArray *arraySplashColors = [[NSArray alloc] initWithObjects:[UIColor redColor],[UIColor blueColor],[UIColor purpleColor],[UIColor orangeColor],[UIColor magentaColor], nil];
+    
+    NSArray *arrayX = [[NSArray alloc]initWithObjects:@5 ,@-5, @5, @-5, @0.2, @10, nil];
+    NSArray *arrayY = [[NSArray alloc]initWithObjects:@-5,@5 , @5, @-5, @0.2, @10, nil];
+    
+    
+    int randomNumberWord = arc4random_uniform(arraySplashWords.count);
+    int randomNumberColor = arc4random_uniform(arraySplashColors.count);
+    //int randomNumberScale = arc4random_uniform(arrayScales.count);
+    
+    NSString *splashWord = [arraySplashWords objectAtIndex:randomNumberWord];
+    UIColor *splashColor = [arraySplashColors objectAtIndex:randomNumberColor];
+    
+    UILabel *winLabel = [[UILabel alloc] init];
+    winLabel.frame = CGRectMake(0, _screenHeight*.65, _screenWidth,_screenHeight*.3);
+    winLabel.text = splashWord;
+    winLabel.textColor = splashColor;
+    
+    winLabel.font = [UIFont fontWithName:@"Helvetica" size:_screenWidth * 0.05];
+    winLabel.backgroundColor = [UIColor clearColor];
+    winLabel.layer.cornerRadius = _screenHeight*.05;
+       winLabel.clipsToBounds = YES;
+    winLabel.alpha = 1;
+    winLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:winLabel];
+    [self.view bringSubviewToFront:winLabel];
+    
+    
+    
+    int rand_index = ((arc4random() % arrayX.count));
+    //int rand_index = 0;
+    [UIView animateWithDuration:3 delay:0 options:UIViewAnimationOptionTransitionNone animations:^{
+        winLabel.alpha = 1;
+        //winLabel.frame = CGRectMake(-_screenWidth, _screenHeight*.7, _screenWidth*.5, _screenHeight*.1);
+        // CGAffineTransform affineTransform = CGAffineTransformMakeRotation(degreesToRadians(-270));
+        
+        if (fabs([arrayX[rand_index]floatValue])<1)
+        {
+            winLabel.font = [UIFont fontWithName:@"Helvetica" size:_screenWidth * 0.2];
+        }
+        CGAffineTransform affineScale = CGAffineTransformMakeScale([arrayX[rand_index] floatValue], [arrayY[rand_index] floatValue]);
+        
+        // winLabel.transform = affineTransform;
+        winLabel.transform = affineScale;
+        
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:2 delay:0 options:UIViewAnimationOptionTransitionNone animations:^{
+            CGAffineTransform affineScale = CGAffineTransformMakeScale(fabs([arrayX[rand_index] floatValue]), fabs([arrayY[rand_index] floatValue]));
+            winLabel.transform = affineScale;
+        } completion:^(BOOL finished) {
+            //  _buttonAgain.enabled = YES;
+            //  _buttonAgain.alpha = 1;
+            winLabel.alpha = 0;
+        }];
+    }];
+    
+    
+}
+
+-(void)revealWord {
+    
+    
+    
+   // self.navigationItem.hidesBackButton=YES;
+   // self.navigationController.navigationBarHidden = NO;
+
+    
+    [_calledMethod revealWord:_arrayOfLettersInOrder];
+       
+    
+        
+}
+
 @end

@@ -26,12 +26,14 @@
 
 //TIMER
 @property (strong, nonatomic) UILabel *labelTimer;
+@property int startTimerValue;
+@property NSTimer *timer;
 
 @property CGFloat screenWidth;
 @property CGFloat screenHeight;
 
 @property BOOL GameOver;
--(void)endGame;
+
 
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *btnAgain;
 - (IBAction)btnAgainPressed:(id)sender;
@@ -45,6 +47,9 @@
 
 @property int timerValue;
 
+//SCORE
+@property UILabel *labelScore;
+@property int score;
 
 
 

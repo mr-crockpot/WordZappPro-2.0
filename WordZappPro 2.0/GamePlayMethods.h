@@ -51,17 +51,8 @@
 
 @property NSArray *masterWordList;
 
-//SET UP TIMER LABEL
 
--(void)stopTimer;
--(UILabel *)setUpTimerLabel: (int) startTimerValue SolutionLetters: (NSMutableArray *)lettersInOrder;
 
-@property NSTimer *timer;
-@property int startTimerValue;
-@property (strong,nonatomic) UILabel *labelTimer;
-
-//WIN
--(void)winSolo;
 -(void)stopButtons;
 
 

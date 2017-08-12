@@ -110,7 +110,7 @@
             </objects>
             <point key="canvasLocation" x="1854" y="16"/>
         </scene>
-        <!--Title-->
+        <!--SOLO PLAY-->
         <scene sceneID="pcL-E8-2aH">
             <objects>
                 <viewController id="UNl-EK-8Py" customClass="SoloPlayViewController" sceneMemberID="viewController">
@@ -121,7 +121,7 @@
                     <toolbarItems>
                         <barButtonItem title="Item" id="XCK-S1-if7"/>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" title="Title" id="y3t-5u-WIs">
+                    <navigationItem key="navigationItem" title="SOLO PLAY" id="y3t-5u-WIs">
                         <barButtonItem key="rightBarButtonItem" title="Again" id="t4A-O8-1l8">
                             <connections>
                                 <action selector="btnAgainPressed:" destination="UNl-EK-8Py" id="0RY-gb-ygu"/>

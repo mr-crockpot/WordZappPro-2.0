@@ -12,6 +12,8 @@
 @property (strong, nonatomic) IBOutlet UIButton *btnSolo;
 @property (strong, nonatomic) IBOutlet UIButton *btnHead;
 
+@property (strong, nonatomic) IBOutlet UIButton *btnHighScores;
+
 -(IBAction)btnTouched:(UIButton*)sender;
 
 @end

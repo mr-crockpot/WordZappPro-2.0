@@ -39,10 +39,11 @@
 		E3C3451D1EF1D9C800690D4C /* WordZappPro_2_0UITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C3451C1EF1D9C800690D4C /* WordZappPro_2_0UITests.m */; };
 		E3C3452C1EF2002300690D4C /* StartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C3452B1EF2002300690D4C /* StartViewController.m */; };
 		E3C3452F1EF200B800690D4C /* SoloSetupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C3452E1EF200B800690D4C /* SoloSetupViewController.m */; };
-		E3C345321EF200CE00690D4C /* HeadSetupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C345311EF200CE00690D4C /* HeadSetupViewController.m */; };
 		E3C345351EF200DF00690D4C /* SoloPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C345341EF200DF00690D4C /* SoloPlayViewController.m */; };
 		E3C345381EF200EF00690D4C /* HeadPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C345371EF200EF00690D4C /* HeadPlayViewController.m */; };
 		E3C3453B1EF201CB00690D4C /* MCManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C3453A1EF201CB00690D4C /* MCManager.m */; };
+		E3EB17031F3F072300899D12 /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = E3EB17021F3F072300899D12 /* UserDefaults.m */; };
+		E3EB17061F3F1E7900899D12 /* HighScoresViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3EB17051F3F1E7900899D12 /* HighScoresViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,14 +111,16 @@
 		E3C3452B1EF2002300690D4C /* StartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StartViewController.m; path = ../StartViewController.m; sourceTree = "<group>"; };
 		E3C3452D1EF200B800690D4C /* SoloSetupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SoloSetupViewController.h; path = ../SoloSetupViewController.h; sourceTree = "<group>"; };
 		E3C3452E1EF200B800690D4C /* SoloSetupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SoloSetupViewController.m; path = ../SoloSetupViewController.m; sourceTree = "<group>"; };
-		E3C345301EF200CE00690D4C /* HeadSetupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HeadSetupViewController.h; path = ../HeadSetupViewController.h; sourceTree = "<group>"; };
-		E3C345311EF200CE00690D4C /* HeadSetupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HeadSetupViewController.m; path = ../HeadSetupViewController.m; sourceTree = "<group>"; };
 		E3C345331EF200DF00690D4C /* SoloPlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SoloPlayViewController.h; path = ../SoloPlayViewController.h; sourceTree = "<group>"; };
 		E3C345341EF200DF00690D4C /* SoloPlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SoloPlayViewController.m; path = ../SoloPlayViewController.m; sourceTree = "<group>"; };
 		E3C345361EF200EF00690D4C /* HeadPlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HeadPlayViewController.h; path = ../HeadPlayViewController.h; sourceTree = "<group>"; };
 		E3C345371EF200EF00690D4C /* HeadPlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HeadPlayViewController.m; path = ../HeadPlayViewController.m; sourceTree = "<group>"; };
 		E3C345391EF201CB00690D4C /* MCManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCManager.h; sourceTree = "<group>"; };
 		E3C3453A1EF201CB00690D4C /* MCManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCManager.m; sourceTree = "<group>"; };
+		E3EB17011F3F072300899D12 /* UserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserDefaults.h; path = ../UserDefaults.h; sourceTree = "<group>"; };
+		E3EB17021F3F072300899D12 /* UserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserDefaults.m; path = ../UserDefaults.m; sourceTree = "<group>"; };
+		E3EB17041F3F1E7900899D12 /* HighScoresViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HighScoresViewController.h; sourceTree = "<group>"; };
+		E3EB17051F3F1E7900899D12 /* HighScoresViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HighScoresViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +151,8 @@
 		E34432AF1F09C28E004F84FD /* General */ = {
 			isa = PBXGroup;
 			children = (
+				E3EB17041F3F1E7900899D12 /* HighScoresViewController.h */,
+				E3EB17051F3F1E7900899D12 /* HighScoresViewController.m */,
 				E3C3452B1EF2002300690D4C /* StartViewController.m */,
 				E3C3452A1EF2002300690D4C /* StartViewController.h */,
 				E34432A71F02DCFB004F84FD /* HeadChoiceViewController.m */,
@@ -201,8 +206,6 @@
 			children = (
 				E3C345361EF200EF00690D4C /* HeadPlayViewController.h */,
 				E3C345371EF200EF00690D4C /* HeadPlayViewController.m */,
-				E3C345301EF200CE00690D4C /* HeadSetupViewController.h */,
-				E3C345311EF200CE00690D4C /* HeadSetupViewController.m */,
 			);
 			name = Head;
 			sourceTree = "<group>";
@@ -210,6 +213,8 @@
 		E34432B61F09C3EE004F84FD /* Methods */ = {
 			isa = PBXGroup;
 			children = (
+				E3EB17011F3F072300899D12 /* UserDefaults.h */,
+				E3EB17021F3F072300899D12 /* UserDefaults.m */,
 				E3418E1E1EF2106700EF2487 /* GamePlayMethods.h */,
 				E3418E1F1EF2106700EF2487 /* GamePlayMethods.m */,
 				E3C345391EF201CB00690D4C /* MCManager.h */,
@@ -457,16 +462,17 @@
 			files = (
 				E34432AE1F02DD25004F84FD /* JoinViewController.m in Sources */,
 				E3418E2E1EF221EF00EF2487 /* wordBox.m in Sources */,
-				E3C345321EF200CE00690D4C /* HeadSetupViewController.m in Sources */,
 				E3C3453B1EF201CB00690D4C /* MCManager.m in Sources */,
 				E3418E201EF2106700EF2487 /* GamePlayMethods.m in Sources */,
 				E3418E2B1EF221CB00EF2487 /* letterButton.m in Sources */,
 				E34432A81F02DCFB004F84FD /* HeadChoiceViewController.m in Sources */,
+				E3EB17031F3F072300899D12 /* UserDefaults.m in Sources */,
 				E3C3452C1EF2002300690D4C /* StartViewController.m in Sources */,
 				E3C3452F1EF200B800690D4C /* SoloSetupViewController.m in Sources */,
 				E34432AB1F02DD14004F84FD /* HostViewController.m in Sources */,
 				E3C345381EF200EF00690D4C /* HeadPlayViewController.m in Sources */,
 				E3C344FC1EF1D9C700690D4C /* AppDelegate.m in Sources */,
+				E3EB17061F3F1E7900899D12 /* HighScoresViewController.m in Sources */,
 				E3C344F91EF1D9C700690D4C /* main.m in Sources */,
 				E3C345351EF200DF00690D4C /* SoloPlayViewController.m in Sources */,
 			);

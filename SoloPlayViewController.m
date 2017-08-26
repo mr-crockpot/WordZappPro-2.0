@@ -8,6 +8,8 @@
 
 #import "SoloPlayViewController.h"
 #import "GamePlayMethods.h"
+#import "UserDefaults.h"
+
 
 
 @interface SoloPlayViewController ()
@@ -50,6 +52,7 @@
     });
     
    
+
 
     
       [super viewDidLoad];
@@ -101,6 +104,8 @@
     self.navigationItem.hidesBackButton = NO;
     self.navigationController.navigationBar.hidden = NO;
     _btnAgain.enabled = YES;
+    
+    [self saveHighscore];
     
   }
 
@@ -262,9 +267,6 @@
 
 -(void)timerCountDown{
     
-    
-   
-        
         _timerValue = _timerValue - 1;
         _labelTimer.text = [NSString stringWithFormat:@"%i",_timerValue];
         
@@ -405,9 +407,30 @@
 
     
     [_calledMethod revealWord:_arrayOfLettersInOrder];
-       
-    
-        
+  
 }
+
+-(void) saveHighscore {
+    
+    if (_score>0) {
+        
+        NSArray *oldScores = [UserDefaults getDataForKey:_level];
+        NSMutableArray *newScores = [NSMutableArray arrayWithArray:oldScores];
+        [newScores addObject:[NSNumber numberWithInt:_score]];
+        
+        
+        // Used sort with descriptors to allow for ascending:no instead of using sort with selector
+        
+        
+        NSSortDescriptor *scoreSortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"intValue" ascending:NO];
+        NSArray *sortDescriptors = @[scoreSortDescriptor];
+        NSArray *sortedScores = [newScores sortedArrayUsingDescriptors:sortDescriptors];
+        NSArray *topTen = [sortedScores subarrayWithRange:NSMakeRange(0, MIN(10, sortedScores.count))];
+        
+        [UserDefaults saveData:topTen forKey:_level];
+    }
+    
+}
+
 
 @end

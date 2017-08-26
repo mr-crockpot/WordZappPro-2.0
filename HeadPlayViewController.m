@@ -125,6 +125,9 @@
     labelGameOver.layer.cornerRadius = 15;
     labelGameOver.clipsToBounds = YES;
     labelGameOver.text = winnerName;
+    labelGameOver.numberOfLines = 0;
+    labelGameOver.adjustsFontSizeToFitWidth = YES;
+    
     
    // labelGameOver.text = @"Game Over";
     labelGameOver.font = [UIFont fontWithName:@"Courier" size:self.view.frame.size.height*.4*.2];
@@ -145,7 +148,7 @@
 
 -(void)sendLostMessage{
     
-    NSString *message = [NSString stringWithFormat:@"%@ Wins",  _playerName];
+    NSString *message = [NSString stringWithFormat:@"W%@ Wins", _playerName];
     NSData *dataToSend = [message dataUsingEncoding:NSUTF8StringEncoding];
     NSArray *allPeers = _appDelegate.mcManager.session.connectedPeers;
     NSError *error;
@@ -175,14 +178,27 @@
     NSString *receivedText = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
     
     
-    if ([receivedText containsString:@"Wins"]) {
+    if ([[receivedText substringToIndex:1]  isEqual: @"W"]) {
+        
+        //do show label
+
+        NSString *uncodedReceivedWin = [receivedText substringFromIndex:1];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            [self showLabel:uncodedReceivedWin];
+        });
+    }
+    
+    
+    
+  /*  if ([receivedText containsString:@"Wins"]) {
     
   
     dispatch_async(dispatch_get_main_queue(), ^{
         
         [self showLabel:receivedText];
     });
-    }
+    }*/
 }
 
 

@@ -100,8 +100,9 @@
     
     if (_connected) {
         _lblStatus.text = @"Connected";
-        NSString *strSendData = _peerNameEntered;
-        [self sendData:strSendData];
+        NSString *codedPeerName = [NSString stringWithFormat:@"U%@",_peerNameEntered];
+        [self sendData:codedPeerName];
+        
     }
 
 }
@@ -127,6 +128,7 @@
 }
 
 -(void)peerDidChangeStateWithNotification:(NSNotification *)notification{
+    
     MCPeerID *peerID = [[notification userInfo] objectForKey:@"peerID"];
     NSString *peerDisplayName = peerID.displayName;
     MCSessionState state = [[[notification userInfo] objectForKey:@"state"] intValue];
@@ -157,28 +159,58 @@
         }
     }
     
+ 
+
+    
 }
 
 -(void)didReceiveDataWithNotification:(NSNotification *)notification{
+    
     NSData *receivedData = [[notification userInfo] objectForKey:@"data"];
     NSString *receivedText = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
-    if ([receivedText containsString:@"Level"]) {
-       
+   
+    
+  
+    if ([[receivedText substringToIndex:1]  isEqual: @"W"] ) {
+        NSLog(@"This was triggered W");
+        //Do something for win
+    }
+    
+    if ([[receivedText substringToIndex:1]  isEqual: @"S"]) {
+        NSLog(@"This was triggered S");
+        //Do command to start
+    }
+    
+    if ([[receivedText substringToIndex:1]  isEqual: @"L"]) {
+        //Do command to send Level
+        NSLog(@"This was triggered L");
         dispatch_async(dispatch_get_main_queue(), ^{
-        _lblLevel.text = receivedText;
+            NSString *uncodedReceivedLevel = [receivedText substringFromIndex:1];
+            _lblLevel.text = uncodedReceivedLevel;
         });
     }
     
-   else if (![receivedText containsString:@"Wins"]) {
-        
-    _letters = receivedText;
-    
-        dispatch_async(dispatch_get_main_queue(), ^{
-        [self performSegueWithIdentifier:@"segueJoinToHeadPlay" sender:self];
-            
-            
-    });
+    if ([[receivedText substringToIndex:1]  isEqual: @"U"]) {
+        NSLog(@"This was triggered U");
+        //Do command to incorporate User info
     }
+    
+    if ([[receivedText substringToIndex:1]  isEqual: @"A"]) {
+        //Sending Letters
+        NSLog(@"This was triggered A");
+        NSString *uncodedReceivedLetters = [receivedText substringFromIndex:1];
+        _letters = uncodedReceivedLetters;
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self performSegueWithIdentifier:@"segueJoinToHeadPlay" sender:self];
+            
+            
+        });
+        
+    }
+    
+ 
+ 
   
 }
 
@@ -212,10 +244,10 @@
 }
 
 
--(void)sendData: (NSString *)joinerIsReady{
+-(void)sendData: (NSString *)playerInfo{
     
     
-    NSData *dataToSend = [joinerIsReady dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *dataToSend = [playerInfo dataUsingEncoding:NSUTF8StringEncoding];
     
     NSArray *allPeers = _appDelegate.mcManager.session.connectedPeers;
     NSError *error;

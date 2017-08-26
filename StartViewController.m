@@ -55,12 +55,27 @@
     _btnHead.layer.shadowOpacity = 0.5;
     _btnHead.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"wood.jpg"]];
     
+    _btnHighScores.frame = CGRectMake(width*.125, height*.75-25, width*.75, 50);
+    _btnHighScores.backgroundColor = [UIColor yellowColor];
+    _btnHighScores.titleLabel.textColor = [UIColor redColor];
+    _btnHighScores.layer.borderWidth = 2;
+    _btnHighScores.layer.borderColor = [[UIColor brownColor] CGColor];
+    _btnHighScores.layer.cornerRadius = 15;
+    _btnHighScores.titleLabel.font = [UIFont fontWithName:@"Helvetica" size:30];
+    _btnHighScores.layer.shadowColor = [[UIColor blackColor] CGColor];
+    _btnHighScores.layer.shadowOffset = CGSizeMake(5.0, 5.0);
+    _btnHighScores.layer.shadowOpacity = 0.5;
+    _btnHighScores.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"wood.jpg"]];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 
 
 -(IBAction)btnTouched:(UIButton*)sender{

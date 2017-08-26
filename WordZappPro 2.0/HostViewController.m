@@ -101,12 +101,7 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated {
-    
-    
-    
-    
-    
-    
+  
 //    _level = @"Nothing";
     switch (_segmentLevel.selectedSegmentIndex) {
             
@@ -128,6 +123,12 @@
     
     
 }
+
+-(void)viewWillDisappear:(BOOL)animated {
+   
+
+}
+
 
 -(void)viewDidDisappear:(BOOL)animated{
      _arrayJoiners = [[NSMutableArray alloc] initWithObjects:_peerNameEntered, nil];
@@ -164,8 +165,9 @@
       dispatch_async(dispatch_get_main_queue(), ^{
           
           [_btnPlay setTitle:@"Start" forState:UIControlStateNormal];
-        _btnPlay.enabled =YES;
-        [self sendData:_level];
+          _btnPlay.enabled =YES;
+           NSString *codedLevel = [NSString stringWithFormat:@"L%@",_level];
+          [self sendData:codedLevel];
         
       });
         
@@ -197,23 +199,41 @@
     NSData *receivedData = [[notification userInfo] objectForKey:@"data"];
     NSString *receivedText = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
     
-    if (![receivedText containsString:@"Wins"]) {
-        
-       [_arrayJoiners addObject:receivedText];}
+    if ([[receivedText substringToIndex:1]  isEqual: @"W" ]) {
+        //Do something for win
+    }
     
-    if ([_arrayJoiners isEqualToArray:_arrConnectedDevices]) {
+    if ([[receivedText substringToIndex:1]  isEqual:@"S"]) {
+        //Do command to start
+    }
+    
+    if ([[receivedText substringToIndex:1]  isEqual: @"L"]) {
+        //Do command to send Level
+    }
+    
+    if ([[receivedText substringToIndex:1]  isEqual:@"U"]) {
+        //Do command to incorporate User info
+        
+        NSString *uncodedReceivedUserName = [receivedText substringFromIndex:1];
+        
+        [_arrayJoiners addObject:uncodedReceivedUserName];}
+    
+    NSSet *setJoiners = [NSSet setWithArray:_arrayJoiners];
+    NSSet *setConnectedDevices = [NSSet setWithArray:_arrConnectedDevices];
+    
+    
+    if ([setJoiners isEqualToSet:setConnectedDevices]) {
         
         dispatch_async(dispatch_get_main_queue(), ^{
             
             _btnPlay.enabled = YES;
         });
-        
-        
     }
-    
-    
-     NSLog(@"Host received something and the array joiners is %@",_arrayJoiners);
 
+    
+    
+    
+   
     
    
 }
@@ -267,9 +287,13 @@
         }
         
     }
-   dispatch_async(dispatch_get_main_queue(), ^{
     
-    [self sendData:_letters];
+    NSString *codedLetters = [NSString stringWithFormat:@"A%@",_letters];
+    
+   dispatch_async(dispatch_get_main_queue(), ^{
+       
+    
+    [self sendData:codedLetters];
     [self performSegueWithIdentifier:@"segueHostToHeadPlay" sender:self];
      });
     
@@ -313,9 +337,10 @@
         default:
             break;
     }
+    NSString *codedLevel = [NSString stringWithFormat:@"L%@",_level];
     
+    [self sendData:codedLevel];
     
-    [self sendData:_level];
     
 }
 
@@ -326,9 +351,7 @@
  
    //     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidReceiveDataNotification" object:nil];
    //    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidChangeStateNotification" object:nil];
-        
        
-        
         HeadPlayViewController *view = [segue destinationViewController];
         view.strIncomingLetters = _letters;
         view.playerName = _peerNameEntered;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="saE-MK-pHg">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="saE-MK-pHg">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -33,7 +33,11 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tM3-UQ-i5b">
                                 <rect key="frame" x="146" y="530" width="84" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="HIgh Scores"/>
+                                <state key="normal" title="High Scores"/>
+                                <connections>
+                                    <action selector="btnTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="TC3-Tw-Ccd"/>
+                                    <segue destination="Da5-ir-AEN" kind="show" id="pGB-Ig-kPa"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t47-Da-3QB">
                                 <rect key="frame" x="131" y="308" width="98" height="30"/>
@@ -50,6 +54,7 @@
                     <navigationItem key="navigationItem" id="QWb-93-TBt"/>
                     <connections>
                         <outlet property="btnHead" destination="t47-Da-3QB" id="wO0-bn-ztb"/>
+                        <outlet property="btnHighScores" destination="tM3-UQ-i5b" id="R1s-NK-H6X"/>
                         <outlet property="btnSolo" destination="2eH-34-Ke6" id="871-M0-6XC"/>
                     </connections>
                 </viewController>
@@ -137,6 +142,50 @@
             </objects>
             <point key="canvasLocation" x="2882" y="18"/>
         </scene>
+        <!--High Scores View Controller-->
+        <scene sceneID="BCQ-xW-NCM">
+            <objects>
+                <tableViewController id="Da5-ir-AEN" customClass="HighScoresViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Qaa-XD-Hfs">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <segmentedControl key="tableFooterView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="OWW-Es-o6x">
+                            <rect key="frame" x="0.0" y="72" width="375" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="Easy"/>
+                                <segment title="Medium"/>
+                                <segment title="Hard"/>
+                            </segments>
+                            <connections>
+                                <action selector="segmentHighScoresChanged:" destination="Da5-ir-AEN" eventType="valueChanged" id="cRA-UG-OxU"/>
+                            </connections>
+                        </segmentedControl>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="mXf-Ed-EXx">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mXf-Ed-EXx" id="VyL-OP-zSq">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Da5-ir-AEN" id="QiI-XY-qW0"/>
+                            <outlet property="delegate" destination="Da5-ir-AEN" id="0KH-PY-Enp"/>
+                        </connections>
+                    </tableView>
+                    <connections>
+                        <outlet property="segmentHighScores" destination="OWW-Es-o6x" id="Nsj-HB-WYL"/>
+                        <outlet property="tblViewHIghScores" destination="Qaa-XD-Hfs" id="fzV-N7-NgY"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3TD-sh-2YF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="22" y="833"/>
+        </scene>
         <!--Head Choice View Controller-->
         <scene sceneID="Jjp-RR-p2K">
             <objects>
@@ -190,7 +239,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TsF-BF-4OQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="972" y="765"/>
+            <point key="canvasLocation" x="978" y="833"/>
         </scene>
         <!--Host View Controller-->
         <scene sceneID="5q1-F1-lyH">
@@ -345,7 +394,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gtc-37-Q6X" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="23" y="139"/>
+            <point key="canvasLocation" x="22" y="16"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

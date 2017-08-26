@@ -195,6 +195,8 @@
         letter.layer.shadowOpacity = 0.75;
         
         [letter addTarget:self action:@selector(wasDragged:withEvent:)forControlEvents:UIControlEventTouchDragInside];
+        [letter addTarget:self action:@selector(wasDragged:withEvent:)forControlEvents:UIControlEventTouchDragEnter];
+        
         [letter addTarget:self action:@selector(dragStopped:) forControlEvents:UIControlEventTouchUpInside];
         
         [letter addTarget:self action:@selector(buttonTouched:) forControlEvents:UIControlEventTouchDown];

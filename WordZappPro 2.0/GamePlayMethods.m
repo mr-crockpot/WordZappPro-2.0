@@ -22,10 +22,104 @@
     self.screenHeight = view.frame.size.height;
     NSString *path = [[NSBundle mainBundle] pathForResource:@"wordlist"  ofType:@"txt"];
     NSString *content = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
-    self.masterWordList = [content componentsSeparatedByString:@"\n"];    return self;
+    self.masterWordList = [content componentsSeparatedByString:@"\n"];
+    
+    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+    [self.view addGestureRecognizer:pan];
+    return self;
+}
+
+// BEGIN NEW SYSTEM
+-(void) handlePan: (UIPanGestureRecognizer *) recognizer {
+    NSLog(@"%ld | %d", (long)recognizer.state, _currentDraggedLetterButton!=nil);
+    CGPoint currentLocation = [recognizer locationInView:self.view];
+    
+    if (recognizer.state == UIGestureRecognizerStateBegan) {
+        for (letterButton *button in _letterButtons) {
+            if (CGRectContainsPoint(button.frame, currentLocation)) {
+                _currentDraggedLetterButton = button;
+            }
+        }
+        [self beginDrag:_currentDraggedLetterButton location:currentLocation];
+    }
+    
+    if (recognizer.state == UIGestureRecognizerStateChanged && _currentDraggedLetterButton != nil) {
+        _currentDraggedLetterButton.center = currentLocation;
+    } else if (recognizer.state == UIGestureRecognizerStateChanged) {
+        for (letterButton *button in _letterButtons) {
+            if (CGRectContainsPoint(button.frame, currentLocation)) {
+                _currentDraggedLetterButton = button;
+                [self beginDrag:_currentDraggedLetterButton location:currentLocation];
+            }
+        }
+
+    }
+    
+    if (recognizer.state == UIGestureRecognizerStateEnded) {
+        _wasTapped = NO;
+        [self dragStopped:_currentDraggedLetterButton];
+        _currentDraggedLetterButton = nil;
+        
+    }
 }
 
 
+-(void) beginDrag: (letterButton *) button location: (CGPoint) location {
+    _currentDraggedLetterButton = button;
+    _inPlace = NO;
+    if (!button.big) {
+        button.frame = CGRectMake(button.frame.origin.x, button.frame.origin.y, button.frame.size.width+15, button.frame.size.height + 15);
+        button.big = YES;
+    }
+    [self.view bringSubviewToFront:button];
+
+}
+
+-(void)dragStopped: (letterButton *)sender {
+    CGFloat tolerance = sender.frame.size.width/1.5;
+    
+    if (!_wasTapped) {
+        _selectedLetterButton = nil;
+    }
+    
+    if (sender.big) {
+        sender.frame = CGRectMake(sender.frame.origin.x, sender.frame.origin.y, sender.frame.size.width-15, sender.frame.size.height - 15);
+        sender.big = NO;
+    }
+
+    
+    sender.linkedLabel.linkedButton = nil;
+    sender.linkedLabel = nil;
+    
+    for (wordBox *label in _arrayWordBoxes) {
+        if ([self distanceBetween:sender.frame and:label.frame] < tolerance) {
+            if (label.linkedButton == nil) {
+                sender.frame = label.frame;
+                sender.linkedLabel = label;
+                label.linkedButton = sender;
+                [self.view bringSubviewToFront:sender];
+                _inPlace = YES;
+                sender.big = NO;
+                
+            }
+        }
+    }
+    
+    if ([self checkWords]) {
+        [self stopButtons];
+        
+        [_delegate performSelector:_winMethod];
+        
+        
+    }
+    
+    
+    
+}
+
+
+
+// END NEW SYSTEM
 
 -(NSMutableArray *)arrayOfLettersInOrder: (NSString *)fromList {
     
@@ -122,11 +216,6 @@
     
 }
 
--(void)LocalArray: (NSMutableArray*)testOfMyArray{
-    
-    
-    
-}
 
 #pragma mark SET UP SCREEN
 
@@ -194,14 +283,19 @@
         letter.layer.shadowOffset = CGSizeMake(2, 2);
         letter.layer.shadowOpacity = 0.75;
         
-        [letter addTarget:self action:@selector(wasDragged:withEvent:)forControlEvents:UIControlEventTouchDragInside];
-        [letter addTarget:self action:@selector(wasDragged:withEvent:)forControlEvents:UIControlEventTouchDragEnter];
-        
-        [letter addTarget:self action:@selector(dragStopped:) forControlEvents:UIControlEventTouchUpInside];
-        
-        [letter addTarget:self action:@selector(buttonTouched:) forControlEvents:UIControlEventTouchDown];
-        [letter addTarget:self action:@selector(buttonUntouched:) forControlEvents:UIControlEventTouchUpInside];
+//        [letter addTarget:self action:@selector(wasDragged:withEvent:)forControlEvents:UIControlEventTouchDragInside];
+//        [letter addTarget:self action:@selector(wasDragged:withEvent:)forControlEvents:UIControlEventTouchDragEnter];
+//        
+//        [letter addTarget:self action:@selector(dragStopped:) forControlEvents:UIControlEventTouchUpInside];
+//        
+//        [letter addTarget:self action:@selector(buttonTouched:) forControlEvents:UIControlEventTouchDown];
+//        [letter addTarget:self action:@selector(buttonUntouched:) forControlEvents:UIControlEventTouchUpInside];
        
+        
+        
+        
+        [letter addTarget:self action:@selector(tapToSelectLetter:withEvent:) forControlEvents:UIControlEventTouchDown];
+        [letter addTarget:self action:@selector(dragStopped:) forControlEvents:UIControlEventTouchUpInside];
         
         [_letterButtons addObject:letter];
         [self.view addSubview:letter];
@@ -212,8 +306,48 @@
 }
 
 
+//TAP AND MOVE
+
+
+-(void)tapToSelectLetter: (UIButton*)button withEvent: (UIEvent *)event {
+    _currentDraggedLetterButton = (letterButton *)button;
+    _selectedLetterButton = (letterButton *)button;
+    _tapToMove = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToSelectDestination:)];
+    [self.view addGestureRecognizer:_tapToMove];
+    
+    _wasTapped = YES;
+}
+
+-(void)tapToSelectDestination: (UITapGestureRecognizer *)recognizer {
+    CGPoint location = [recognizer locationInView:[recognizer.view superview]];
+    _selectedLetterButton.center = location;
+    [self dragStopped:_selectedLetterButton];
+    _selectedLetterButton = nil;
+    [self.view removeGestureRecognizer:recognizer];
+    _wasTapped = NO;
+
+}
+
+
+////NEW. Show alex
+//- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
+//    return CGRectContainsPoint(self.view.frame, point);
+//}
+//
+//
+//- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+//    for (letterButton *letters in _letterButtons) {
+//        for (UITouch *touch in touches) {
+//            if ([letters pointInside:[touch locationInView:self.view] withEvent:event]) {
+//                NSLog(@"Direct Hit!");
+//            }
+//        }
+//    }
+//}
 
 //TOUCH AND DRAG
+
+
 
 
 -(float)distanceBetween:(CGRect )rect and: (CGRect ) rect2 {
@@ -228,67 +362,49 @@
 }
 
 
+-(void) handleDrag: (UIButton *)button withLocation:(CGPoint) location {
+    button.center = location;
+    [self.view bringSubviewToFront:button];
+}
+
 -(IBAction)wasDragged: (UIButton *)button withEvent: (UIEvent *)event {
-    
-   
+//    UITouch *touch = [[event touchesForView:button]anyObject];
+//    CGPoint previousLocation = [touch previousLocationInView:button];
+//    CGPoint location = [touch locationInView:button];
+//    CGFloat deltaX = location.x - previousLocation.x;
+//    CGFloat deltaY = location.y - previousLocation.y;
+//    if (fabs(deltaX)>5 || fabs(deltaY)>5) {
+//        [self.view removeGestureRecognizer:_tapToMove];
+//        _selectedLetterButton = nil;
+//    }
+//    button.center = CGPointMake(button.center.x + deltaX, button.center.y + deltaY);
+//    [self.view bringSubviewToFront:button];
 
     
-        UITouch *touch = [[event touchesForView:button]anyObject];
-        CGPoint previousLocation = [touch previousLocationInView:button];
-        CGPoint location = [touch locationInView:button];
-        CGFloat deltaX = location.x - previousLocation.x;
-        CGFloat deltaY = location.y - previousLocation.y;
-        button.center = CGPointMake(button.center.x + deltaX, button.center.y + deltaY);
-        [self.view bringSubviewToFront:button];
-   
+    UITouch *touch = [[event touchesForView:button]anyObject];
+    CGPoint location = [touch locationInView:self.view];
+    [self handleDrag:button withLocation: location];
+    
+    
     }
 
--(void)buttonTouched: (UIButton*)button{
+-(void)buttonTouched: (letterButton*)button{
     
     _inPlace = NO;
-  
-     button.frame = CGRectMake(button.frame.origin.x, button.frame.origin.y, button.frame.size.width+15, button.frame.size.height + 15);
-    
+    if (!button.big) {
+        button.frame = CGRectMake(button.frame.origin.x, button.frame.origin.y, button.frame.size.width+15, button.frame.size.height + 15);
+        button.big = YES;
+    }
 }
 
--(void)buttonUntouched: (UIButton*)button{
-    
+-(void)buttonUntouched: (letterButton*)button{
     if (!_inPlace) {
-    
-    button.frame = CGRectMake(button.frame.origin.x, button.frame.origin.y, button.frame.size.width -15, button.frame.size.height - 15);}
+        button.frame = CGRectMake(button.frame.origin.x, button.frame.origin.y, button.frame.size.width -15, button.frame.size.height - 15);
+        button.big = NO;
+    }
 }
 
--(void)dragStopped: (letterButton *)sender {
-    
-    CGFloat tolerance = sender.frame.size.width/1.5;
-    
-    
-    
-    sender.linkedLabel.linkedButton = nil;
-    sender.linkedLabel = nil;
-    
-    for (wordBox *label in _arrayWordBoxes) {
-        if ([self distanceBetween:sender.frame and:label.frame] < tolerance) {
-            if (label.linkedButton == nil) {
-                sender.frame = label.frame;
-                sender.linkedLabel = label;
-                label.linkedButton = sender;
-                _inPlace = YES;
-            }
-        }
-    }
-    
-    if ([self checkWords]) {
-        [self stopButtons];
-        
-        [_delegate performSelector:_winMethod];
-        
 
-    }
-    
-    
-    
-}
 
 -(void)stopButtons {
     for (int x =0; x<9; x++) {

@@ -54,7 +54,6 @@
 }
 
 -(IBAction)btnHardPressed:(id)sender{
-    _level = @"hardList";
      [self performSegueWithIdentifier:@"segueSoloSetupToSoloPlay" sender:self];
     
 }

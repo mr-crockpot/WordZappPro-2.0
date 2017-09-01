@@ -122,6 +122,10 @@
                     <navigationBar key="view" contentMode="scaleToFill" id="0dh-mv-9lV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                        <gestureRecognizers/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="kjn-1l-EuJ" appends="YES" id="USL-IB-hMC"/>
+                        </connections>
                     </navigationBar>
                     <toolbarItems>
                         <barButtonItem title="Item" id="XCK-S1-if7"/>
@@ -139,6 +143,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2B8-dV-t4c" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="kjn-1l-EuJ">
+                    <connections>
+                        <action selector="viewTapped:" destination="UNl-EK-8Py" id="hbd-wn-wAc"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2882" y="18"/>
         </scene>

@@ -433,4 +433,11 @@
 }
 
 
+- (IBAction)viewTapped:(id)sender {
+   
+    
+    NSLog(@"I was tapped");
+ //   [_calledMethod touchesMoved:<#(NSSet *)#> withEvent:<#(UIEvent *)#>];
+    
+}
 @end

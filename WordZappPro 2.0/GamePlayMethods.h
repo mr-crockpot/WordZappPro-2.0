@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-
+#import "letterButton.h"
 
 @interface GamePlayMethods : NSObject
 
@@ -44,6 +44,10 @@
 
 @property NSMutableArray *arrayOfRandomLetters;
 
+@property letterButton *currentDraggedLetterButton;
+
+@property BOOL wasTapped;
+
 
 //SET UP WORD BOXES
 @property (strong, nonatomic) NSMutableArray *arrayWordBoxes;
@@ -51,7 +55,8 @@
 
 @property NSArray *masterWordList;
 
-
+@property letterButton *selectedLetterButton;
+@property UIGestureRecognizer *tapToMove;
 
 -(void)stopButtons;
 
@@ -61,6 +66,9 @@
 
 //TILE DRAG
 @property BOOL inPlace;
+
+
+
 
 
 

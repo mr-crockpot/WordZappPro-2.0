@@ -15,5 +15,6 @@
 @interface letterButton : UIButton
 
 @property wordBox *linkedLabel;
+@property BOOL big;
 
 @end

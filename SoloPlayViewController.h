@@ -51,6 +51,7 @@
 @property UILabel *labelScore;
 @property int score;
 
+- (IBAction)viewTapped:(id)sender;
 
 
 

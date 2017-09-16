@@ -27,9 +27,7 @@
     self.navigationItem.hidesBackButton = YES;
     self.navigationController.navigationBar.hidden = YES;
    
-    
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"whiteStone.jpg"]];
-    
     
     _screenWidth  = [UIScreen mainScreen].bounds.size.width;
     _screenHeight = [UIScreen mainScreen].bounds.size.height;
@@ -60,11 +58,10 @@
     // Do any additional setup after loading the view.
 }
 
--(void)viewDidAppear:(BOOL)animated {
-   
-    
-   
-
+-(void)viewWillDisappear:(BOOL)animated{
+    if (_timerValue>0) {
+        [self saveHighscore];
+    }
 }
 
 -(void)showNavBar{

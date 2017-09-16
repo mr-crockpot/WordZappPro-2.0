@@ -173,18 +173,18 @@
     
   
     if ([[receivedText substringToIndex:1]  isEqual: @"W"] ) {
-        NSLog(@"This was triggered W");
+        //NSLog(@"This was triggered W");
         //Do something for win
     }
     
     if ([[receivedText substringToIndex:1]  isEqual: @"S"]) {
-        NSLog(@"This was triggered S");
+        //NSLog(@"This was triggered S");
         //Do command to start
     }
     
     if ([[receivedText substringToIndex:1]  isEqual: @"L"]) {
         //Do command to send Level
-        NSLog(@"This was triggered L");
+       // NSLog(@"This was triggered L");
         dispatch_async(dispatch_get_main_queue(), ^{
             NSString *uncodedReceivedLevel = [receivedText substringFromIndex:1];
             _lblLevel.text = uncodedReceivedLevel;
@@ -192,13 +192,13 @@
     }
     
     if ([[receivedText substringToIndex:1]  isEqual: @"U"]) {
-        NSLog(@"This was triggered U");
+      //  NSLog(@"This was triggered U");
         //Do command to incorporate User info
     }
     
     if ([[receivedText substringToIndex:1]  isEqual: @"A"]) {
         //Sending Letters
-        NSLog(@"This was triggered A");
+     //   NSLog(@"This was triggered A");
         NSString *uncodedReceivedLetters = [receivedText substringFromIndex:1];
         _letters = uncodedReceivedLetters;
         

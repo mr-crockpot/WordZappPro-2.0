@@ -17,6 +17,12 @@
 @implementation HighScoresViewController
 
 - (void)viewDidLoad {
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"darkWood.jpg"]];
+    
+    _segmentHighScores.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"darkWood.jpg"]];
+    _segmentHighScores.tintColor = [UIColor blackColor];
+    
+    [_segmentHighScores setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"Helvetica" size:18], NSFontAttributeName, nil] forState:UIControlStateNormal];
     
     _segmentHighScores.selectedSegmentIndex = 0;
     _level = @"easyList";
@@ -65,11 +71,11 @@
     score = [NSString stringWithFormat:@"%@",_arrayTopScores[indexPath.row]];
     cell.textLabel.text = score;
     cell.textLabel.textAlignment = NSTextAlignmentCenter;
-    cell.backgroundColor = [UIColor yellowColor];
+    cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"wood.jpg"]];;
     cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.font = [UIFont fontWithName:@"Helvetica" size:36];
     
-    cell.layer.borderColor = [[UIColor blueColor] CGColor];
+    cell.layer.borderColor = [[UIColor brownColor] CGColor];
     cell.layer.borderWidth = 5;
     cell.layer.cornerRadius = 25;
     
@@ -105,8 +111,7 @@
     [self loadArrayofScores];
     [_tblViewHighScores reloadData];
     
-    NSLog(@"The array of scores is %@",_arrayTopScores);
-    
+       
 }
 
 

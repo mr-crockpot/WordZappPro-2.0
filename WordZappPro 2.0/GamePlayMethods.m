@@ -29,7 +29,7 @@
 
 #pragma mark NEW DRAG SYSTEM
 -(void) handlePan: (UIPanGestureRecognizer *) recognizer {
-  //  NSLog(@"%ld | %d", (long)recognizer.state, _currentDraggedLetterButton!=nil);
+ 
     CGPoint currentLocation = [recognizer locationInView:self.view];
     
     if (recognizer.state == UIGestureRecognizerStateBegan) {
@@ -104,7 +104,7 @@
     }
     
     if ([self checkWords]) {
-        NSLog(@"win");
+        
         [self stopButtons];
         
         [_delegate performSelector:_winMethod];
@@ -182,11 +182,7 @@
         }
         while (word2.length != 2 || [easyListStandard containsObject:word2] || [mediumListStandard containsObject:word2]);
         
-        
-        NSLog(@"The three hard words are %@, %@, %@",word2,word3,word4);
-        if ([mediumListStandard containsObject:word4]) {
-            NSLog(@"4 is in Medium");
-        }
+    
     }
     
     else {
@@ -210,8 +206,7 @@
     while (word2.length != 2);
     
         
-        NSLog(@"The three NOT HARD words are %@, %@, %@",word2,word3,word4);
-
+       
     }
     
     

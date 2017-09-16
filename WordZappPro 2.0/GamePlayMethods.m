@@ -23,15 +23,13 @@
     NSString *path = [[NSBundle mainBundle] pathForResource:@"wordlist"  ofType:@"txt"];
     NSString *content = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
     self.masterWordList = [content componentsSeparatedByString:@"\n"];
-    
-    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
-    [self.view addGestureRecognizer:pan];
+
     return self;
 }
 
-// BEGIN NEW SYSTEM
+#pragma mark NEW DRAG SYSTEM
 -(void) handlePan: (UIPanGestureRecognizer *) recognizer {
-    NSLog(@"%ld | %d", (long)recognizer.state, _currentDraggedLetterButton!=nil);
+  //  NSLog(@"%ld | %d", (long)recognizer.state, _currentDraggedLetterButton!=nil);
     CGPoint currentLocation = [recognizer locationInView:self.view];
     
     if (recognizer.state == UIGestureRecognizerStateBegan) {
@@ -106,6 +104,7 @@
     }
     
     if ([self checkWords]) {
+        NSLog(@"win");
         [self stopButtons];
         
         [_delegate performSelector:_winMethod];
@@ -126,11 +125,23 @@
     NSArray *activeWordList = [[NSArray alloc] init];
     NSString *nameActiveWordList = fromList;
     
+    NSArray *easyListStandard = [[NSArray alloc] init];
+    NSArray *mediumListStandard = [[NSArray alloc]init];
+    
+    
     NSMutableArray *arrayWordTwo = [[NSMutableArray alloc] init];
     NSMutableArray *arrayWordThree = [[NSMutableArray alloc] init];
     NSMutableArray *arrayWordFour = [[NSMutableArray alloc] init];
     _arrayOfLettersInOrder = [[NSMutableArray alloc] init];
-    
+   
+    NSString *pathEasy = [[NSBundle mainBundle] pathForResource:@"easyList" ofType:@"txt"];
+    NSString *contentEasy = [NSString stringWithContentsOfFile:pathEasy encoding:NSUTF8StringEncoding error:nil];
+    easyListStandard = [contentEasy componentsSeparatedByString:@"\n"];
+
+    NSString *pathMedium = [[NSBundle mainBundle] pathForResource:@"mediumList" ofType:@"txt"];
+    NSString *contentMedium = [NSString stringWithContentsOfFile:pathMedium encoding:NSUTF8StringEncoding error:nil];
+    mediumListStandard = [contentMedium componentsSeparatedByString:@"\n"];
+
     NSString *path = [[NSBundle mainBundle] pathForResource:nameActiveWordList ofType:@"txt"];
     NSString *content = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
     activeWordList = [content componentsSeparatedByString:@"\n"];
@@ -146,6 +157,39 @@
     int randomNumber1;
     int randomNumber2;
     int randomNumber3;
+    
+  //CREATE TWO PATHS. ONE IF HARD LIST, AND OTHERWISE
+    
+    //IF HARD LIST
+    
+    if ([nameActiveWordList isEqualToString: @"hardList"]) {
+        
+        do {randomNumber1 = arc4random_uniform(activeWordList.count);
+            word4=[[activeWordList objectAtIndex:randomNumber1] uppercaseString];
+            
+        }
+        while (word4.length != 4 || [easyListStandard containsObject:word4] || [mediumListStandard containsObject:word4]);
+        
+        do {randomNumber2 = arc4random_uniform(activeWordList.count);
+            word3=[[activeWordList objectAtIndex:randomNumber2] uppercaseString];
+            
+        }
+        while (word3.length != 3 || [easyListStandard containsObject:word3] || [mediumListStandard containsObject:word3]);
+        
+        
+        do {randomNumber3 = arc4random_uniform(activeWordList.count);
+            word2=[[activeWordList objectAtIndex:randomNumber3] uppercaseString];
+        }
+        while (word2.length != 2 || [easyListStandard containsObject:word2] || [mediumListStandard containsObject:word2]);
+        
+        
+        NSLog(@"The three hard words are %@, %@, %@",word2,word3,word4);
+        if ([mediumListStandard containsObject:word4]) {
+            NSLog(@"4 is in Medium");
+        }
+    }
+    
+    else {
     
     do {randomNumber1 = arc4random_uniform(activeWordList.count);
         word4=[[activeWordList objectAtIndex:randomNumber1] uppercaseString];
@@ -164,6 +208,14 @@
         word2=[[activeWordList objectAtIndex:randomNumber3] uppercaseString];
     }
     while (word2.length != 2);
+    
+        
+        NSLog(@"The three NOT HARD words are %@, %@, %@",word2,word3,word4);
+
+    }
+    
+    
+    
     
     for (int w = 1; w<3; w++) {
         NSString *eachLetter = [NSString stringWithFormat:@"%c", [word2 characterAtIndex:w-1]];
@@ -258,6 +310,10 @@
 
 -(NSMutableArray *)setUpLetterButtons{
    
+    _pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+    [self.view addGestureRecognizer:_pan];
+    
+    
     letterButton *letter;
     _letterButtons = [[NSMutableArray alloc] init];
     CGFloat boxWidth = _screenWidth/8;
@@ -321,6 +377,7 @@
 -(void)tapToSelectDestination: (UITapGestureRecognizer *)recognizer {
     CGPoint location = [recognizer locationInView:[recognizer.view superview]];
     _selectedLetterButton.center = location;
+    [self.view bringSubviewToFront:_selectedLetterButton];
     [self dragStopped:_selectedLetterButton];
     _selectedLetterButton = nil;
     [self.view removeGestureRecognizer:recognizer];
@@ -328,24 +385,6 @@
 
 }
 
-
-////NEW. Show alex
-//- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
-//    return CGRectContainsPoint(self.view.frame, point);
-//}
-//
-//
-//- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-//    for (letterButton *letters in _letterButtons) {
-//        for (UITouch *touch in touches) {
-//            if ([letters pointInside:[touch locationInView:self.view] withEvent:event]) {
-//                NSLog(@"Direct Hit!");
-//            }
-//        }
-//    }
-//}
-
-//TOUCH AND DRAG
 
 
 
@@ -366,7 +405,6 @@
     button.center = location;
     [self.view bringSubviewToFront:button];
 }
-
 -(IBAction)wasDragged: (UIButton *)button withEvent: (UIEvent *)event {
 //    UITouch *touch = [[event touchesForView:button]anyObject];
 //    CGPoint previousLocation = [touch previousLocationInView:button];
@@ -407,13 +445,13 @@
 
 
 -(void)stopButtons {
+    [self.view removeGestureRecognizer:_pan];
+    
     for (int x =0; x<9; x++) {
         letterButton *buttonToStop = (letterButton *)[_letterButtons objectAtIndex:x];
-        
-        [buttonToStop removeTarget:self action:@selector(wasDragged:withEvent:) forControlEvents:UIControlEventAllEvents];
-        [buttonToStop removeTarget:self action:@selector(dragStopped:) forControlEvents:UIControlEventAllEvents];
-        
-        
+        [buttonToStop removeTarget:self action:@selector(tapToSelectLetter:withEvent:) forControlEvents:UIControlEventTouchDown];
+        [buttonToStop removeTarget:self action:@selector(dragStopped:) forControlEvents:UIControlEventTouchUpInside];
+
     }
 }
 

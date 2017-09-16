@@ -105,7 +105,7 @@
     self.navigationController.navigationBar.hidden = NO;
     _btnAgain.enabled = YES;
     
-    [self saveHighscore];
+    
     
   }
 
@@ -185,7 +185,7 @@
 
     if (_timerValue>0) {
         
-        _timerValue = [_labelTimer.text integerValue] + 10;}
+        _timerValue = [_labelTimer.text integerValue] + 20;}
     
     
     else {
@@ -207,8 +207,8 @@
     
     
     _labelTimer = [[UILabel alloc] initWithFrame:CGRectMake(0, _screenHeight-_screenHeight/15, _screenWidth/3, _screenHeight/15)];
-    _labelTimer.backgroundColor = [UIColor clearColor];
-    _labelTimer.textColor = [UIColor blackColor];
+    _labelTimer.backgroundColor = [UIColor blackColor];
+    _labelTimer.textColor = [UIColor yellowColor];
     _labelTimer.text = [NSString stringWithFormat:@"%i",_timerValue];
     _labelTimer.layer.borderWidth = 2;
     _labelTimer.layer.borderColor = [[UIColor blackColor] CGColor];
@@ -216,7 +216,7 @@
     _labelTimer.textAlignment = NSTextAlignmentCenter;
     _labelTimer.layer.cornerRadius = _screenHeight/15/2;
     
-    _labelTimer.backgroundColor = [UIColor whiteColor];
+   
     _labelTimer.clipsToBounds = YES;
     
     
@@ -288,14 +288,14 @@
             _labelTimer.textColor = [UIColor yellowColor];
             _labelTimer.clipsToBounds = YES;
         }
-        else {_labelTimer.backgroundColor = [UIColor whiteColor];
-            _labelTimer.textColor = [UIColor blackColor];
+        else {_labelTimer.backgroundColor = [UIColor blackColor];
+            _labelTimer.textColor = [UIColor yellowColor];
         }
     
     if (_timerValue == 0) {
         
         [self showNavBar];
-        
+        [_calledMethod stopButtons];
         UILabel *labelGameOver = [[UILabel alloc] init];
         labelGameOver.frame = CGRectMake(20, _screenHeight * .15, _screenWidth - 40, _screenHeight*.37);
         labelGameOver.layer.borderColor = [[UIColor redColor] CGColor];
@@ -313,7 +313,7 @@
         
         [self stopTimer];
         
-        
+        [self saveHighscore];
 
         
         [UIView animateWithDuration:4 animations:^{
@@ -338,6 +338,9 @@
 }
 
 -(void)winSolo{
+    
+    [_calledMethod stopButtons];
+    
     NSArray *arraySplashWords = [[NSArray alloc] initWithObjects:@"Hooray",@"Terrific",@"Wow",@"Nifty",@"Amazing",@"Yahoo!",@"Great",@"Brilliant",@"Inspiring",@"Yay", nil];
     NSArray *arraySplashColors = [[NSArray alloc] initWithObjects:[UIColor redColor],[UIColor blueColor],[UIColor purpleColor],[UIColor orangeColor],[UIColor magentaColor], nil];
     
@@ -433,11 +436,5 @@
 }
 
 
-- (IBAction)viewTapped:(id)sender {
-   
-    
-    NSLog(@"I was tapped");
- //   [_calledMethod touchesMoved:<#(NSSet *)#> withEvent:<#(UIEvent *)#>];
-    
-}
+
 @end

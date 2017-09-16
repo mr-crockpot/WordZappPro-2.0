@@ -46,6 +46,8 @@
 
 @property letterButton *currentDraggedLetterButton;
 
+@property UIPanGestureRecognizer *pan;
+
 @property BOOL wasTapped;
 
 

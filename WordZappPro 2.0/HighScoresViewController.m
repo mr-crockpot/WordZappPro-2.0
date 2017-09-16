@@ -43,6 +43,7 @@
     _arrayTopScores = [[NSMutableArray alloc] initWithArray:[UserDefaults getDataForKey:_level]];
     
     
+    
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -63,14 +64,27 @@
     
     score = [NSString stringWithFormat:@"%@",_arrayTopScores[indexPath.row]];
     cell.textLabel.text = score;
+    cell.textLabel.textAlignment = NSTextAlignmentCenter;
+    cell.backgroundColor = [UIColor yellowColor];
+    cell.textLabel.textColor = [UIColor blackColor];
+    cell.textLabel.font = [UIFont fontWithName:@"Helvetica" size:36];
     
+    cell.layer.borderColor = [[UIColor blueColor] CGColor];
+    cell.layer.borderWidth = 5;
+    cell.layer.cornerRadius = 25;
+    
+    if (indexPath.row == 0) {
+        cell.textLabel.textColor = [UIColor redColor];
+    }
     return cell;
     
 }
 
-
-
-
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
+    
+    return screenHeight/10 - 11.5;
+}
 
 - (IBAction)segmentHighScoresChanged:(id)sender {
     

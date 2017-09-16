@@ -18,6 +18,5 @@
 - (IBAction)segmentHighScoresChanged:(id)sender;
 
 @property (strong, nonatomic) NSString *level;
-@property (strong, nonatomic) IBOutlet UITableView *tblViewHIghScores;
 
 @end

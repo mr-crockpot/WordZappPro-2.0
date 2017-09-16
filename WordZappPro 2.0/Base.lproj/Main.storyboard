@@ -188,7 +188,7 @@
                     </tableView>
                     <connections>
                         <outlet property="segmentHighScores" destination="OWW-Es-o6x" id="Nsj-HB-WYL"/>
-                        <outlet property="tblViewHIghScores" destination="Qaa-XD-Hfs" id="fzV-N7-NgY"/>
+                        <outlet property="tblViewHighScores" destination="Qaa-XD-Hfs" id="70b-ww-bpK"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3TD-sh-2YF" userLabel="First Responder" sceneMemberID="firstResponder"/>

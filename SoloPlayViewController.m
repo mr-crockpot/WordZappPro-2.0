@@ -338,7 +338,11 @@
     
     [_calledMethod stopButtons];
     
-    NSArray *arraySplashWords = [[NSArray alloc] initWithObjects:@"Hooray",@"Terrific",@"Wow",@"Nifty",@"Amazing",@"Yahoo!",@"Great",@"Brilliant",@"Inspiring",@"Yay", nil];
+    
+   // number.layer.contentsScale = [[UIScreen mainScreen] scale]*8;
+
+    
+    NSArray *arraySplashWords = [[NSArray alloc] initWithObjects:@"Hooray",@"Terrific",@"Wow",@"Nifty",@"Amazing",@"Yahoo!",@"Great",@"Brilliant",@"Inspiring",@"Yay",@"Boom",@"Nailed It", nil];
     NSArray *arraySplashColors = [[NSArray alloc] initWithObjects:[UIColor redColor],[UIColor blueColor],[UIColor purpleColor],[UIColor orangeColor],[UIColor magentaColor], nil];
     
     NSArray *arrayX = [[NSArray alloc]initWithObjects:@5 ,@-5, @5, @-5, @0.2, @10, nil];
@@ -356,6 +360,9 @@
     winLabel.frame = CGRectMake(0, _screenHeight*.65, _screenWidth,_screenHeight*.3);
     winLabel.text = splashWord;
     winLabel.textColor = splashColor;
+    
+    winLabel.contentScaleFactor = 8;
+    
     
     winLabel.font = [UIFont fontWithName:@"Helvetica" size:_screenWidth * 0.05];
     winLabel.backgroundColor = [UIColor clearColor];

@@ -20,7 +20,7 @@
     // Do any additional setup after loading the view.
     
    
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"woodPattern.jpg"]];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"parquet.jpg"]];
 
 }
 
@@ -67,7 +67,13 @@
     _btnHighScores.layer.shadowOpacity = 0.5;
     _btnHighScores.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"wood.jpg"]];
     
-    
+    [self addTitle];
+}
+
+-(void)viewWillDisappear:(BOOL)animated {
+    for (UIButton *tile in _arrayTileTitle) {
+        [tile removeFromSuperview];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -88,6 +94,113 @@
     sender.frame = CGRectMake(currentX+3, currentY+3, currentW, currentH);
     sender.layer.shadowOffset = CGSizeMake(0, 0);
 }
+
+-(void)addTitle {
+    _arrayTileTitle = [[NSMutableArray alloc]init];
+    
+    NSString *letter;
+    float rotateAdjustment;
+    float width=50;
+    float yValue;
+    float xValue;
+    int multiplier;
+    float screenHeight = self.view.frame.size.height;
+    UIColor *letterColor;
+    
+    for (int l = 0; l<8; l++) {
+        
+        UIButton *tileTitle = [[UIButton alloc]init];
+      
+        
+        if (l<5) {
+            yValue = 50;
+            xValue = 10;
+            multiplier = l;
+        }
+        else {
+            yValue = screenHeight - width;
+            multiplier = l-5;
+            xValue = 85;
+        }
+        tileTitle.frame =CGRectMake (xValue+multiplier *(width+15), yValue, width,width);
+        [tileTitle setBackgroundImage:[UIImage imageNamed: @"wood.jpg"] forState:UIControlStateNormal];
+        
+        switch (l) {
+            case 0:
+                letter = @"W";
+                rotateAdjustment = .5;
+                letterColor = [UIColor redColor];
+                
+                break;
+            case 1:
+                letter = @"O";
+                rotateAdjustment = .25;
+                letterColor = [UIColor blueColor];
+                break;
+            case 2:
+                letter = @"R";
+                rotateAdjustment = -.25;
+                letterColor = [UIColor greenColor];
+                break;
+            case 3:
+                letter = @"D";
+                rotateAdjustment = -.5;
+                letterColor = [UIColor orangeColor];
+                break;
+            case 4:
+                letter = @"Z";
+                rotateAdjustment = 0;
+                letterColor = [UIColor magentaColor];
+                break;
+                
+            case 5:
+                letter = @"A";
+                rotateAdjustment = 0;
+                letterColor = [UIColor blueColor];
+                break;
+            case 6:
+                letter = @"P";
+                rotateAdjustment = -.5;
+                letterColor = [UIColor greenColor];
+                break;
+            case 7:
+                letter = @"P";
+                rotateAdjustment = .5;
+                letterColor = [UIColor orangeColor];
+                break;
+                
+            default:
+                rotateAdjustment = 0;
+                break;
+        }
+        [tileTitle setTitle:letter forState:UIControlStateNormal];
+        [tileTitle setTitleColor:letterColor forState:UIControlStateNormal];
+        tileTitle.titleLabel.font = [UIFont fontWithName:@"Helvetica" size:width];
+        
+        CGAffineTransform affineTransform = CGAffineTransformMakeRotation(-M_PI_4*rotateAdjustment);
+        tileTitle.transform = affineTransform;
+        
+        [_arrayTileTitle addObject:tileTitle];
+        
+        
+        
+        [self.view addSubview:tileTitle];
+    }
+    
+    
+    
+    [UIView animateWithDuration:5 delay:1 options:UIViewAnimationOptionRepeat | UIViewAnimationOptionAutoreverse animations:^{
+        _movingButton.alpha = 1;
+        _movingButton = (UIButton *)_arrayTileTitle[4];
+        _movingButton.frame = CGRectMake(10, screenHeight - width, width, width);
+        CGAffineTransform affineTransform = CGAffineTransformMakeRotation(-M_PI_4*.5);
+        _movingButton.transform = affineTransform;
+    } completion:^(BOOL finished) {
+        //MAYBE DO SOMETHING
+    }];
+    
+}
+
 
 
 @end

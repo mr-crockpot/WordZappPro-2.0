@@ -14,6 +14,10 @@
 
 @property (strong, nonatomic) IBOutlet UIButton *btnHighScores;
 
+
+@property (strong, nonatomic) NSMutableArray *arrayTileTitle;
+@property (strong, nonatomic)  UIButton *movingButton;
+
 -(IBAction)btnTouched:(UIButton*)sender;
 
 @end

@@ -20,7 +20,7 @@
     // Do any additional setup after loading the view.
     
    
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"parquet.jpg"]];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"woodPattern.jpg"]];
 
 }
 
@@ -100,7 +100,7 @@
     
     NSString *letter;
     float rotateAdjustment;
-    float width=50;
+    float width=[UIScreen mainScreen].bounds.size.width/6;
     float yValue;
     float xValue;
     int multiplier;
@@ -119,8 +119,8 @@
         }
         else {
             yValue = screenHeight - width;
-            multiplier = l-5;
-            xValue = 85;
+            multiplier = l-4;
+            xValue = width/2-15;
         }
         tileTitle.frame =CGRectMake (xValue+multiplier *(width+15), yValue, width,width);
         [tileTitle setBackgroundImage:[UIImage imageNamed: @"wood.jpg"] forState:UIControlStateNormal];
@@ -192,7 +192,7 @@
     [UIView animateWithDuration:5 delay:1 options:UIViewAnimationOptionRepeat | UIViewAnimationOptionAutoreverse animations:^{
         _movingButton.alpha = 1;
         _movingButton = (UIButton *)_arrayTileTitle[4];
-        _movingButton.frame = CGRectMake(10, screenHeight - width, width, width);
+        _movingButton.frame = CGRectMake((width+15)/4, screenHeight - width, width, width);
         CGAffineTransform affineTransform = CGAffineTransformMakeRotation(-M_PI_4*.5);
         _movingButton.transform = affineTransform;
     } completion:^(BOOL finished) {

@@ -145,6 +145,7 @@
        
         [_appDelegate.mcManager.browser dismissViewControllerAnimated:YES completion:nil];
         [_appDelegate.mcManager advertiseSelf:false];
+        _lblStatus.text = @"Connected";
         _connected = YES;
        
         

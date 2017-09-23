@@ -38,6 +38,7 @@
                 _currentDraggedLetterButton = button;
             }
         }
+        _currentDraggedLetterButton.layer.borderWidth = 0;
         [self beginDrag:_currentDraggedLetterButton location:currentLocation];
     }
     
@@ -56,6 +57,7 @@
     if (recognizer.state == UIGestureRecognizerStateEnded) {
         _wasTapped = NO;
         [self dragStopped:_currentDraggedLetterButton];
+        _currentDraggedLetterButton.layer.borderWidth = 0;
         _currentDraggedLetterButton = nil;
         
     }
@@ -361,8 +363,12 @@
 
 
 -(void)tapToSelectLetter: (UIButton*)button withEvent: (UIEvent *)event {
+    _selectedLetterButton.layer.borderWidth = 0;
     _currentDraggedLetterButton = (letterButton *)button;
     _selectedLetterButton = (letterButton *)button;
+    button.layer.borderColor =[[UIColor blueColor] CGColor];
+    button.layer.borderWidth = 2;
+   
     _tapToMove = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToSelectDestination:)];
     [self.view addGestureRecognizer:_tapToMove];
     
@@ -372,6 +378,9 @@
 -(void)tapToSelectDestination: (UITapGestureRecognizer *)recognizer {
     CGPoint location = [recognizer locationInView:[recognizer.view superview]];
     _selectedLetterButton.center = location;
+    
+     _selectedLetterButton.layer.borderWidth = 0;
+    
     [self.view bringSubviewToFront:_selectedLetterButton];
     [self dragStopped:_selectedLetterButton];
     _selectedLetterButton = nil;

@@ -17,8 +17,12 @@
 
 @implementation SoloSetupViewController
 
+- (BOOL)prefersStatusBarHidden{
+    return YES;
+}
+
 - (void)viewDidLoad {
-      self.navigationController.navigationBarHidden = NO;
+    
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"woodPattern.jpg"]];
     
     
@@ -31,6 +35,10 @@
     // Do any additional setup after loading the view.
 }
 
+-(void)viewDidAppear:(BOOL)animated {
+     self.navigationController.navigationBarHidden = NO;
+     self.navigationController.navigationBar.hidden = NO;
+}
 
 
 - (void)didReceiveMemoryWarning {

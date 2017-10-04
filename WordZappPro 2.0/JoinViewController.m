@@ -107,6 +107,16 @@
 
 }
 
+-(void)viewWillDisappear:(BOOL)animated{
+    if ([self isMovingFromParentViewController]) {
+     
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_appDelegate.mcManager.session disconnect];
+        });
+        
+    }
+}
+
 -(void)viewDidDisappear:(BOOL)animated {
  
   //  [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MCDidReceiveDataNotification" object:nil];
@@ -145,8 +155,15 @@
        
         [_appDelegate.mcManager.browser dismissViewControllerAnimated:YES completion:nil];
         [_appDelegate.mcManager advertiseSelf:false];
-        _lblStatus.text = @"Connected";
-        _connected = YES;
+      
+        
+       ;
+       
+        dispatch_async(dispatch_get_main_queue(), ^{
+            _lblStatus.text = @"Connected";
+            _connected = YES;
+        });
+        
        
         
         
@@ -156,8 +173,12 @@
         if ([_arrConnectedDevices count] > 0) {
             NSInteger indexOfPeer = [_arrConnectedDevices indexOfObject:peerDisplayName];
             [_arrConnectedDevices removeObjectAtIndex:indexOfPeer];
-            _lblStatus.text = @"Not Connected";
-            [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                _lblStatus.text = @" Not Connected";
+                 [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
+            });
+            
+           
         }
     }
     

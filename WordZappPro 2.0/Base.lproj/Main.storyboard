@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="saE-MK-pHg">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="saE-MK-pHg">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -115,7 +115,7 @@
             </objects>
             <point key="canvasLocation" x="1854" y="16"/>
         </scene>
-        <!--SOLO PLAY-->
+        <!--Solo Play View Controller-->
         <scene sceneID="pcL-E8-2aH">
             <objects>
                 <viewController id="UNl-EK-8Py" customClass="SoloPlayViewController" sceneMemberID="viewController">
@@ -126,19 +126,32 @@
                     <view key="view" contentMode="scaleToFill" id="fPo-Em-jg8">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hd2-fv-2yb">
+                                <rect key="frame" x="170.5" y="20" width="34" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Back"/>
+                                <connections>
+                                    <action selector="btnBackPressed:" destination="UNl-EK-8Py" eventType="touchUpInside" id="PNq-ZD-Fej"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4CR-nN-n5j">
+                                <rect key="frame" x="164" y="585" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="btnAgainPressed:" destination="UNl-EK-8Py" eventType="touchUpInside" id="6tv-Cn-Lwx"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="SOLO PLAY" id="y3t-5u-WIs">
-                        <barButtonItem key="rightBarButtonItem" title="Again" id="t4A-O8-1l8">
-                            <connections>
-                                <action selector="btnAgainPressed:" destination="UNl-EK-8Py" id="0RY-gb-ygu"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <nil key="simulatedTopBarMetrics"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="btnAgain" destination="t4A-O8-1l8" id="D6N-v0-hyC"/>
+                        <outlet property="btnAgain" destination="4CR-nN-n5j" id="HSe-eh-ZHU"/>
+                        <outlet property="btnBack" destination="Hd2-fv-2yb" id="GUW-mN-dsy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2B8-dV-t4c" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -392,7 +405,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="saE-MK-pHg" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="eQ2-ca-vqp">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

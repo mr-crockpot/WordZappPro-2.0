@@ -119,15 +119,27 @@
             break;
     }
     
-    
+        
     
     
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
-   
+  
+    if ([self isMovingToParentViewController]) {
+        NSLog(@"Moving to Parent");
+    }
+    if ([self isMovingFromParentViewController]) {
+        NSLog(@"Moving  from Parent");
+        dispatch_async(dispatch_get_main_queue(), ^{
+             [_appDelegate.mcManager.session disconnect];
+        });
+    }
+        
+    
+        
+    }
 
-}
 
 
 -(void)viewDidDisappear:(BOOL)animated{
@@ -177,8 +189,9 @@
             NSInteger indexOfPeer = [_arrConnectedDevices indexOfObject:peerDisplayName];
             [_arrConnectedDevices removeObjectAtIndex:indexOfPeer];
             if (_arrConnectedDevices.count==1) {
-                _btnPlay.enabled = NO;
+                
                dispatch_async(dispatch_get_main_queue(), ^{
+                   _btnPlay.enabled = NO;
                    [_btnPlay setTitle:@"Find Player(s)" forState:UIControlStateNormal];
                });
             }

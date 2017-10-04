@@ -34,8 +34,12 @@
 
 @property BOOL GameOver;
 
+@property (strong, nonatomic) IBOutlet UIButton *btnBack;
+- (IBAction)btnBackPressed:(id)sender;
 
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *btnAgain;
+@property (strong, nonatomic) IBOutlet UIButton *btnAgain;
+
+
 - (IBAction)btnAgainPressed:(id)sender;
 
 @property (strong,nonatomic) NSString *level;
@@ -51,6 +55,7 @@
 @property UILabel *labelScore;
 @property int score;
 
+@property BOOL Winner;
 
 
 

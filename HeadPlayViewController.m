@@ -130,7 +130,7 @@
     
     
    // labelGameOver.text = @"Game Over";
-    labelGameOver.font = [UIFont fontWithName:@"Courier" size:self.view.frame.size.height*.4*.2];
+    labelGameOver.font = [UIFont fontWithName:@"Helvetica" size:self.view.frame.size.height*.4*.2];
     labelGameOver.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:labelGameOver];
     
@@ -161,7 +161,7 @@
     if (error) {
         NSLog(@"%@", [error localizedDescription]);
     }
-    self.navigationItem.hidesBackButton = NO;
+    
     [_calledMethod stopButtons];
     
     self.navigationItem.hidesBackButton = NO;
@@ -184,11 +184,12 @@
 
         NSString *uncodedReceivedWin = [receivedText substringFromIndex:1];
         dispatch_async(dispatch_get_main_queue(), ^{
-            
             [self showLabel:uncodedReceivedWin];
             [self.gamePlayMethods stopButtons];
         });
     }
+ 
+    
     
     
     

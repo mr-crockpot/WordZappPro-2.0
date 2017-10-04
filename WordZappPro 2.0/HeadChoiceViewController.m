@@ -79,6 +79,7 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated{
+    
     CGFloat width = self.view.frame.size.width;
     CGFloat height = self.view.frame.size.height;
     _btnBeHost.frame = CGRectMake(width*.125, height*.25-25,width*.75, 50);
@@ -137,10 +138,15 @@
 }
 
 - (IBAction)btnBeHostPressed:(id)sender {
+    _peerNameEntered = _textFieldPeerNameEntered.text;
+    [_textFieldPeerNameEntered resignFirstResponder];
     
    // [self performSegueWithIdentifier:@"segueHeadChoicetoJoin" sender:self];
 }
 - (IBAction)btnJoinPressed:(id)sender {
+    
+    _peerNameEntered = _textFieldPeerNameEntered.text;
+    [_textFieldPeerNameEntered resignFirstResponder];
   //  [self performSegueWithIdentifier:@"segueHeadChoiceToJoin" sender:self];
 }
 

@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HeadChoiceViewController : UIViewController <UITextFieldDelegate>
+
+
+@interface HeadChoiceViewController : UIViewController < UITextFieldDelegate>
+
 
 
 @property (strong, nonatomic) IBOutlet UITextField *textFieldPeerNameEntered;

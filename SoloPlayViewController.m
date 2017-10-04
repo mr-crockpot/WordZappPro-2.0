@@ -18,29 +18,32 @@
 
 @implementation SoloPlayViewController
 
+
+- (BOOL)prefersStatusBarHidden{
+    return YES;
+}
+
 - (void)viewDidLoad {
-    
+    _btnAgain.alpha = 0;
+    _Winner = NO;
     _startTimerValue = 60;
     _timerValue = _startTimerValue;
     _gamePlayMethods = [[GamePlayMethods alloc] init];
     
-    self.navigationItem.hidesBackButton = YES;
-    self.navigationController.navigationBar.hidden = YES;
+  self.navigationItem.hidesBackButton = YES;
+  self.navigationController.navigationBar.hidden = YES;
    
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"whiteStone.jpg"]];
     
     _screenWidth  = [UIScreen mainScreen].bounds.size.width;
     _screenHeight = [UIScreen mainScreen].bounds.size.height;
-
-    
     _calledMethod = [[GamePlayMethods alloc] initWithView:self.view selectorForWin:@selector(win) delegate:self];
-    
-    
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
         [self getLetters];
-        
+        [self setUpAgainButton];
+        [self setUpBackButton];
         [self setUpLetters];
         [self setUpLights];
         [self setUpWordBoxes];
@@ -49,11 +52,7 @@
     
     });
     
-   
-
-
-    
-      [super viewDidLoad];
+    [super viewDidLoad];
      
     // Do any additional setup after loading the view.
 }
@@ -61,15 +60,71 @@
 -(void)viewWillDisappear:(BOOL)animated{
     if (_timerValue>0) {
         [self saveHighscore];
+     
     }
+    
 }
 
--(void)showNavBar{
-    self.navigationItem.hidesBackButton = NO;
-    self.navigationController.navigationBar.hidden = NO;
+-(void)setUpAgainButton{
+
+    _btnAgain.frame = CGRectMake(_screenWidth/2-_screenWidth/6, _screenHeight- _screenHeight/15, _screenWidth/3 ,_screenHeight/15);
+    [_btnAgain setTitle:@"Again" forState:UIControlStateNormal];
+    _btnAgain.titleLabel.textColor = [UIColor redColor];
+    _btnAgain.layer.borderWidth = 2;
+    _btnAgain.layer.borderColor = [[UIColor brownColor] CGColor];
+    _btnAgain.layer.cornerRadius = 15;
+    _btnAgain.titleLabel.font = [UIFont fontWithName:@"Helvetica" size:30];
+    _btnAgain.titleLabel.textColor = [UIColor blackColor];
+    _btnAgain.layer.shadowColor = [[UIColor blackColor] CGColor];
+    _btnAgain.layer.shadowOffset = CGSizeMake(5.0, 5.0);
+    _btnAgain.layer.shadowOpacity = 0.5;
+   
+    _btnAgain.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"wood.jpg"]];
     
+    
+}
+
+-(void)setUpBackButton{
+    _btnBack.frame = CGRectMake(_screenWidth/2-_screenWidth/8, 0, _screenWidth/4, _screenHeight/15);
+    _btnBack.layer.borderWidth = 2;
+    _btnBack.layer.borderColor = [[UIColor blueColor] CGColor];
+    _btnBack.layer.cornerRadius = 15;
+    _btnBack.titleLabel.font = [UIFont fontWithName:@"Helvetica" size:20];
+    _btnBack.titleLabel.textColor = [UIColor blueColor];
+    
+    
+}
+
+-(void)exitGameAlert{
+    
+    [_timer invalidate];
+    
+    UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    UIVisualEffectView *visualEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+    visualEffectView.frame = self.view.frame;
    
-   
+    UIAlertController *exitAlert = [UIAlertController alertControllerWithTitle:@"Back So Soon?" message:@"Are you sure you want to end round early?" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *yes = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+         [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
+    
+        
+    }];
+    
+    UIAlertAction *no = [UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+       
+       [visualEffectView removeFromSuperview];
+        _timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerCountDown) userInfo:nil repeats:YES];
+    
+    
+    }];
+    [exitAlert addAction:yes];
+    [exitAlert addAction:no];
+    
+     [self.view addSubview:visualEffectView];
+     [self presentViewController:exitAlert animated:YES completion:nil];
+
+    
 }
 
 -(void)runGameReset{
@@ -92,17 +147,9 @@
     
     _score = _score + 10 +_timerValue;
      _labelScore.text = [NSString stringWithFormat:@"%i",_score];
-    
-    
     [self stopTimer];
-    
     [self winSolo];
-    
-    self.navigationItem.hidesBackButton = NO;
-    self.navigationController.navigationBar.hidden = NO;
-    _btnAgain.enabled = YES;
-    
-    
+
     
   }
 
@@ -176,10 +223,12 @@
 
 
 - (IBAction)btnAgainPressed:(id)sender {
+    
+    _Winner = NO;
    
-    self.navigationItem.hidesBackButton = YES;
-    self.navigationController.navigationBar.hidden = YES;
-
+//  self.navigationItem.hidesBackButton = YES;
+ // self.navigationController.navigationBar.hidden = YES;
+    _btnAgain.alpha = 0;
     if (_timerValue>0) {
         
         _timerValue = [_labelTimer.text integerValue] + 20;}
@@ -291,8 +340,9 @@
     
     if (_timerValue == 0) {
         
-        [self showNavBar];
+        //[self showNavBar];
         [_calledMethod stopButtons];
+       
         UILabel *labelGameOver = [[UILabel alloc] init];
         labelGameOver.frame = CGRectMake(20, _screenHeight * .15, _screenWidth - 40, _screenHeight*.37);
         labelGameOver.layer.borderColor = [[UIColor redColor] CGColor];
@@ -315,10 +365,10 @@
         
         [UIView animateWithDuration:4 animations:^{
             labelGameOver.alpha = 0;
+            _btnAgain.alpha = 1;
         } completion:^(BOOL finished) {
-            
-            self.navigationItem.hidesBackButton=NO;
-            self.navigationController.navigationBarHidden = NO;
+          //  _btnAgain.alpha = 1;
+         
             [self revealWord];
             
             
@@ -337,17 +387,13 @@
 -(void)winSolo{
     
     [_calledMethod stopButtons];
-    
-    
-   // number.layer.contentsScale = [[UIScreen mainScreen] scale]*8;
-
-    
+    _Winner = YES;
+   
     NSArray *arraySplashWords = [[NSArray alloc] initWithObjects:@"Hooray",@"Terrific",@"Wow",@"Nifty",@"Amazing",@"Yahoo!",@"Great",@"Brilliant",@"Inspiring",@"Yay",@"Boom",@"Nailed It", nil];
     NSArray *arraySplashColors = [[NSArray alloc] initWithObjects:[UIColor redColor],[UIColor blueColor],[UIColor purpleColor],[UIColor orangeColor],[UIColor magentaColor], nil];
     
     NSArray *arrayX = [[NSArray alloc]initWithObjects:@5 ,@-5, @5, @-5, @0.2, @10, nil];
     NSArray *arrayY = [[NSArray alloc]initWithObjects:@-5,@5 , @5, @-5, @0.2, @10, nil];
-    
     
     int randomNumberWord = arc4random_uniform(arraySplashWords.count);
     int randomNumberColor = arc4random_uniform(arraySplashColors.count);
@@ -361,7 +407,7 @@
     winLabel.text = splashWord;
     winLabel.textColor = splashColor;
     
-    winLabel.contentScaleFactor = 8;
+    winLabel.contentScaleFactor = [[UIScreen mainScreen] scale]*8;
     
     
     winLabel.font = [UIFont fontWithName:@"Helvetica" size:_screenWidth * 0.05];
@@ -395,9 +441,8 @@
         [UIView animateWithDuration:2 delay:0 options:UIViewAnimationOptionTransitionNone animations:^{
             CGAffineTransform affineScale = CGAffineTransformMakeScale(fabs([arrayX[rand_index] floatValue]), fabs([arrayY[rand_index] floatValue]));
             winLabel.transform = affineScale;
+            _btnAgain.alpha = 1;
         } completion:^(BOOL finished) {
-            //  _buttonAgain.enabled = YES;
-            //  _buttonAgain.alpha = 1;
             winLabel.alpha = 0;
         }];
     }];
@@ -406,14 +451,9 @@
 }
 
 -(void)revealWord {
-    
-    
-    
    // self.navigationItem.hidesBackButton=YES;
    // self.navigationController.navigationBarHidden = NO;
-
-    
-    [_calledMethod revealWord:_arrayOfLettersInOrder];
+   [_calledMethod revealWord:_arrayOfLettersInOrder];
   
 }
 
@@ -441,4 +481,13 @@
 
 
 
+- (IBAction)btnBackPressed:(id)sender {
+    if (_timerValue>0 && _Winner == NO) {
+        [self exitGameAlert];
+    }
+    else    {
+         [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
+    }
+    
+}
 @end

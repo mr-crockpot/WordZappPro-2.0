@@ -20,6 +20,7 @@
     self.view = view;
     self.screenWidth = view.frame.size.width;
     self.screenHeight = view.frame.size.height;
+    _win = NO;
     NSString *path = [[NSBundle mainBundle] pathForResource:@"wordlist"  ofType:@"txt"];
     NSString *content = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
     self.masterWordList = [content componentsSeparatedByString:@"\n"];
@@ -56,6 +57,7 @@
     
     if (recognizer.state == UIGestureRecognizerStateEnded) {
         _wasTapped = NO;
+        NSLog(@"pan trigger");
         [self dragStopped:_currentDraggedLetterButton];
         _currentDraggedLetterButton.layer.borderWidth = 0;
         _currentDraggedLetterButton = nil;
@@ -106,9 +108,9 @@
     }
     
     if ([self checkWords]) {
-        
+        _win = YES;
         [self stopButtons];
-        
+        NSLog(@"win!");
         [_delegate performSelector:_winMethod];
         
         
@@ -376,17 +378,19 @@
 }
 
 -(void)tapToSelectDestination: (UITapGestureRecognizer *)recognizer {
-    CGPoint location = [recognizer locationInView:[recognizer.view superview]];
-    _selectedLetterButton.center = location;
-    
-     _selectedLetterButton.layer.borderWidth = 0;
-    
-    [self.view bringSubviewToFront:_selectedLetterButton];
-    [self dragStopped:_selectedLetterButton];
-    _selectedLetterButton = nil;
-    [self.view removeGestureRecognizer:recognizer];
-    _wasTapped = NO;
-
+    if (!_win) {
+        CGPoint location = [recognizer locationInView:[recognizer.view superview]];
+        _selectedLetterButton.center = location;
+        
+         _selectedLetterButton.layer.borderWidth = 0;
+        
+        [self.view bringSubviewToFront:_selectedLetterButton];
+        NSLog(@"tap trigger");
+        [self dragStopped:_selectedLetterButton];
+        _selectedLetterButton = nil;
+        [self.view removeGestureRecognizer:recognizer];
+        _wasTapped = NO;
+    }
 }
 
 
@@ -450,7 +454,8 @@
 
 -(void)stopButtons {
     [self.view removeGestureRecognizer:_pan];
-    
+    [self.view removeGestureRecognizer:_tapToMove];
+
     for (int x =0; x<9; x++) {
         letterButton *buttonToStop = (letterButton *)[_letterButtons objectAtIndex:x];
         [buttonToStop removeTarget:self action:@selector(tapToSelectLetter:withEvent:) forControlEvents:UIControlEventTouchDown];
@@ -460,7 +465,6 @@
 }
 
 -(BOOL) checkWords {
-    
     NSMutableArray *letters = [[NSMutableArray alloc] init];
     
     for (wordBox *label in _arrayWordBoxes) {

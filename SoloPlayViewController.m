@@ -140,7 +140,6 @@
     
 }
 -(void) win {
-    
     _score = _score + 10 +_timerValue;
      _labelScore.text = [NSString stringWithFormat:@"%i",_score];
     [self stopTimer];
@@ -221,6 +220,9 @@
 - (IBAction)btnAgainPressed:(id)sender {
     
     _Winner = NO;
+    
+    //  [_calledMethod setWin:NO]; is equivalent to
+    _calledMethod.win = NO;
    
 //  self.navigationItem.hidesBackButton = YES;
  // self.navigationController.navigationBar.hidden = YES;

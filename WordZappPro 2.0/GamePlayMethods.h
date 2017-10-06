@@ -20,6 +20,9 @@
 
 
 
+@property BOOL win;
+
+
 
 
 //SET UP LIGHTS

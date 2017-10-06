@@ -247,6 +247,7 @@
 			isa = PBXGroup;
 			children = (
 				E3C345001EF1D9C700690D4C /* Main.storyboard */,
+				E3C345051EF1D9C700690D4C /* LaunchScreen.storyboard */,
 				E34432AF1F09C28E004F84FD /* General */,
 				E34432B11F09C31A004F84FD /* Host */,
 				E34432B21F09C341004F84FD /* Join  */,
@@ -257,7 +258,6 @@
 				E3C344FA1EF1D9C700690D4C /* AppDelegate.h */,
 				E3C344FB1EF1D9C700690D4C /* AppDelegate.m */,
 				E3C345031EF1D9C700690D4C /* Assets.xcassets */,
-				E3C345051EF1D9C700690D4C /* LaunchScreen.storyboard */,
 				E3C345081EF1D9C700690D4C /* Info.plist */,
 				E3C344F71EF1D9C700690D4C /* Supporting Files */,
 			);
@@ -639,7 +639,7 @@
 				DEVELOPMENT_TEAM = 46FKL82M3N;
 				"GCC_WARN_64_TO_32_BIT_CONVERSION[arch=*64]" = NO;
 				INFOPLIST_FILE = "WordZappPro 2.0/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "AandA.WordZappPro-2-0";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -656,7 +656,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 46FKL82M3N;
 				INFOPLIST_FILE = "WordZappPro 2.0/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "AandA.WordZappPro-2-0";
 				PRODUCT_NAME = "$(TARGET_NAME)";

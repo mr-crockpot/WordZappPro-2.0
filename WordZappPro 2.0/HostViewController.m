@@ -1,4 +1,4 @@
-//
+ //
 //  HostViewController.m
 //  WordZappPro 2.0
 //
@@ -133,6 +133,8 @@
         NSLog(@"Moving  from Parent");
         dispatch_async(dispatch_get_main_queue(), ^{
              [_appDelegate.mcManager.session disconnect];
+              [_appDelegate.mcManager advertiseSelf:NO];
+            
         });
     }
         

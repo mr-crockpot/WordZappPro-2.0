@@ -17,9 +17,7 @@
 
 @implementation SoloSetupViewController
 
-- (BOOL)prefersStatusBarHidden{
-    return YES;
-}
+
 
 - (void)viewDidLoad {
     

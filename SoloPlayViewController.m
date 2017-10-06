@@ -19,10 +19,6 @@
 @implementation SoloPlayViewController
 
 
-- (BOOL)prefersStatusBarHidden{
-    return YES;
-}
-
 - (void)viewDidLoad {
     _btnAgain.alpha = 0;
     _Winner = NO;

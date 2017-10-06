@@ -57,7 +57,6 @@
     _lblStatus.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"wood.jpg"]];
     _lblStatus.text = @"Not Connected";
     
-    
     _lblLevel.frame = CGRectMake(width*.125, height*.45-25,width*.75, 50);
     _lblLevel.backgroundColor = [UIColor yellowColor];
     _lblLevel.textColor = [UIColor redColor];
@@ -164,8 +163,6 @@
             _connected = YES;
         });
         
-       
-        
         
         }
     
@@ -175,7 +172,12 @@
             [_arrConnectedDevices removeObjectAtIndex:indexOfPeer];
             dispatch_async(dispatch_get_main_queue(), ^{
                 _lblStatus.text = @" Not Connected";
-                 [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
+               
+#warning CHECK THiS: TO AVOID THE DOUBLE EXIT PROBLEM WHEN ONE JOINER DISCONNECTS
+                if (_arrConnectedDevices.count<2) {
+                     [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
+                }
+               
             });
             
            
@@ -233,7 +235,6 @@
     }
     
  
- 
   
 }
 
@@ -259,8 +260,6 @@
 }
 
 
-
-
 - (IBAction)btnDisconnectPressed:(id)sender {
      [_appDelegate.mcManager.session disconnect];
     [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
@@ -268,7 +267,6 @@
 
 
 -(void)sendData: (NSString *)playerInfo{
-    
     
     NSData *dataToSend = [playerInfo dataUsingEncoding:NSUTF8StringEncoding];
     
@@ -285,6 +283,5 @@
     }
     
 }
-  
-  
+
   @end

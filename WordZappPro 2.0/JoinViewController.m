@@ -173,7 +173,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 _lblStatus.text = @" Not Connected";
                
-#warning CHECK THiS: TO AVOID THE DOUBLE EXIT PROBLEM WHEN ONE JOINER DISCONNECTS
+//#warning CHECK THiS: TO AVOID THE DOUBLE EXIT PROBLEM WHEN ONE JOINER DISCONNECTS
                 if (_arrConnectedDevices.count<2) {
                      [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
                 }

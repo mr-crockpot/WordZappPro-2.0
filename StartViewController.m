@@ -188,7 +188,7 @@
     }
     
     
-    
+    [self.view bringSubviewToFront: _arrayTileTitle[4]];
     [UIView animateWithDuration:5 delay:1 options:UIViewAnimationOptionRepeat | UIViewAnimationOptionAutoreverse animations:^{
         _movingButton.alpha = 1;
         _movingButton = (UIButton *)_arrayTileTitle[4];

@@ -219,6 +219,11 @@
 
 - (IBAction)btnAgainPressed:(id)sender {
     
+    for (UILabel *light in _lights) {
+        light.backgroundColor = [UIColor redColor];
+    }
+    
+    
     _Winner = NO;
     
     //  [_calledMethod setWin:NO]; is equivalent to

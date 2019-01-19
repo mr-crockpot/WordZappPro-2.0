@@ -57,7 +57,7 @@
     
     if (recognizer.state == UIGestureRecognizerStateEnded) {
         _wasTapped = NO;
-        NSLog(@"pan trigger");
+       
         [self dragStopped:_currentDraggedLetterButton];
         _currentDraggedLetterButton.layer.borderWidth = 0;
         _currentDraggedLetterButton = nil;
@@ -110,7 +110,7 @@
     if ([self checkWords]) {
         _win = YES;
         [self stopButtons];
-        NSLog(@"win!");
+         
         [_delegate performSelector:_winMethod];
         
         

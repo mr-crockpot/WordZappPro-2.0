@@ -215,8 +215,6 @@
 }
 
 
-
-
 - (IBAction)btnAgainPressed:(id)sender {
     
     for (UILabel *light in _lights) {

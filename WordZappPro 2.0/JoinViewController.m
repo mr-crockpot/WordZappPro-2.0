@@ -108,7 +108,7 @@
 
 -(void)viewWillDisappear:(BOOL)animated{
     if ([self isMovingFromParentViewController]) {
-     
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             [_appDelegate.mcManager.session disconnect];
         });
